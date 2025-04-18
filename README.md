@@ -1,4 +1,4 @@
-# HomeFinder Backend
+# Supreme Adventures Tours App
 
 ## Table of Contents
 
