@@ -21,7 +21,7 @@ class Users(db.Model):
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
 
-Class Profiles(db.Model):
+class Profiles(db.Model):
     '''
     stores the user's profile information
     '''
