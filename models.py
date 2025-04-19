@@ -19,3 +19,9 @@ class Users(db.Model):
     role = db.Column(db.String(50), default='member')
     verified = db.Column(db.Boolean, default=False)
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
+
+Class Profiles(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    profile_picture = db.Column(db.String(200), nullable=True, default='default.jpg')
