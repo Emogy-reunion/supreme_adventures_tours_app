@@ -31,3 +31,13 @@ class Profiles(db.Model):
     last_name = db.Column(db.String(50), nullable=False)
     bio = db.Column(db.Text, nullable=False)
     profile_picture = db.Column(db.String(200), nullable=True, default='default.jpg')
+
+    def __init__(self, user_id, first_name, last_name, bio, profile_picture):
+        '''
+        initializes the table columns with data
+        '''
+        self.user_id = user_id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.bio = bio
+        self.profile_picture = profile_picture
