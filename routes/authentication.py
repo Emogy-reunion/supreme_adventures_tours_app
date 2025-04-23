@@ -25,5 +25,9 @@ def register():
         user_exists = Users.query.filter(Users.email == email | Users.username == Username).first()
         if user_exists:
             return jsonify({'error': 'A user with this email or username already exists. Please try logging in or use a different email.'}), 409
+
+        user = Users(email=email, username=username, phone_number=phone_number, password=password)
+        db.session.add(user)
+        db.session.flush()
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
