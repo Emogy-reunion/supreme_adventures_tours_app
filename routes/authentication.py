@@ -18,8 +18,6 @@ def register():
     email = form.email.data
     username = form.username.data
     phone_number = form.phone_number.data
-    bio = form.bio.data
-    profile_picture = form.profile_picture.data
 
     try:
         user_exists = Users.query.filter(Users.email == email | Users.username == Username).first()
