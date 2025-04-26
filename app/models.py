@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from create_app import create app
+from . import create app
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 
