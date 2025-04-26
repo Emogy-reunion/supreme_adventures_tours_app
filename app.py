@@ -1,5 +1,5 @@
-from myapp import create_app
-from myapp.routes.authentication import auth
+from app import create_app
+from app.routes.authentication import auth
 
 
 app = create_app()
