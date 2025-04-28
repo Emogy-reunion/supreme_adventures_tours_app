@@ -34,6 +34,13 @@ class Users(db.Model):
         hashes the password
         '''
         return bcrypt.generate_password_hash(hash)
+    
+    def check_password(self, password):
+        '''
+        compares the password with the stored hash
+        return true if there is a match else false
+        '''
+        return check_password_hash(self.password, password)
 
 class Profiles(db.Model):
     '''
