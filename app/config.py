@@ -16,5 +16,9 @@ class Config():
     JWT_COOKIE_SECURE = True
     CELERY_BROKER_URL = os.getenv("BROKER_URL")
     CELERY_BACKEND_URL = os.getenv('BACKEND_URL')
-
-
+    MAIL_SERVER = 'smtp@gmail.com'
+    MAIL_PORT = 465
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+    MAIL_USE_TLS = True
+    MAIL_USE_SSL = False
