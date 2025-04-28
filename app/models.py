@@ -45,13 +45,26 @@ class Users(db.Model):
         return bcrypt.check_password_hash(self.password, password)
 
     def email_verification_token(self):
+    '''
+    serializes the user id that will be used to verify the user
+    '''
+        return serializer.dumps({'user_id': self.id}, expires_in=3600)
+    
+    @staticmethod
+    def verify_token(token):
         '''
-        serializes the user id that will be used to verify the user
+        deserializes the token and retrieves the user id
+        queries the database and retrieves the user if they exist
         '''
-          return serializer.dumps({'user_id': self.id}, expires_in=3600)
-          
-
-
+        try:
+            data = serializer.loads(token)
+            user = db.session.get(Users, data['user_id'])
+            if user:
+                return user
+            else:
+                return None
+        except Exception as e:
+            return None
 
 
 class Profiles(db.Model):
