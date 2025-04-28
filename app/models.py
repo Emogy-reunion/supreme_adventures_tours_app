@@ -2,11 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 from . import create app
 from datetime import datetime
 from flask_bcrypt import Bcrypt
+from itsdangerous import URLSafeTimedSerializer
 
 
 app = create_app()
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
 class Users(db.Model):
@@ -40,7 +42,17 @@ class Users(db.Model):
         compares the password with the stored hash
         return true if there is a match else false
         '''
-        return check_password_hash(self.password, password)
+        return bcrypt.check_password_hash(self.password, password)
+
+    def email_verification_token(self):
+        '''
+        serializes the user id that will be used to verify the user
+        '''
+          return serializer.dumps({'user_id': self.id}, expires_in=3600)
+          
+
+
+
 
 class Profiles(db.Model):
     '''
