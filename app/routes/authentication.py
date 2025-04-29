@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Users, Profiles, db
 from app.forms import RegistrationForm, LoginForm
 from app.background.verification_email import send_verification_email
-from flask_jwt_extended import refresh_token, access_token, set_refresh_cookies, set_access_cookies
+from flask_jwt_extended import refresh_token, access_token, set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required
 
 auth = Blueprint('auth', __name__)
 
@@ -79,3 +79,17 @@ def login():
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
+
+@auth.route('/refresh_token', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh_token():
+    '''
+    create an access token after it expires
+    '''
+    try:
+        user_id = get_jwt_identity()
+        response = jsonify({"success": 'Access token refreshed successfully!'}), 200
+        set_access_cookies(response, access_token)
+        return response
+    except Exception as e:
+        return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
