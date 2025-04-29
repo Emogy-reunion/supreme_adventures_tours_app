@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import Users, Profiles, db
 from forms import RegistrationForm
-from utils.verification_email import send_verification_email
+from app.background.verification_email import send_verification_email
 
 auth = Blueprint('auth', __name__)
 
@@ -13,7 +13,7 @@ def register():
     form = RegistrationForm(data=request.form)
 
     if not form.validate():
-        return jsonify({"errors": form.errors})
+        return jsonify({"errors": form.errors}), 400
 
     first_name = form.first_name.data
     last_name = form.last_name.data
@@ -34,6 +34,7 @@ def register():
         profile = Profiles(user_id=user.id, first_name=first_name, last_name=last_name)
         db.session.add(profile)
         db.session.commit()
+        send_verification_email.delay(user.id)
         return jsonify({'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'}), 201
     except Exception as e:
         db.session.rollback()
