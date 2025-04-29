@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Users, Profiles, db
 from app.forms import RegistrationForm, LoginForm
 from app.background.verification_email import send_verification_email
-from flask_jwt_extended import refresh_token, access_token, set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required
+from flask_jwt_extended import refresh_token, access_token, set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies
 
 auth = Blueprint('auth', __name__)
 
@@ -79,6 +79,18 @@ def login():
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
+@auth.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    '''
+    logs the user out by destroying the jwt cookies
+    '''
+    try:
+        response = jsonify({"success": 'Successfully logged out!'}), 200
+        unset_jwt_cookies(response)
+        return response
+    except Exception as e:
+        return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
 @auth.route('/refresh_token', methods=['POST'])
 @jwt_required(refresh=True)
