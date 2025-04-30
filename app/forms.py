@@ -45,3 +45,10 @@ class LoginForm(FlaskForm):
         DataRequired(),
          Length(min=2, max=50, message='Password ust be between two and 50 characters!'})])
 
+class EmailForm(FlaskForm):
+    '''
+    validates the email
+    '''
+    email = StringField('Email', validators=[
+        DataRequired(),
+        Email()])
