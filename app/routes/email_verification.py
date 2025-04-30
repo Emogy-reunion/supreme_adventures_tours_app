@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, current_app, jsonify
 from app.models import Users, db
-from app.forms import ResendVerificationEmailForm
+from app.forms import EmailForm
 from app.background.verification_email import send_verification_email
 
 
@@ -31,7 +31,7 @@ def resend_verification_email():
     '''
     resends the user a verification email if verification has failed
     '''
-    form = ResendVerificationEmailForm(data=request.get_json())
+    form = EmailForm(data=request.get_json())
 
     if not form.validate():
         return jsonify({'errors': form.errors}), 400
