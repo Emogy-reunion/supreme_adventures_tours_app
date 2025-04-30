@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+
 class Config():
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
@@ -22,3 +23,4 @@ class Config():
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
+    FRONTEND_URL = os.getenv('FRONTED_URL')
