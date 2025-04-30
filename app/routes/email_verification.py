@@ -39,7 +39,10 @@ def resend_verification_email():
     email = form.email.data
     try:
         user = Users.query.filter_by(email=email).first()
-        send_verification_email.delay(user.id)
-        return jsonify({"success": 'We’re sending you a verification email — it should arrive shortly. Please check your email inbox!'}), 200
+
+        if user and not user.verified:
+            send_verification_email.delay(user.id)
+
+        return jsonify({"success": 'If an account with that email exists and is unverified, we are sending a new verification link — it should arrive shortly. Please check your email inbox!'}), 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
