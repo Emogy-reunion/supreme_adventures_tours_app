@@ -8,6 +8,8 @@ verify = Blueprint('verify', __name__)
 def verify_email(token):
     '''
     verifies the email by verifying the token
+    on success the user is redirected to a success page
+    on failure the user is redirected to a failure page
     '''
     user = Users.verify_token(token)
     if user:
