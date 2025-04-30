@@ -52,3 +52,17 @@ class EmailForm(FlaskForm):
     email = StringField('Email', validators=[
         DataRequired(),
         Email()])
+
+class PasswordForm(FlaskForm):
+    '''
+    validates the passwords after an update
+    '''
+     password = PasswordField('Password', validators=[
+         InputRequired(),
+         Length(min=8, message="Password must be at least 8 characters long!"),
+         Regexp(r'(?=.*[A-Z])', message="Password must contain at least one uppercase letter!"),
+         Regexp(r'(?=.*[a-z])', message="Password must contain at least one lowercase letter!"),
+         Regexp(r'(?=.*\W)', message="Password must contain at least one special character!")])
+     confirmpassword = PasswordField('Confirm Password', validators=[
+         DataRequired(),
+         EqualTo('password', message='Passwords must match!')])
