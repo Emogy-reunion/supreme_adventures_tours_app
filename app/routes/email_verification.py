@@ -39,8 +39,6 @@ def resend_verification_email():
     email = form.email.data
     try:
         user = Users.query.filter_by(email=email).first()
-        if not user:
-            return jsonify({"error": 'There is no account associated with this email. Please try again!'}), 404
         send_verification_email.delay(user.id)
         return jsonify({"success": 'We’re sending you a verification email — it should arrive shortly. Please check your email inbox!'}), 200
     except Exception as e:
