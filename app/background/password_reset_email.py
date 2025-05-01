@@ -20,7 +20,7 @@ def send_password_reset_email(self, user_id):
             return {'error': 'User not found!'}
 
         verification_token = user.email_verification_token()
-        verification_url = url_for('auth.verify_password_reset_token', verification_token=verification_token, _external=True)
+        verification_url = url_for('verify.verify_password_reset_token', verification_token=verification_token, _external=True)
         msg = Message(
                 subject='Password reset link',
                 sender='info.realestate@gmail.com',
