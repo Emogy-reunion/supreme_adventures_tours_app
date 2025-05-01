@@ -10,7 +10,7 @@ celery = make_celery(app)
 mail = Mail(app)
 
 @celery.task(bind=True, max_retries=3, default_retry_delay=60)
-@def send_verification_email(user_id):
+@def send_verification_email(self, user_id):
     '''
     sends verification emails to users
     '''
@@ -20,7 +20,7 @@ mail = Mail(app)
             return jsonify({'error': 'User not found!'}), 404
 
         verification_token = user.email_verification_token()
-        verification_url = url_for('/verify_token', verification_token=verification_token, _external=True)
+        verification_url = url_for('verify.verify_token', verification_token=verification_token, _external=True)
 
         msg = Message(
                 subject='Verify your email',
