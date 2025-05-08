@@ -18,12 +18,12 @@ def verify_email(token):
         try:
             user.verified = True
             db.session.commit()
-            return redirect(f'{current_app.config['FRONTEND_URL']}/success_page')
+            return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/true")
         except Exception as e:
             db.session.rollback()
-            return redirect(f'{current_app.config['FRONTEND_URL']}/failure_page')
+            return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/false")
     else:
-        return redirect(f'{current_app.config['FRONTEND_URL']}/failure_page')
+        return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/false")
 
 
 @verify.route('/resend_verification_email', methods=['POST'])
