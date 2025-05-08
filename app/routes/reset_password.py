@@ -9,6 +9,8 @@ reset = Blueprint('reset', __name__)
 def reset_password():
     '''
     allows user to reset their password
+    fetches the user email
+    uses it to send a password reset link
     '''
     form = EmailForm(data=request.get_json())
 
