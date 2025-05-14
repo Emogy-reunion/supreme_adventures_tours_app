@@ -15,7 +15,7 @@ class Config():
     JWT_TOKEN_LOCATION = ['cookies']
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
-    JWT_COOKIE_SECURE = True
+    JWT_COOKIE_SECURE = False
     CELERY_BROKER_URL = os.getenv("BROKER_URL")
     CELERY_BACKEND_URL = os.getenv('BACKEND_URL')
     MAIL_SERVER = 'smtp@gmail.com'
