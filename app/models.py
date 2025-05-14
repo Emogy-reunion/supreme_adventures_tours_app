@@ -35,8 +35,8 @@ class Users(db.Model):
         '''
         hashes the password
         '''
-        return bcrypt.generate_password_hash(hash)
-    
+        return bcrypt.generate_password_hash(password)
+
     def check_password(self, password):
         '''
         compares the password with the stored hash
@@ -45,11 +45,11 @@ class Users(db.Model):
         return bcrypt.check_password_hash(self.password, password)
 
     def email_verification_token(self):
-    '''
-    serializes the user id that will be used to verify the user
-    '''
+        '''
+        serializes the user id that will be used to verify the user
+        '''
         return serializer.dumps({'user_id': self.id}, expires_in=3600)
-    
+
     @staticmethod
     def verify_token(token):
         '''
