@@ -7,6 +7,7 @@ from app.routes.email_verification import verify
 from app.routes.reset_password import reset
 import os
 from flask_cors import CORS
+from app.celery import make_celery
 
 
 
@@ -15,6 +16,7 @@ jwt = JWTManager(app)
 db.init_app(app)
 bcrypt.init_app(app)
 mail.init_app(app)
+celery = make_celery(app)
 
 if app.config["ENV"] == "development":
     CORS(app)
