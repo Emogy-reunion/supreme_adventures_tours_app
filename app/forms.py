@@ -19,7 +19,7 @@ class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[
         DataRequired(message="Username is required"),
         Length(min=3, max=25, message="Username must be between 3 and 25 characters!"),
-        Regexp('^\w+$', message="Username must contain only letters, numbers, or underscores!")])
+        Regexp(r'^\w+$', message="Username must contain only letters, numbers, or underscores!")])
     phone_number = StringField('Phone number', validators=[
         DataRequired(),
         Regexp(r'^\+2547\d{8}$', message="Phone number must start with +2547 followed by 8 digits!")
