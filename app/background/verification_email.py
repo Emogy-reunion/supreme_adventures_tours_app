@@ -10,7 +10,7 @@ celery = make_celery(app)
 mail = Mail(app)
 
 @celery.task(bind=True, max_retries=3, default_retry_delay=60)
-@def send_verification_email(self, user_id):
+def send_verification_email(self, user_id):
     '''
     sends verification emails to users
     '''
