@@ -17,7 +17,7 @@ class Users(db.Model):
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
-    username = db.Column(db.String(50), uniques=True, nullable=False)
+    username = db.Column(db.String(50), unique=True, nullable=False)
     phone_number = db.Column(db.String(12), nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(50), default='member', nullable=True)
