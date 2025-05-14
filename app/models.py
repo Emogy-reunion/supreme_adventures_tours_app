@@ -6,8 +6,8 @@ from itsdangerous import URLSafeTimedSerializer
 
 
 app = create_app()
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
+db = SQLAlchemy()
+bcrypt = Bcrypt()
 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
