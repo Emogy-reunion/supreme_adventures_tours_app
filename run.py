@@ -1,6 +1,6 @@
 from app import create_app
 from app.models import db, Users, Profiles
-from flask_jwt_extended import JWTManager()
+from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
 from app.routes.reset_password import reset
