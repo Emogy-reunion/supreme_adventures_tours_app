@@ -48,7 +48,7 @@ class Users(db.Model):
         '''
         serializes the user id that will be used to verify the user
         '''
-        return serializer.dumps({'user_id': self.id}, expires_in=3600)
+        return serializer.dumps({'user_id': self.id})
 
     @staticmethod
     def verify_token(token):
@@ -57,7 +57,7 @@ class Users(db.Model):
         queries the database and retrieves the user if they exist
         '''
         try:
-            data = serializer.loads(token)
+            data = serializer.loads(token, max_age=3600)
             user = db.session.get(Users, data['user_id'])
             if user:
                 return user
