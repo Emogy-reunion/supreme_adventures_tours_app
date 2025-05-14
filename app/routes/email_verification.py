@@ -60,8 +60,8 @@ def verify_reset_password_token(token):
                 return redirect(f"{current_app.config['FRONTEND_URL']}/update-password/{user.id}")
             else:
                 return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
-            except Exception as e:
-                return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
+        except Exception as e:
+            return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
 
 
 
