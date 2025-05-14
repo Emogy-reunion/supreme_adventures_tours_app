@@ -13,7 +13,7 @@ class RegistrationForm(FlaskForm):
         DataRequired(),
         Length(min=2, max=30, message='Last name must be between 2 and 30 characters!')])
     email = StringField('Email', validators=[
-        InputRequired(),
+        DataRequired(),
         Email(),
         Length(min=4, max=45, message='Email must be between 4 and 45 characters!')])
     username = StringField('Username', validators=[
@@ -25,7 +25,7 @@ class RegistrationForm(FlaskForm):
         Regexp(r'^\+2547\d{8}$', message="Phone number must start with +2547 followed by 8 digits!")
         ])
     password = PasswordField('Password', validators=[
-        InputRequired(),
+        DataRequired(),
         Length(min=8, message="Password must be at least 8 characters long!"),
         Regexp(r'(?=.*[A-Z])', message="Password must contain at least one uppercase letter!"),
         Regexp(r'(?=.*[a-z])', message="Password must contain at least one lowercase letter!"),
