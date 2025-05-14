@@ -29,9 +29,9 @@ class Users(db.Model):
         self.email = email
         self.username = username
         self.phone_number = phone_number
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = self.generate_passwordhash(password)
 
-    def generate_password_hash(self, password):
+    def generate_passwordhash(self, password):
         '''
         hashes the password
         '''
