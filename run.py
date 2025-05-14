@@ -1,5 +1,6 @@
 from app import create_app
-from app.models import db, Users, Profiles
+from app.models import db, bcrypt, Users, Profiles
+from app.background.verification_email import mail
 from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
