@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from . import create app
+from . import create_app
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer
