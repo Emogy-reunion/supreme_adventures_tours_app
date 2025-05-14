@@ -13,7 +13,7 @@ app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
 
-with app.app_context:
+with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
