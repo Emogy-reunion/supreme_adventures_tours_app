@@ -27,3 +27,5 @@ class Config():
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     FRONTEND_URL = os.getenv('FRONTED_URL')
+    SERVER_NAME = 'localhost:5000'  # Enables _external URLs in background tasks
+    PREFERRED_URL_SCHEME = 'http'
