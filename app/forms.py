@@ -43,7 +43,7 @@ class LoginForm(FlaskForm):
         Length(min=2, max=50, message='Must be between two and 50 characters!'})])
     password = PasswordField('Password', validators=[
         DataRequired(),
-         Length(min=2, max=50, message='Password ust be between two and 50 characters!'})])
+        Length(min=2, max=50, message='Password ust be between two and 50 characters!')])
 
 class EmailForm(FlaskForm):
     '''
@@ -65,4 +65,5 @@ class PasswordForm(FlaskForm):
          Regexp(r'(?=.*\W)', message="Password must contain at least one special character!")])
      confirmpassword = PasswordField('Confirm Password', validators=[
          DataRequired(),
-         EqualTo('password', message='Passwords must match!')])
+         EqualTo('password', message='Passwords must match!')
+         ])
