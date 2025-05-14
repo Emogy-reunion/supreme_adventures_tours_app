@@ -9,6 +9,10 @@ from app.routes.reset_password import reset
 
 app = create_app()
 jwt = JWTManager(app)
+db.init_app(app)
+bcrypt.init_app(app)
+mail.init_app(app)
+
 app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
