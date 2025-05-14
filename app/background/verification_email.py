@@ -20,7 +20,7 @@ def send_verification_email(self, user_id):
             return {'error': 'User not found!'}
 
         verification_token = user.email_verification_token()
-        verification_url = url_for('verify.verify_token', verification_token=verification_token, _external=True)
+        verification_url = url_for('verify.verify_email', verification_token=verification_token, _external=True)
 
         msg = Message(
                 subject='Verify your email',
