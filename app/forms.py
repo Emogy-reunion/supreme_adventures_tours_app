@@ -40,7 +40,7 @@ class LoginForm(FlaskForm):
     '''
     identifier = StringField('Email/Username', validators=[
         DataRequired(),
-        Length(min=2, max=50, message='Must be between two and 50 characters!'})])
+        Length(min=2, max=50, message='Must be between two and 50 characters!')])
     password = PasswordField('Password', validators=[
         DataRequired(),
         Length(min=2, max=50, message='Password ust be between two and 50 characters!')])
