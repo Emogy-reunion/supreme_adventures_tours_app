@@ -5,6 +5,8 @@ from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
 from app.routes.reset_password import reset
+import os
+from flask_cors import CORS
 
 
 
@@ -13,6 +15,9 @@ jwt = JWTManager(app)
 db.init_app(app)
 bcrypt.init_app(app)
 mail.init_app(app)
+
+if app.config["ENV"] == "development":
+    CORS(app)
 
 app.register_blueprint(auth)
 app.register_blueprint(verify)

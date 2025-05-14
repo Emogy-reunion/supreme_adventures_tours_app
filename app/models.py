@@ -18,7 +18,7 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
     username = db.Column(db.String(50), unique=True, nullable=False)
-    phone_number = db.Column(db.String(12), nullable=False)
+    phone_number = db.Column(db.String(50), nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(50), default='member', nullable=True)
     verified = db.Column(db.Boolean, default=False)
@@ -29,13 +29,13 @@ class Users(db.Model):
         self.email = email
         self.username = username
         self.phone_number = phone_number
-        self.password_hash = generate_password_hash(password)
+        self.password_hash = self.generate_passwordhash(password)
 
-    def generate_password_hash(self, password):
+    def generate_passwordhash(self, password):
         '''
         hashes the password
         '''
-        return bcrypt.generate_password_hash(password)
+        return bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
         '''
