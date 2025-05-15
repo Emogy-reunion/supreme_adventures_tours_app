@@ -19,8 +19,8 @@ def send_verification_email(self, user_id):
         if not user:
             return {'error': 'User not found!'}
 
-        verification_token = user.email_verification_token()
-        verification_url = url_for('verify.verify_email', verification_token=verification_token, _external=True)
+        token = user.email_verification_token()
+        verification_url = url_for('verify.verify_email', token=token, _external=True)
 
         msg = Message(
                 subject='Verify your email',
