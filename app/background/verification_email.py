@@ -29,6 +29,8 @@ def send_verification_email(self, user_id):
                 )
         msg.body = f'Click the following link to verify your email address {verification_url}'
         msg.html = render_template('verification_email.html', user=user, verification_url=verification_url)
+        mail.send(msg)
+        return {'success': 'Email sent successfully!'}
     except Exception as e:
         self.retry(exc=e, max_retries=3, countdown=10)
         return {'error': 'An unexpected error occured. Please try again!'}
