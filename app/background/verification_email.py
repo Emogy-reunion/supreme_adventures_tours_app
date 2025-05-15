@@ -9,7 +9,7 @@ app = create_app()
 celery = make_celery(app)
 mail = Mail(app)
 
-@celery.task(bind=True, max_retries=3, default_retry_delay=60)
+@celery.task(bind=True, max_retries=3, default_retry_delay=10)
 def send_verification_email(self, user_id):
     '''
     sends verification emails to users
@@ -25,7 +25,7 @@ def send_verification_email(self, user_id):
         msg = Message(
                 subject='Verify your email',
                 recipients=[user.email],
-                sender='infobytevision@gmail.com'
+                sender='emogyreunion@gmail.com'
                 )
         msg.body = f'Click the following link to verify your email address {verification_url}'
         msg.html = render_template('verification_email.html', user=user, verification_url=verification_url)
