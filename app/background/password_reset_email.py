@@ -19,14 +19,15 @@ def send_password_reset_email(self, user_id):
         if not user:
             return {'error': 'User not found!'}
 
-        verification_token = user.email_verification_token()
-        verification_url = url_for('verify.verify_password_reset_token', verification_token=verification_token, _external=True)
+        token = user.email_verification_token()
+        verification_url = url_for('verify.verify_password_reset_token', token=token, _external=True)
         msg = Message(
                 subject='Password reset link',
-                sender='info.realestate@gmail.com',
+                sender='emogyreunion@gmail.com',
                 recipients=[user.email])
         msg.body = f"We have recieved a password reset request, it it was you click the following link to reset your password {verification_url} otherwise ignore it"
         msg.html = render_template('password_reset.html', user=user, verification_url=verification_url)
+        mail.send(msg)
         return {'success': 'Email sent successfully!'}
     except Exception as e:
         self.retry(exc=e, countdown=10, max_retries=3)
