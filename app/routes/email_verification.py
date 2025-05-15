@@ -6,7 +6,7 @@ from app.background.verification_email import send_verification_email
 
 verify = Blueprint('verify', __name__)
 
-@verify.route('/verify_email/<token>', methods=['POST'])
+@verify.route('/verify_email/<token>', methods=['GET'])
 def verify_email(token):
     '''
     verifies the email by verifying the token
