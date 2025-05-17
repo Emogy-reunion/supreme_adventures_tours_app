@@ -68,8 +68,8 @@ def login():
             checks if the passwords match
             logins in the user if both the above exist
             '''
-            access_token = create_access_token(identity=user.id)
-            refresh_token = create_refresh_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
+            refresh_token = create_refresh_token(identity=str(user.id))
 
             response = jsonify({'success': 'Logged in successfully'})
             set_access_cookies(response, access_token)
