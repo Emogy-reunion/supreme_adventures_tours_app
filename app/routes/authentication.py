@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Users, Profiles, db
 from app.forms import RegistrationForm, LoginForm
 from app.background.verification_email import send_verification_email
-from flask_jwt_extended import set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies
+from flask_jwt_extended import set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies, create_access_token, create_refresh_token
 from sqlalchemy import or_
 
 auth = Blueprint('auth', __name__)
@@ -68,13 +68,13 @@ def login():
             checks if the passwords match
             logins in the user if both the above exist
             '''
-            access_token = create_access_token(identity=user.id)
-            refresh_token = create_refresh_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
+            refresh_token = create_refresh_token(identity=str(user.id))
 
-            response = jsonify({'success': 'Logged in successfully'}), 200
+            response = jsonify({'success': 'Logged in successfully'})
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
-            return response
+            return response, 200
         else:
             return jsonify({"error": 'Invalid login credentials. Please try again!'}), 400
     except Exception as e:
@@ -87,9 +87,9 @@ def logout():
     logs the user out by destroying the jwt cookies
     '''
     try:
-        response = jsonify({"success": 'Successfully logged out!'}), 200
+        response = jsonify({"success": 'Successfully logged out!'})
         unset_jwt_cookies(response)
-        return response
+        return response, 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
@@ -101,8 +101,8 @@ def refresh_token():
     '''
     try:
         user_id = get_jwt_identity()
-        response = jsonify({"success": 'Access token refreshed successfully!'}), 200
+        response = jsonify({"success": 'Access token refreshed successfully!'})
         set_access_cookies(response, access_token)
-        return response
+        return response, 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
