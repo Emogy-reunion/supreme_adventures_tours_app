@@ -42,7 +42,7 @@ class Users(db.Model):
         compares the password with the stored hash
         return true if there is a match else false
         '''
-        return bcrypt.check_password_hash(self.password, password)
+        return bcrypt.check_password_hash(self.passwordhash, password)
 
     def email_verification_token(self):
         '''
