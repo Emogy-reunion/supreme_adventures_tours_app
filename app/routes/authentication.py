@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from app.models import Users, Profiles, db
 from app.forms import RegistrationForm, LoginForm
 from app.background.verification_email import send_verification_email
-from flask_jwt_extended import set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies
+from flask_jwt_extended import set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies, create_access_token, create_refresh_token
 from sqlalchemy import or_
 
 auth = Blueprint('auth', __name__)
