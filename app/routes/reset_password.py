@@ -35,9 +35,10 @@ def update_password():
     saves the new password to the database
     '''
     form = PasswordForm(data=request.get_json())
-    user_id = request.json.get('user_id')
+    token = request.json.get('token')
 
     try:
+        user_id = Users.verify_token(token)
         user = db.session.get(Users, user_id)
 
         if user:
