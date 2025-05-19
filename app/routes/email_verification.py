@@ -48,7 +48,7 @@ def resend_verification_email():
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
 
-@verify.route('/verify_reset_password_token/<token>', methods=['POST'])
+@verify.route('/verify_reset_password_token/<token>', methods=['GET'])
 def verify_reset_password_token(token):
         '''
         verifies the user by verifying the token sent via email
@@ -58,7 +58,7 @@ def verify_reset_password_token(token):
         try:
             user = Users.verify_token(token)
             if user:
-                return redirect(f"{current_app.config['FRONTEND_URL']}/update-password/{user.id}")
+                return redirect(f"{current_app.config['FRONTEND_URL']}/update-password/{token}")
             else:
                 return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
         except Exception as e:
