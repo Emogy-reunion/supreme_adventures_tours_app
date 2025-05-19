@@ -58,7 +58,7 @@ def verify_reset_password_token(token):
         try:
             user = Users.verify_token(token)
             if user:
-                return redirect(f"{current_app.config['FRONTEND_URL']}/update-password/{token}")
+                return redirect(f"{current_app.config['FRONTEND_URL']}/update-password?token={token}")
             else:
                 return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
         except Exception as e:
