@@ -47,8 +47,8 @@ def resend_verification_email():
     except Exception as e:
 
 
-@verify.route('/verify_reset_password_token/<token>', methods=['GET'])
-def verify_reset_password_token(token):
+@verify.route('/verify_password_reset_token/<token>', methods=['GET'])
+def verify_password_reset_token(token):
         '''
         verifies the user by verifying the token sent via email
         on success: the user is redirected to a page where they input their new passwords
