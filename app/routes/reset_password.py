@@ -43,8 +43,7 @@ def update_password():
 
         password = form.password.data
 
-        user_id = Users.verify_token(token)
-        user = db.session.get(Users, user_id)
+        user = Users.verify_token(token)
 
         if user:
             user.password_hash = user.generate_password_hash(password)
