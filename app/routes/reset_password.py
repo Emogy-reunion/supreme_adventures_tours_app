@@ -36,13 +36,18 @@ def update_password():
     '''
     form = PasswordForm(data=request.get_json())
     token = request.json.get('token')
+    
+    if not form.validate():
+        return jsonify({"errors": form.errors}), 400
+
+    password = form.password.data
 
     try:
         user_id = Users.verify_token(token)
         user = db.session.get(Users, user_id)
 
         if user:
-            user.password = user.generate_password_hash(password)
+            user.password_hash = user.generate_password_hash(password)
             db.session.commit()
             return jsonify({"success": 'Password updated successfully!'}), 200
         else:
