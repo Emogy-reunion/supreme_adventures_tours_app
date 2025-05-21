@@ -46,7 +46,7 @@ def update_password():
         user = Users.verify_token(token)
 
         if user:
-            user.password_hash = user.generate_password_hash(password)
+            user.password_hash = user.generate_passwordhash(password)
             db.session.commit()
             return jsonify({"success": 'Password updated successfully!'}), 200
         else:

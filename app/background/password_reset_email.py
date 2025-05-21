@@ -1,9 +1,10 @@
 from flask import url_for, render_template, jsonify
 from app.background.verification_email import mail
-from app.models import Users, db
+from app.models import Users
 from flask_mail import Message
 from app.celery import make_celery
 from app import create_app
+from sqlalchemy.orm import selectinload
 
 app = create_app()
 celery = make_celery(app)
@@ -14,7 +15,7 @@ def send_password_reset_email(self, user_id):
     sends an email that contains a link allowing user to reset password
     '''
     try:
-        user = db.session.get(Users, user_id)
+        user = Users.query.options(selectinload(Users.profile)).filter_by(id=user_id).first()
 
         if not user:
             return {'error': 'User not found!'}
