@@ -3,6 +3,7 @@ from app.celery import make_celery
 from app import create_app
 from flask_mail import Mail, Message
 from app.models import Users, db
+from sqlalchemy.orm import selectinload
 
 app = create_app()
 
@@ -15,7 +16,7 @@ def send_verification_email(self, user_id):
     sends verification emails to users
     '''
     try:
-        user = db.session.get(Users, user_id)
+        user = Users.query.options(selectinload(Users.profile)).filter_by(id=user_id).first()
         if not user:
             return {'error': 'User not found!'}
 
