@@ -2,7 +2,7 @@ from flask import url_for, jsonify, render_template
 from app.celery import make_celery
 from app import create_app
 from flask_mail import Mail, Message
-from app.models import Users, db
+from app.models import Users
 from sqlalchemy.orm import selectinload
 
 app = create_app()
