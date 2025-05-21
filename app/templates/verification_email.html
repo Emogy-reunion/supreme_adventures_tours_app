@@ -1,75 +1,83 @@
-<!doctype html>
-<html lang='en'>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
-		<meta charset='utf-8'>
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-		<title>Title</title>
-		<style>
-			body{
-				font-family: Arial, sans-serif;
-				background-color: #f4f4f4;
-				color: #333;
-				padding: 20px;
-			}
+    		<meta charset="utf-8" />
+    		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    		<title>Verify Your Email</title>
+    		<style>
+      			body {
+        			font-family: Arial, sans-serif;
+       				 background-color: #f4f4f4;
+        			color: #333;
+        			padding: 20px;
+      			}
 
-			.container {
-            			background-color: #fff;
-            			padding: 20px;
-            			border-radius: 10px;
-            			box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            			max-width: 600px;
-            			margin: auto;
-       	 		}
-        		
-			h2 {
-            			color: #007BFF;
-        		}
-        		
-			p {
-            			line-height: 1.6;
-        		}
+      			.container {
+        			background-color: #fff;
+        			padding: 30px;
+        			border-radius: 10px;
+       				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        			max-width: 600px;
+        			margin: auto;
+      			}
 
-			.reset-button {
-            			display: inline-block;
-            			background-color: #FF6347;
-            			color: white;
-            			padding: 10px 20px;
-            			text-decoration: none;
-            			border-radius: 5px;
-        		}
+      			h2 {
+        			color: #007bff;
+      			}
 
-			.reset-button:hover {
-				background-color: red;
-			}
+      			p {
+        			line-height: 1.6;
+      			}
 
-			.button {
-				display: flex;
-				justify-content: center;
-			}
+      			.verify-button {
+        			display: inline-block;
+        			background-color: #28a745;
+        			color: white;
+        			padding: 12px 24px;
+        			text-decoration: none;
+        			border-radius: 5px;
+        			font-weight: bold;
+      			}
 
-			.footer {
-				margin-top: 20px;
-				font-size: 0.9em;
-				text-align: center;
-            			color: #777;
-        		}
-		</style>
+      			.verify-button:hover {
+        			background-color: #218838;
+      			}
 
-	</head>
-	<body>
-		<div class="container">
-			<h2>Welcome, {{ user.first_name }}!</h2>
-			<p>Thank you for signing up for our services. Please verify your email address by clicking the link below:</p>
-			<div class='button'>
-				<a href="{{ verification_url }}" class='reset-button'>Verify Email</a>
-			</div>
-			<p>If you did not sign up for this account, you can safely ignore this email.</p>
-			<p>Thank you!</p>
+      			.button {
+        			display: flex;
+        			justify-content: center;
+        			margin-top: 20px;
+      			}
 
-			<div class="footer">
-				&copy; 2025 Supreme Adventures. All rights reserved.
-			</div>
-		</div>
+      			.footer {
+        			margin-top: 30px;
+        			font-size: 0.9em;
+        			text-align: center;
+        			color: #777;
+      			}
+    		</style>
+  	</head>
+  	<body>
+    		<div class="container">
+      			<h2>Welcome to Supreme Adventures, {{ user.first_name }}!</h2>
+      			<p>
+        		We're excited to have you on board. Before we get started, please confirm your email address to activate your account.
+      			</p>
 
-	</body>
+      			<div class="button">
+        			<a href="{{ verification_url }}" class="verify-button">Verify Email</a>
+      			</div>
+
+      			<p>
+        		If you didn’t create an account with us, please ignore this email. Your information is safe and no further action is required.
+      			</p>
+
+      			<p>Happy exploring,<br />The Supreme Adventures Team</p>
+
+      			<div class="footer">
+        			&copy; 2025 Supreme Adventures. All rights reserved.
+      			</div>
+    		</div>
+  	</body>
 </html>
+
