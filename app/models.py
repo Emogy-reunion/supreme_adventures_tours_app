@@ -14,6 +14,8 @@ serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 class Users(db.Model):
     '''
     table that stores user authentication details
+    has a one to one relationship with the Profiles table (one user, one profile)
+    has a one to many relationship with Tours table ( one user, many tours)
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -24,6 +26,7 @@ class Users(db.Model):
     verified = db.Column(db.Boolean, default=False)
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
+    tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -95,7 +98,7 @@ class Tours(db.Model):
     start_location = db.Column(db.String(50), nullable=False)
     location = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    start_date db.Column(db.Date, nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
     days = db.Column(db.Integer, nullable=False)
     nights = db.Column(db.Integer, nullable=False)
     original_price = db.Column(db.Float, nullable=False)
@@ -105,3 +108,4 @@ class Tours(db.Model):
     excluded = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user = db.relationship('Users', back_populates='tours')
