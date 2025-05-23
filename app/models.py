@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from . import create_app
-from datetime import datetime
+from datetime import datetime, date
 from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer
 
@@ -84,3 +84,24 @@ class Profiles(db.Model):
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
+
+
+class Tours(db.Model):
+    '''
+    store information about a tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    start_location = db.Column(db.String(50), nullable=False)
+    location = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    start_date db.Column(db.Date, nullable=False)
+    days = db.Column(db.Integer, nullable=False)
+    nights = db.Column(db.Integer, nullable=False)
+    original_price = db.Column(db.Float, nullable=False)
+    discount_percent = db.Column(db.Float, nullable=False)
+    final_price = db.Column(db.Float, nullable=False)
+    included = db.Column(db.Text, nullable=False)
+    excluded = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
