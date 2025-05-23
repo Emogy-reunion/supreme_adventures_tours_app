@@ -73,6 +73,7 @@ class Users(db.Model):
 class Profiles(db.Model):
     '''
     stores the user's profile information
+    has a one to one relationship to Users page (one profile belongs to exactly one user
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
@@ -94,6 +95,7 @@ class Tours(db.Model):
     store information about a tour
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     start_location = db.Column(db.String(50), nullable=False)
     location = db.Column(db.String(50), nullable=False)
@@ -109,3 +111,11 @@ class Tours(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
+
+class TourImages(db.Model):
+    '''
+    store images related to a specific tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)
