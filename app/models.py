@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from . import create_app
-from datetime import datetime
+from datetime import datetime, date
 from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer
 
@@ -14,6 +14,8 @@ serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 class Users(db.Model):
     '''
     table that stores user authentication details
+    has a one to one relationship with the Profiles table (one user, one profile)
+    has a one to many relationship with Tours table ( one user, many tours)
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     email = db.Column(db.String(50), unique=True, nullable=False)
@@ -24,6 +26,7 @@ class Users(db.Model):
     verified = db.Column(db.Boolean, default=False)
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
+    tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -70,6 +73,7 @@ class Users(db.Model):
 class Profiles(db.Model):
     '''
     stores the user's profile information
+    has a one to one relationship to Users page (one profile belongs to exactly one user
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), unique=True)
@@ -84,3 +88,35 @@ class Profiles(db.Model):
         self.user_id = user_id
         self.first_name = first_name
         self.last_name = last_name
+
+
+class Tours(db.Model):
+    '''
+    store information about a tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
+    start_location = db.Column(db.String(50), nullable=False)
+    location = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    days = db.Column(db.Integer, nullable=False)
+    nights = db.Column(db.Integer, nullable=False)
+    original_price = db.Column(db.Float, nullable=False)
+    discount_percent = db.Column(db.Float, nullable=False)
+    final_price = db.Column(db.Float, nullable=False)
+    included = db.Column(db.Text, nullable=False)
+    excluded = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user = db.relationship('Users', back_populates='tours')
+    images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
+
+class TourImages(db.Model):
+    '''
+    store images related to a specific tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)
