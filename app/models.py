@@ -111,6 +111,7 @@ class Tours(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
+    images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
 class TourImages(db.Model):
     '''
