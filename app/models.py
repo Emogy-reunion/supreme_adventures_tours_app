@@ -120,3 +120,9 @@ class TourImages(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     filename = db.Column(db.String(100), nullable=False)
+
+class Products(db.Model):
+    '''
+    stores merchandise sold via the app
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
