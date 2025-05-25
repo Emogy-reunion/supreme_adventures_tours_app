@@ -137,3 +137,12 @@ class Products(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    images = db.relationship('ProductImages', lazy='selectin', backref='product', cascade='all, delete')
+
+class ProductImages(db.Model):
+    '''
+    stores images related to a certain product
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)
