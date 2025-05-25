@@ -27,6 +27,7 @@ class Users(db.Model):
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
     tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
+    products = db.relationship('Products', back_populates='user', lazy='selelctin', cascade='all, delete')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -160,6 +161,7 @@ class Products(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     images = db.relationship('ProductImages', lazy='selectin', backref='product', cascade='all, delete')
+    user = db.relationship('Users', back_populates='products')
 
     def __init__(self, name, product_type, original_price, discount_rate,
                  user_id, final_price, status, size, description):
