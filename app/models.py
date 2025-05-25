@@ -27,6 +27,7 @@ class Users(db.Model):
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
     tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
+    products = db.relationship('Products', back_populates='user', lazy='selelctin', cascade='all, delete')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -100,7 +101,8 @@ class Tours(db.Model):
     start_location = db.Column(db.String(50), nullable=False)
     location = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    start_date = db.Column(db.Date, nullable=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
     days = db.Column(db.Integer, nullable=False)
     nights = db.Column(db.Integer, nullable=False)
     original_price = db.Column(db.Float, nullable=False)
@@ -113,6 +115,23 @@ class Tours(db.Model):
     user = db.relationship('Users', back_populates='tours')
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
+    def __init__(self, user_id, name, start_location, location, description, start_date, end_date,
+                 days, nights, original_price, discount_percent, final_price, included, excluded):
+        self.user_id = user_id
+        self.name = name
+        self.start_location = start_location
+        self.location = location
+        self.description = description
+        self.start_date = start_date
+        self.end_date = end_date
+        self.days = days
+        self.nights = nights
+        self.original_price = original_price
+        self.discount_percent = discount_percent
+        self.final_price = final_price
+        self.included = included
+        self.excluded = excluded
+
 class TourImages(db.Model):
     '''
     store images related to a specific tour
@@ -121,8 +140,52 @@ class TourImages(db.Model):
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     filename = db.Column(db.String(100), nullable=False)
 
+    def __init__(self, product_id, filename):
+        self.tour_id = tour_id
+        self.filename = filename
+
 class Products(db.Model):
     '''
     stores merchandise sold via the app
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
+    name = db.Column(db.String(150), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    product_type = db.Column(db.String(150), nullable=False)
+    original_price = db.Column(db.Float, nullable=False)
+    discount_rate = db.Column(db.Integer, default=0)
+    final_price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
+    size = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    images = db.relationship('ProductImages', lazy='selectin', backref='product', cascade='all, delete')
+    user = db.relationship('Users', back_populates='products')
+
+    def __init__(self, name, product_type, original_price, discount_rate,
+                 user_id, final_price, status, size, description):
+        '''
+        initializes the table with data
+        '''
+        self.name = name
+        self.user_id = user_id
+        self.product_type = jersey_type
+        self.original_price = original_price
+        self.discount_rate = discount_rate
+        self.final_price = final_price
+        self.status = status
+        self.size = size
+        self.description = description
+
+class ProductImages(db.Model):
+    '''
+    stores images related to a certain product
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)
+
+    def __init__(self, product_id, filename):
+        self.product_id = product_id
+        self.filename = filename
