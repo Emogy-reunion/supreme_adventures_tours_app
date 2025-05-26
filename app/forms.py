@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
+from wtforms import StringField, PasswordField, ValidationError, FloatField, IntegerField, TextAreaField, MultipleFileField
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired
 
 class RegistrationForm(FlaskForm):
     '''
@@ -66,4 +66,64 @@ class PasswordForm(FlaskForm):
     confirmpassword = PasswordField('Confirm Password', validators=[
         DataRequired(),
         EqualTo('password', message='Passwords must match!')
+        ])
+
+
+def custom_length_check(form, field):
+    length = len(field.data or '')
+
+    if length < 150:
+        raise ValidationError('Description is too short. Minimum 150 characters required.')
+    
+    if length > 1500:
+        raise ValidationError('Description is too long. Maximum 1500 characters allowed.')
+
+class ToursUploadForm(FlaskForm):
+    '''
+    validates the tours upload details
+    '''
+    name = StringField('Name', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Name must be between 5 and 49 characters!')
+        ])
+    start_location = StringField('Start location', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
+        ])
+    location = StringField('Location', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
+        ])
+    description = TextAreaField('Description', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    start_date = DateTimeField('Start date', validators=[
+        DataRequired()
+        ])
+    end_date = DateTimeField('End date', validators=[
+        DataRequired()
+        ])
+    days = IntegerField('Days', validators=[
+        DataRequired()
+        ])
+    nights = IntegerField('Nights', validators=[
+        DataRequired()
+        ])
+    original_price = FloatField('Original price', validators=[
+        DataRequired()
+        ])
+    discount_percent = FloatField('Discount', validators=[
+        DataRequired()
+        ])
+    included = TextAreaField('Includes', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    excluded = TextAreaField('Excludes', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    files = MultipleFileField('Files', validators=[
+        InputRequired()
         ])
