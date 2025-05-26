@@ -8,6 +8,7 @@ from app.routes.reset_password import reset
 import os
 from flask_cors import CORS
 from app.celery import make_celery
+from app.utils.create_initial_admin import create_initial_admin
 
 
 
@@ -21,12 +22,12 @@ celery = make_celery(app)
 if app.config["ENV"] == "development":
     CORS(app)
 
+create_initial_admin()
+
 app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
 
-with app.app_context():
-    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
