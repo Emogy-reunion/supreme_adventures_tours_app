@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
+from wtforms import StringField, PasswordField, ValidationError, FloatField, IntegerField, TextAreaField, MultipleFileField
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired
 
 class RegistrationForm(FlaskForm):
     '''
@@ -67,3 +67,89 @@ class PasswordForm(FlaskForm):
         DataRequired(),
         EqualTo('password', message='Passwords must match!')
         ])
+
+
+def custom_length_check(form, field):
+    length = len(field.data or '')
+
+    if length < 150:
+        raise ValidationError('Description is too short. Minimum 150 characters required.')
+    
+    if length > 1500:
+        raise ValidationError('Description is too long. Maximum 1500 characters allowed.')
+
+class ToursUploadForm(FlaskForm):
+    '''
+    validates the tours upload details
+    '''
+    name = StringField('Name', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Name must be between 5 and 49 characters!')
+        ])
+    start_location = StringField('Start location', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
+        ])
+    location = StringField('Location', validators=[
+        InputRequired(),
+        Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
+        ])
+    description = TextAreaField('Description', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    start_date = DateTimeField('Start date', validators=[
+        DataRequired()
+        ])
+    end_date = DateTimeField('End date', validators=[
+        DataRequired()
+        ])
+    days = IntegerField('Days', validators=[
+        DataRequired(),
+		NumberRange(min=0)])
+        ])
+    nights = IntegerField('Nights', validators=[
+        DataRequired(),
+		NumberRange(min=0)])
+        ])
+    original_price = FloatField('Original price', validators=[
+        DataRequired(),
+		NumberRange(min=0)])
+        ])
+    discount_percent = FloatField('Discount', validators=[
+        DataRequired(),
+		NumberRange(min=0, max=100)])
+        ])
+    included = TextAreaField('Includes', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    excluded = TextAreaField('Excludes', validators=[
+        InputRequired(),
+        custom_length_check
+        ])
+    files = MultipleFileField('Files', validators=[
+        InputRequired()
+        ])
+
+class ProductsUploadForm(FlaskForm):
+	'''
+    validates the upload details for the form
+    '''
+	name = StringField('Sneaker name', validators=[
+        DataRequired(),
+        Length(min=4, max=45, message='Sneaker name must be betwwen 4 and 45 characters!')])
+    original_price = FloatField('Original price', validators=[
+        DataRequired(),
+        NumberRange(min=0)])
+	product_type = StringField('Product type', validators=[DataRequired()])
+    discount_rate = FloatField('Discount rate', validators=[
+        DataRequired(),
+        NumberRange(min=0, max=100)])
+    description = TextField('Description', validators=[DataRequired(),
+		custom_length_check])
+    status = StringField('Status', validators=[DataRequired()])
+    size = StringField('Size', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
+    images = MultipleFileField('Images', validators=[DataRequired()])
+

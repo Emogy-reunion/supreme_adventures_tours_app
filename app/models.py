@@ -108,6 +108,7 @@ class Tours(db.Model):
     original_price = db.Column(db.Float, nullable=False)
     discount_percent = db.Column(db.Float, nullable=False)
     final_price = db.Column(db.Float, nullable=False)
+    status = db.Column(db.String(50), nullable=False)
     included = db.Column(db.Text, nullable=False)
     excluded = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -116,7 +117,7 @@ class Tours(db.Model):
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, location, description, start_date, end_date,
-                 days, nights, original_price, discount_percent, final_price, included, excluded):
+                 status, original_price, discount_percent, final_price, included, excluded, days, nights)
         self.user_id = user_id
         self.name = name
         self.start_location = start_location
@@ -131,6 +132,7 @@ class Tours(db.Model):
         self.final_price = final_price
         self.included = included
         self.excluded = excluded
+        self.status = status
 
 class TourImages(db.Model):
     '''
