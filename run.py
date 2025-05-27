@@ -10,6 +10,7 @@ from flask_cors import CORS
 from app.celery import make_celery
 from app.utils.create_initial_admin import create_initial_admin
 from app.routes.upload import post
+from app.utils.create_upload_folder import create_upload_folder
 
 
 
@@ -23,7 +24,9 @@ celery = make_celery(app)
 if app.config["ENV"] == "development":
     CORS(app)
 
+
 create_initial_admin()
+create_upload_folder()
 
 app.register_blueprint(auth)
 app.register_blueprint(verify)
