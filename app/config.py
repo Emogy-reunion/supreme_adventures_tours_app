@@ -6,6 +6,7 @@ import os
 from datetime import timedelta
 
 load_dotenv()
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config():
     ENV = 'development'
@@ -29,3 +30,5 @@ class Config():
     FRONTEND_URL = os.getenv('FRONTEND_URL')
     SERVER_NAME = 'localhost:5000'  # Enables _external URLs in background tasks
     PREFERRED_URL_SCHEME = 'http'
+    UPLOAD_FOLDER = os.path.join(basedir, 'app', 'static', 'uploads')
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
