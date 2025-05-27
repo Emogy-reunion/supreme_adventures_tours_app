@@ -9,6 +9,7 @@ import os
 from flask_cors import CORS
 from app.celery import make_celery
 from app.utils.create_initial_admin import create_initial_admin
+from app.routes.upload import post
 
 
 
@@ -27,6 +28,7 @@ create_initial_admin()
 app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
+app.register_blueprint(post)
 
 
 if __name__ == "__main__":
