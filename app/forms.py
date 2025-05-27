@@ -105,16 +105,20 @@ class ToursUploadForm(FlaskForm):
         DataRequired()
         ])
     days = IntegerField('Days', validators=[
-        DataRequired()
+        DataRequired(),
+		NumberRange(min=0)])
         ])
     nights = IntegerField('Nights', validators=[
-        DataRequired()
+        DataRequired(),
+		NumberRange(min=0)])
         ])
     original_price = FloatField('Original price', validators=[
-        DataRequired()
+        DataRequired(),
+		NumberRange(min=0)])
         ])
     discount_percent = FloatField('Discount', validators=[
-        DataRequired()
+        DataRequired(),
+		NumberRange(min=0, max=100)])
         ])
     included = TextAreaField('Includes', validators=[
         InputRequired(),
@@ -127,3 +131,25 @@ class ToursUploadForm(FlaskForm):
     files = MultipleFileField('Files', validators=[
         InputRequired()
         ])
+
+class ProductsUploadForm(FlaskForm):
+	'''
+    validates the upload details for the form
+    '''
+	name = StringField('Sneaker name', validators=[
+        DataRequired(),
+        Length(min=4, max=45, message='Sneaker name must be betwwen 4 and 45 characters!')])
+    original_price = FloatField('Original price', validators=[
+        DataRequired(),
+        NumberRange(min=0)])
+	product_type = StringField('Product type', validators=[DataRequired()])
+    discount_rate = FloatField('Discount rate', validators=[
+        DataRequired(),
+        NumberRange(min=0, max=100)])
+    description = TextField('Description', validators=[DataRequired(),
+		custom_length_check])
+    status = StringField('Status', validators=[DataRequired()])
+    size = StringField('Size', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired()])
+    images = MultipleFileField('Images', validators=[DataRequired()])
+
