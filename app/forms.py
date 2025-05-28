@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, ValidationError, FloatField, IntegerField, TextAreaField, MultipleFileField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError
 
 class RegistrationForm(FlaskForm):
     '''
@@ -106,19 +106,19 @@ class ToursUploadForm(FlaskForm):
         ])
     days = IntegerField('Days', validators=[
         DataRequired(),
-		NumberRange(min=0)])
-        ])
+        NumberRange(min=0)])
+    ])
     nights = IntegerField('Nights', validators=[
         DataRequired(),
-		NumberRange(min=0)])
-        ])
+        NumberRange(min=0)])
+    ])
     original_price = FloatField('Original price', validators=[
         DataRequired(),
-		NumberRange(min=0)])
-        ])
+        NumberRange(min=0)])
+    ])
     discount_percent = FloatField('Discount', validators=[
         DataRequired(),
-		NumberRange(min=0, max=100)])
+        NumberRange(min=0, max=100)])
         ])
     included = TextAreaField('Includes', validators=[
         InputRequired(),
@@ -132,11 +132,12 @@ class ToursUploadForm(FlaskForm):
         InputRequired()
         ])
 
+
 class ProductsUploadForm(FlaskForm):
 	'''
     validates the upload details for the form
     '''
-	name = StringField('Sneaker name', validators=[
+    name = StringField('Sneaker name', validators=[
         DataRequired(),
         Length(min=4, max=45, message='Sneaker name must be betwwen 4 and 45 characters!')])
     original_price = FloatField('Original price', validators=[
@@ -150,6 +151,5 @@ class ProductsUploadForm(FlaskForm):
 		custom_length_check])
     status = StringField('Status', validators=[DataRequired()])
     size = StringField('Size', validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
     images = MultipleFileField('Images', validators=[DataRequired()])
 
