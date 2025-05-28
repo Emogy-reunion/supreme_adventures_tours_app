@@ -103,7 +103,6 @@ def upload_product():
     description = form.description.data
     status = form.status.data
     size = form.size.data
-    category = form.category.data
     files = request.files.getlist('images')
 
     if discount_percent > 0:
