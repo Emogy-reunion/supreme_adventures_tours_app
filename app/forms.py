@@ -90,7 +90,7 @@ class ToursUploadForm(FlaskForm):
         InputRequired(),
         Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
         ])
-    location = StringField('Location', validators=[
+    destination = StringField('Destination', validators=[
         InputRequired(),
         Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
         ])
