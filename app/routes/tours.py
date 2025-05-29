@@ -1,16 +1,12 @@
 from Flask import Blueprint
-from app.utils.role import role_required
-from flask_jwt_extended import jwt_required
 from app.models import Users, Tours, TourImages
 from sqlalchemy.orm import selectinload
 
-admin_posts_bp = Blueprint('admin_posts_bp', __name__)
+tours_bp = Blueprint('tours_bp', __name__)
 
 
-@admin_posts_bp.route('/admin_tour', methods=['GET'])
-@jwt_required()
-@role_required('admin')
-def admin_tours():
+@tours_bp.route('/tours', methods=['GET'])
+def tours():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 12, type=int)
     try:
@@ -48,10 +44,8 @@ def admin_tours():
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
 
-@admin_posts_bp.route('/admin_tour_details/<int:tour_id>', methods=['GET'])
-@jwt_required()
-@role_required('admin')
-def admin_tour_details(tour_id):
+@tours_bp.route('/tour_details/<int:tour_id>', methods=['GET'])
+def tour_details(tour_id):
     '''
     retrieves all information about a tour from the database
     '''
