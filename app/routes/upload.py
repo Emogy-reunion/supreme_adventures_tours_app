@@ -31,7 +31,7 @@ def upload_tour():
 
     name = form.name.data.lower()
     start_location = form.start_location.data.lower()
-    location = form.location.data.lower()
+    destination = form.destination.data.lower()
     description = form.description.data
     start_date = form.start_date.data
     end_date = form.end_date.data
@@ -57,7 +57,7 @@ def upload_tour():
      try:
          user_id = int(get_jwt_identity())
 
-         tour = Tours(name=name, user_id=user_id, start_location=start_location, location=location, description=description, start_date=start_date,
+         tour = Tours(name=name, user_id=user_id, start_location=start_location, destination=destination, description=description, start_date=start_date,
                       end_date=end_date, days=days, nights=nights, original_price=original_price, discount_percent=discount_percent, status=status,
                       final_price=final_price, included=included, excluded=excluded)
          db.session.add(tour)
