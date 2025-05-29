@@ -7,7 +7,7 @@ from sqlalchemy.orm import selectinload
 admin_posts_bp = Blueprint('admin_posts_bp', __name__)
 
 
-@admin_posts_bp.routes('/admin_tour', methods=['GET'])
+@admin_posts_bp.route('/admin_tour', methods=['GET'])
 @jwt_required()
 @role_required('admin')
 def admin_tours():
@@ -20,9 +20,10 @@ def admin_tours():
             return jsonify({'error': 'No upcoming tours available at the moment. Please check again later!'}), 404
 
         tours = [{
+            'tour_id': tour.id,
             'name': tour.name,
-            'destination': tour.location,
-            'start_date': tour.start_date,
+            'destination': tour.destination,
+            'start_date': tour.start_date.isoformat(),
             'days': tour.days,
             'nights': tour.nights,
             'price': tour.final_price,
@@ -46,3 +47,39 @@ def admin_tours():
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
+
+@admin_posts_bp.route('/admin_tour_details/<int:tour_id>', methods=['GET'])
+@jwt_required()
+@role_required('admin')
+def admin_tour_details(tour_id):
+    '''
+    retrieves all information about a tour from the database
+    '''
+
+    try:
+        tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
+
+        if not tour:
+            return jsonify({'error': 'Tour not found!'}), 404
+
+        tour_details = {
+                'tour_id': tour.id,
+                'name': tour.name,
+                'start_location': tour.start_location,
+                'destination': tour.destination,
+                'description': tour.description,
+                'start_date': tour.start_date.isoformat(),
+                'end_date': tour.end_date.isoformat(),
+                'days': tour.days,
+                'nights': tour.nights,
+                'original_price': tour.original_price,
+                'final_price': tour.final_price,
+                'discount': tour.discount_percent,
+                'status': tour.status,
+                'included': tour.included,
+                'excluded': tour.excluded,
+                'images': [image.filename for image in tour.images] if tour.images else None
+                }
+        return jsonify(tour_details), 200
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
