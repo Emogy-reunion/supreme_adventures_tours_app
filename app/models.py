@@ -99,7 +99,7 @@ class Tours(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     name = db.Column(db.String(50), nullable=False)
     start_location = db.Column(db.String(50), nullable=False)
-    location = db.Column(db.String(50), nullable=False)
+    destination = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
@@ -116,7 +116,7 @@ class Tours(db.Model):
     user = db.relationship('Users', back_populates='tours')
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
-    def __init__(self, user_id, name, start_location, location, description, start_date, end_date,
+    def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
                  status, original_price, discount_percent, final_price, included, excluded, days, nights)
         self.user_id = user_id
         self.name = name
