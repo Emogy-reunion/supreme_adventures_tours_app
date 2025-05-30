@@ -67,7 +67,7 @@ def update_tour(tour_id):
 
         if discount_percent and tour.discount_percent != discount_percent:
             tour.discount_percent = discount_percent
-            tour.final_price = calculate_final_price(original_price=original_price, discount_percent=discount_percent)
+            tour.final_price = calculate_final_price(original_price=tour.original_price, discount_percent=tour.discount_percent)
 
         if status and tour.status != status:
             tour.status = status
@@ -111,27 +111,28 @@ def update_merchandise(product_id):
         if not product:
             return jsonify({'error': 'Product not found!'}), 404
 
-        if name:
+        if name and product.name != name:
             product.name = name
 
-        if product_type:
+        if product_type and product.product_type != product_type:
             product.product_type = product_type
 
-        if original_price:
+        if original_price and product.original_price != original_price:
             product.original_price = original_price
             final_price = original_price
 
-        if discount_percent:
+        if discount_percent and product.discount_percent != discount_percent:
             product.discount_percent = discount_percent
-            product.final_price = calculate_final_price(original_price=original_price, discount_percent=discount_percent)
-        if status:
+            product.final_price = calculate_final_price(original_price=product.original_price, discount_percent=product.discount_percent)
+
+        if status and product.status != status:
             product.status = status
 
-        if size:
+        if size and product.size != size:
             product.size = size
 
-        if description:
-            product.description = description
+        if description and product.description != description:
+            product.description = description<F10><F9>
 
         db.session.commit()
         return jsonify({'success': 'Tour updated successfully!'}), 200
