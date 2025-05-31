@@ -5,6 +5,9 @@ from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
 from app.routes.reset_password import reset
+from app.routes.admin_update_uploads import admin_edit_bp
+from app.routes.tours import tours_bp
+from app.routes.merchandise import merch_bp
 import os
 from flask_cors import CORS
 from app.celery import make_celery
@@ -32,6 +35,9 @@ app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
 app.register_blueprint(post)
+app.register_blueprint(admin_edit_bp)
+app.register_blueprint(tour_bp)
+app.register_blueprint(merch_bp)
 
 
 if __name__ == "__main__":
