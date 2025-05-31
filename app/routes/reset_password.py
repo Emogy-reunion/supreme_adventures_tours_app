@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
+from app import db
 from app.forms import EmailForm, PasswordForm
-from app.models import Users, db
+from app.models import Users
 from app.background.password_reset_email import send_password_reset_email
 
 reset = Blueprint('reset', __name__)
