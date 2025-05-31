@@ -3,6 +3,7 @@ from app.utils.role import role_required
 from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
 from app.models import Tours, TourImages, Products, ProductImages, db
+from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 
 admin_edit_bp = Blueprint('admin_edit_bp', __name__)
@@ -132,7 +133,7 @@ def update_merchandise(product_id):
             product.size = size
 
         if description and product.description != description:
-            product.description = description<F10><F9>
+            product.description = description
 
         db.session.commit()
         return jsonify({'success': 'Tour updated successfully!'}), 200
