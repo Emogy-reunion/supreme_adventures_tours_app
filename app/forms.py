@@ -151,15 +151,25 @@ class ProductsUploadForm(FlaskForm):
     original_price = FloatField('Original price', validators=[
         DataRequired(),
         NumberRange(min=0)])
-	product_type = StringField('Product type', validators=[DataRequired()])
+    product_type = StringField('Product type', validators=[
+        DataRequired()
+        ])
     discount_rate = FloatField('Discount rate', validators=[
         DataRequired(),
         NumberRange(min=0, max=100)])
-    description = TextField('Description', validators=[DataRequired(),
-		custom_length_check])
-    status = StringField('Status', validators=[DataRequired()])
-    size = StringField('Size', validators=[DataRequired()])
-    images = MultipleFileField('Images', validators=[DataRequired()])
+    description = TextField('Description', validators=[
+        DataRequired(),
+        custom_length_check
+        ])
+    status = StringField('Status', validators=[
+        DataRequired()
+        ])
+    size = StringField('Size', validators=[
+        DataRequired()
+        ])
+    images = MultipleFileField('Images', validators=[
+        DataRequired()
+        ])
 
 
 class UpdateTourForm(FlaskForm):
