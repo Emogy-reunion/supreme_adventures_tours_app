@@ -27,7 +27,7 @@ celery = make_celery(app)
 if app.config["ENV"] == "development":
     CORS(app)
 
-with app.app_context:
+with app.app_context():
     db.create_all()
 
 create_initial_admin()
