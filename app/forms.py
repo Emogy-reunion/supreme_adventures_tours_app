@@ -235,7 +235,7 @@ class UpdateMerchandiseForm(FlaskForm):
     discount_rate = FloatField('Discount rate', validators=[
         Optional(),
         NumberRange(min=0, max=100)])
-    description = TextField('Description', validators=[
+    description = TextAreaField('Description', validators=[
         Optional(),
         custom_length_check])
     status = StringField('Status', validators=[
