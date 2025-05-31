@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField
+from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
 
 
@@ -185,10 +185,10 @@ class UpdateTourForm(FlaskForm):
     destination = StringField('Destination', validators=[
         Optional()
         ])
-    start_date = DateTime('Start date', validators=[
+    start_date = DateTimeField('Start date', validators=[
         Optional()
         ])
-    end_date = DateTime('End date', validators=[
+    end_date = DateTimeField('End date', validators=[
         Optional()
         ])
     days = IntegerField('Days', validators=[
