@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify, current_app
+from app import db
 from app.forms import ToursUploadForm, ProductsUploadForm
 from app.utils.discount import calculate_final_price
 from app.utils.check_file_extension import check_file_extension
-from app.models import Tours, TourImages, db, Products, ProductImages
+from app.models import Tours, TourImages, Products, ProductImages
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
