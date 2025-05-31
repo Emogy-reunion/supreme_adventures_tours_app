@@ -8,6 +8,7 @@ from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 admin_edit_bp = Blueprint('admin_edit_bp', __name__)
 
+
 @admin_edit_bp.route('/update_tour/<int:tour_id>', methods=['PATCH'])
 @jwt_required()
 @role_required('admin')
@@ -85,6 +86,7 @@ def update_tour(tour_id):
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
 
+
 @admin_edit_bp.route('/update_merchandise/<int:product_id>', methods=['PUT'])
 @jwt_required()
 @role_required('admin')
@@ -138,8 +140,6 @@ def update_merchandise(product_id):
         db.session.commit()
         return jsonify({'success': 'Tour updated successfully!'}), 200
 
-     except Exception as e:
-         db.session.rollback()
-         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
-
-
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
