@@ -117,7 +117,7 @@ class Tours(db.Model):
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
-                 status, original_price, discount_percent, final_price, included, excluded, days, nights)
+                 status, original_price, discount_percent, final_price, included, excluded, days, nights):
         self.user_id = user_id
         self.name = name
         self.start_location = start_location
