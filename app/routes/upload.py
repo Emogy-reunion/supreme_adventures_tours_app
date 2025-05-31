@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify, current_app
+from app import db
 from app.forms import ToursUploadForm, ProductsUploadForm
 from app.utils.discount import calculate_final_price
 from app.utils.check_file_extension import check_file_extension
-from app.models import Tours, TourImages, db, Products, ProductImages
+from app.models import Tours, TourImages, Products, ProductImages
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
@@ -54,21 +55,21 @@ def upload_tour():
     if len(files) > 7:
         return jsonify({'error': 'You can upload a maximum of 7 images only.'}), 400
      
-     try:
-         user_id = int(get_jwt_identity())
+    try:
+        user_id = int(get_jwt_identity())
 
-         tour = Tours(name=name, user_id=user_id, start_location=start_location, destination=destination, description=description, start_date=start_date,
-                      end_date=end_date, days=days, nights=nights, original_price=original_price, discount_percent=discount_percent, status=status,
-                      final_price=final_price, included=included, excluded=excluded)
-         db.session.add(tour)
-         db.session.flush()
+        tour = Tours(name=name, user_id=user_id, start_location=start_location, destination=destination, description=description, start_date=start_date,
+                     end_date=end_date, days=days, nights=nights, original_price=original_price, discount_percent=discount_percent, status=status,
+                     final_price=final_price, included=included, excluded=excluded)
+        db.session.add(tour)
+        db.session.flush()
 
-         for file in files:
-             if file and check_file_extension(file.filename):
-                 filename = secure_filename(file.filename)
-                 file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-                 tour_image = TourImages(tour_id=tour.id, filename=filename)
-                 db.session.add(tour_image)
+        for file in files:
+            if file and check_file_extension(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+                tour_image = TourImages(tour_id=tour.id, filename=filename)
+                db.session.add(tour_image)
             else:
                 return jsonify({'error': 'Invalid image file extension or file missing. Please try again!'}), 400
         db.session.commit()

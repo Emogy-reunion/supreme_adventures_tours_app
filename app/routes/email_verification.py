@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, current_app, jsonify
-from app.models import Users, db
+from app.models import Users
+from app import db
 from app.forms import EmailForm
 from app.background.verification_email import send_verification_email
 

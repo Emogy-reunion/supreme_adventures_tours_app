@@ -1,13 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
 from . import create_app
 from datetime import datetime, date
-from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer
+from app import db, bcrypt
 
 
 app = create_app()
-db = SQLAlchemy()
-bcrypt = Bcrypt()
 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
@@ -27,7 +24,7 @@ class Users(db.Model):
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
     profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
     tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
-    products = db.relationship('Products', back_populates='user', lazy='selelctin', cascade='all, delete')
+    products = db.relationship('Products', back_populates='user', lazy='selectin', cascade='all, delete')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -117,7 +114,7 @@ class Tours(db.Model):
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
-                 status, original_price, discount_percent, final_price, included, excluded, days, nights)
+                 status, original_price, discount_percent, final_price, included, excluded, days, nights):
         self.user_id = user_id
         self.name = name
         self.start_location = start_location

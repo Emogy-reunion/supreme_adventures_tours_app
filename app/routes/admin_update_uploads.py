@@ -2,10 +2,13 @@ from flask import Blueprint, jsonify, request
 from app.utils.role import role_required
 from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
-from app.models import Tours, TourImages, Products, ProductImages, db
+from app import models
+from app.models import Tours, TourImages, Products, ProductImages
+from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 
 admin_edit_bp = Blueprint('admin_edit_bp', __name__)
+
 
 @admin_edit_bp.route('/update_tour/<int:tour_id>', methods=['PATCH'])
 @jwt_required()
@@ -84,6 +87,7 @@ def update_tour(tour_id):
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
 
+
 @admin_edit_bp.route('/update_merchandise/<int:product_id>', methods=['PUT'])
 @jwt_required()
 @role_required('admin')
@@ -132,13 +136,11 @@ def update_merchandise(product_id):
             product.size = size
 
         if description and product.description != description:
-            product.description = description<F10><F9>
+            product.description = description
 
         db.session.commit()
         return jsonify({'success': 'Tour updated successfully!'}), 200
 
-     except Exception as e:
-         db.session.rollback()
-         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
-
-
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
