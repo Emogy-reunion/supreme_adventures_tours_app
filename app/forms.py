@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, ValidationError, FloatField, IntegerField, TextAreaField, MultipleFileField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError
+from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField
+from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
 
 class RegistrationForm(FlaskForm):
     '''
@@ -197,3 +197,30 @@ class UpdateTourForm(FlaskForm):
         Optional(),
         custom_length_check
         ])
+    description = TextAreaField('Description', validators=[
+        Optional(),
+        custom_length_check
+        ])
+
+class UpdateMerchandiseForm(FlaskForm):
+    '''
+    validates the fields when updating a merchandise
+    '''
+    name = StringField('Name', validators=[
+        Optional()
+        ])
+    original_price = FloatField('Original price', validators=[
+        Optional(),
+        NumberRange(min=0)])
+    product_type = StringField('Product type', validators=[
+        Optional()])
+    discount_rate = FloatField('Discount rate', validators=[
+        Optional(),
+        NumberRange(min=0, max=100)])
+    description = TextField('Description', validators=[
+        Optional(),
+        custom_length_check])
+    status = StringField('Status', validators=[
+        Optional()])
+    size = StringField('Size', validators=[
+        Optional()])
