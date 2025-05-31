@@ -1,5 +1,5 @@
-from app.models import Users, Profiles, db
-from app import create_app
+from app.models import Users, Profiles
+from app import create_app, db
 from sqlalchemy import or_
 from dotenv import load_dotenv
 import os
