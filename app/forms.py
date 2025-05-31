@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
 
+
 class RegistrationForm(FlaskForm):
     '''
     validates data from the registration form
@@ -34,6 +35,7 @@ class RegistrationForm(FlaskForm):
         DataRequired(),
         EqualTo('password', message='Passwords must match!')])
 
+
 class LoginForm(FlaskForm):
     '''
     validates data from the login form
@@ -45,6 +47,7 @@ class LoginForm(FlaskForm):
         DataRequired(),
         Length(min=2, max=50, message='Password ust be between two and 50 characters!')])
 
+
 class EmailForm(FlaskForm):
     '''
     validates the email
@@ -52,6 +55,7 @@ class EmailForm(FlaskForm):
     email = StringField('Email', validators=[
         DataRequired(),
         Email()])
+
 
 class PasswordForm(FlaskForm):
     '''
@@ -74,9 +78,10 @@ def custom_length_check(form, field):
 
     if length < 150:
         raise ValidationError('Description is too short. Minimum 150 characters required.')
-    
+
     if length > 1500:
         raise ValidationError('Description is too long. Maximum 1500 characters allowed.')
+
 
 class ToursUploadForm(FlaskForm):
     '''
@@ -137,7 +142,7 @@ class ToursUploadForm(FlaskForm):
 
 
 class ProductsUploadForm(FlaskForm):
-	'''
+    '''
     validates the upload details for the form
     '''
     name = StringField('Sneaker name', validators=[
@@ -203,6 +208,7 @@ class UpdateTourForm(FlaskForm):
         Optional(),
         custom_length_check
         ])
+
 
 class UpdateMerchandiseForm(FlaskForm):
     '''
