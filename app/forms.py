@@ -157,7 +157,7 @@ class ProductsUploadForm(FlaskForm):
     discount_rate = FloatField('Discount rate', validators=[
         DataRequired(),
         NumberRange(min=0, max=100)])
-    description = TextField('Description', validators=[
+    description = TextAreaField('Description', validators=[
         DataRequired(),
         custom_length_check
         ])
