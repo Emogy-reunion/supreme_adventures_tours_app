@@ -23,8 +23,8 @@ if app.config["ENV"] == "development":
 
 with app.app_context():
     db.create_all()
+    create_initial_admin()
 
-create_initial_admin()
 create_upload_folder()
 
 app.register_blueprint(auth)
