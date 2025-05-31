@@ -1,4 +1,4 @@
-from app.models import Users, Profiles, Tours, TourImages, Products, ProductImages, db
+from app.models import Users, Profiles, db
 from app import create_app
 from sqlalchemy import or_
 from dotenv import load_dotenv
@@ -12,7 +12,6 @@ def create_initial_admin():
 
     with app.app_context():
         try:
-            db.create_all()
             admin = {
                     'email': os.getenv('ADMIN_EMAIL'),
                     'username': os.getenv('ADMIN_USERNAME'),
