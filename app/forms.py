@@ -106,21 +106,23 @@ class ToursUploadForm(FlaskForm):
         ])
     days = IntegerField('Days', validators=[
         DataRequired(),
-        NumberRange(min=0)])
-    ])
+        NumberRange(min=0)
+        ])
     nights = IntegerField('Nights', validators=[
         DataRequired(),
-        NumberRange(min=0)])
-    ])
+        NumberRange(min=0)
+        ])
     original_price = FloatField('Original price', validators=[
         DataRequired(),
-        NumberRange(min=0)])
-    ])
+        NumberRange(min=0)
+        ])
     discount_percent = FloatField('Discount', validators=[
         DataRequired(),
-        NumberRange(min=0, max=100)])
+        NumberRange(min=0, max=100)
         ])
-    status = StringField('Status', validators=[DataRequired()])
+    status = StringField('Status', validators=[
+        DataRequired()
+        ])
     included = TextAreaField('Includes', validators=[
         InputRequired(),
         custom_length_check
