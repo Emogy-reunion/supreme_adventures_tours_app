@@ -1,4 +1,4 @@
-from models import Users, Profiles, Tours, TourImages, Products, ProductImages, db
+from app.models import Users, Profiles, Tours, TourImages, Products, ProductImages, db
 from app import create_app
 from sqlalchemy import or_
 from dotenv import load_dotenv
