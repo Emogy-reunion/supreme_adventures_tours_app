@@ -8,10 +8,10 @@ import os
 load_dotenv()
 
 def create_initial_admin():
-    try:
-        app = create_app()
+    app = create_app()
 
-        with app.app_context():
+    with app.app_context():
+        try:
             db.create_all()
             admin = {
                     'email': os.getenv('ADMIN_EMAIL'),
@@ -45,6 +45,6 @@ def create_initial_admin():
                         )
                 db.session.commit()
                 return {'success': 'Admin created successfully!'}
-    except Exception as e:
-        db.session.rollback()
-        return {'error': 'An unexpected error occured. Please try again!'}
+        except Exception as e:
+            db.session.rollback()
+            return {'error': 'An unexpected error occured. Please try again!'}
