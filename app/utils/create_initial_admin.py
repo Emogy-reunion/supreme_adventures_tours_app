@@ -32,6 +32,7 @@ def create_initial_admin():
                     )
 
             initial_admin.role = 'admin';
+            db.session.add(initial_admin)
             db.session.flush()
 
             admin_profile = Profiles(
@@ -39,6 +40,8 @@ def create_initial_admin():
             last_name=admin['last_name'],
             user_id=initial_admin.id
                         )
+            db.session.add(admin_profile)
+
             db.session.commit()
             return {'success': 'Admin created successfully!'}
     except Exception as e:
