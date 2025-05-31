@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify, request
 from app.utils.role import role_required
 from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
-from app.models import Tours, TourImages, Products, ProductImages, db
+from app import models
+from app.models import Tours, TourImages, Products, ProductImages
 from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 
