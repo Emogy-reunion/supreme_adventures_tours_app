@@ -26,13 +26,14 @@ def create_initial_admin():
                     ).first()
 
             if admin_exists:
-                return {"error": 'The initial admin already exists!')
+                return {"error": 'The initial admin already exists!'}
             else:
                 initial_admin = Users(
                         email=admin['email'],
                         username=admin['username'],
                         phone_number=admin['phone_number'],
-                        password=admin['password'])
+                        password=admin['password']
+                        )
 
                 initial_admin.role = 'admin';
                 db.session.flush()
