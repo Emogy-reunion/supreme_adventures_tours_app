@@ -36,7 +36,7 @@ app.register_blueprint(verify)
 app.register_blueprint(reset)
 app.register_blueprint(post)
 app.register_blueprint(admin_edit_bp)
-app.register_blueprint(tour_bp)
+app.register_blueprint(tours_bp)
 app.register_blueprint(merch_bp)
 
 
