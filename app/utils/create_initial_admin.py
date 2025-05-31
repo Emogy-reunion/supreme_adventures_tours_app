@@ -13,18 +13,18 @@ def create_initial_admin():
 
         with app.app_context():
             db.create_all()
-             admin = {
-                     'email': os.getenv('ADMIN_EMAIL'),
-                     'username': os.getenv('ADMIN_USERNAME'),
-                     'phone_number': os.getenv('ADMIN_PHONE'),
-                     'first_name': os.getenv('ADMIN_FIRST_NAME'),
-                     'last_name': os.getenv('ADMIN_LAST_NAME'),
-                     'password': os.getenv('ADMIN_PASSWORD'),
+            admin = {
+                    'email': os.getenv('ADMIN_EMAIL'),
+                    'username': os.getenv('ADMIN_USERNAME'),
+                    'phone_number': os.getenv('ADMIN_PHONE'),
+                    'first_name': os.getenv('ADMIN_FIRST_NAME'),
+                    'last_name': os.getenv('ADMIN_LAST_NAME'),
+                    'password': os.getenv('ADMIN_PASSWORD'),
                     }
             admin_exists = Users.query.filter(
                     or_(Users.email == admin['email'], Users.username == admin['username'])
                     ).first()
-            
+
             if admin_exists:
                 return {"error": 'The initial admin already exists!')
             else:
