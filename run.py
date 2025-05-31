@@ -1,7 +1,5 @@
 from app import create_app
 from app.models import db, bcrypt, Users, Profiles, Tours, TourImages, Products, ProductImages
-from app.background.verification_email import mail
-from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
 from app.routes.reset_password import reset
@@ -18,10 +16,6 @@ from app.utils.create_upload_folder import create_upload_folder
 
 
 app = create_app()
-jwt = JWTManager(app)
-db.init_app(app)
-bcrypt.init_app(app)
-mail.init_app(app)
 celery = make_celery(app)
 
 if app.config["ENV"] == "development":
