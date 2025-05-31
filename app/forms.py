@@ -120,6 +120,7 @@ class ToursUploadForm(FlaskForm):
         DataRequired(),
         NumberRange(min=0, max=100)])
         ])
+    status = StringField('Status', validators=[DataRequired()])
     included = TextAreaField('Includes', validators=[
         InputRequired(),
         custom_length_check
@@ -153,3 +154,46 @@ class ProductsUploadForm(FlaskForm):
     size = StringField('Size', validators=[DataRequired()])
     images = MultipleFileField('Images', validators=[DataRequired()])
 
+
+class UpdateTourForm(FlaskForm):
+    '''
+    validates the fields when updating a tour
+    '''
+    name = StringField('Tour name', validators=[
+        Optional()
+        ])
+    start_location = StringField('Start location', validators=[
+        Optional()
+        ])
+    destination = StringField('Destination', validators=[
+        Optional()
+        ])
+    start_date = DateTime('Start date', validators=[
+        Optional()
+        ])
+    end_date = DateTime('End date', validators=[
+        Optional()
+        ])
+    days = IntegerField('Days', validators=[
+        Optional()
+        ])
+    nights = IntegerField('Nights', validators=[
+        Optional()
+        ])
+    original_price = FloatField('Original price', validators=[
+        Optional()
+        ])
+    discount_percent = FloatField('Discount percent', validators=[
+        Optional()
+        ])
+    status = StringField('Status', validators=[
+        Optional()
+        ])
+    included = TextAreaField('Includes', validators=[
+        Optional(),
+        custom_length_check
+        ])
+    excluded = TextAreaField('Excludes', validators=[
+        Optional(),
+        custom_length_check
+        ])
