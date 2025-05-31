@@ -1,5 +1,5 @@
 from app import create_app
-from app.models import db, bcrypt, Users, Profiles
+from app.models import db, bcrypt, Users, Profiles, Tours, TourImages, Products, ProductImages
 from app.background.verification_email import mail
 from flask_jwt_extended import JWTManager
 from app.routes.authentication import auth
@@ -27,6 +27,8 @@ celery = make_celery(app)
 if app.config["ENV"] == "development":
     CORS(app)
 
+with app.app_context:
+    db.create_all()
 
 create_initial_admin()
 create_upload_folder()
