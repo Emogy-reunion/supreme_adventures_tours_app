@@ -1,5 +1,5 @@
 from flask import url_for, render_template, jsonify
-from app.background.verification_email import mail
+from app import mail
 from app.models import Users
 from flask_mail import Message
 from app.celery import make_celery

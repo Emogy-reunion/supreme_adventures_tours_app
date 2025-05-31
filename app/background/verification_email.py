@@ -1,14 +1,13 @@
 from flask import url_for, jsonify, render_template
 from app.celery import make_celery
-from app import create_app
-from flask_mail import Mail, Message
+from app import create_app, mail
+from flask_mail import Message
 from app.models import Users
 from sqlalchemy.orm import selectinload
 
 app = create_app()
 
 celery = make_celery(app)
-mail = Mail(app)
 
 @celery.task(bind=True, max_retries=3, default_retry_delay=10)
 def send_verification_email(self, user_id):
