@@ -1,13 +1,10 @@
-from flask_sqlalchemy import SQLAlchemy
 from . import create_app
 from datetime import datetime, date
-from flask_bcrypt import Bcrypt
 from itsdangerous import URLSafeTimedSerializer
+from app import db, bcrypt
 
 
 app = create_app()
-db = SQLAlchemy()
-bcrypt = Bcrypt()
 serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 
