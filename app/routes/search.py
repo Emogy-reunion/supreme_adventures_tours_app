@@ -4,10 +4,10 @@ from app.forms import TourSearchForm, MerchandiseSearchForm
 from sqlalchemy.orm import selectinload
 
 
-filter = Blueprint('filter', __name__)
+find = Blueprint('find', __name__)
 
 
-@filter.route('/search_tours', methods=['GET'])
+@find.route('/search_tours', methods=['GET'])
 def search_tours():
     '''
     allows users to filter tours based on a certain criteria
@@ -93,7 +93,7 @@ def search_tours():
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
 
-@filter.route('/search_merchandise', methods=['GET'])
+@find.route('/search_merchandise', methods=['GET'])
 def search_merchandise():
     '''
     allows users to filter merchandises
