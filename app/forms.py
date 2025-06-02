@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
-from app.utils.custom_form_validators import custom_length_check
+from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range
 
 class RegistrationForm(FlaskForm):
     '''
@@ -97,7 +97,8 @@ class ToursUploadForm(FlaskForm):
         DataRequired()
         ])
     end_date = DateTimeField('End date', validators=[
-        DataRequired()
+        DataRequired(),
+        validate_date_range
         ])
     days = IntegerField('Days', validators=[
         DataRequired(),
@@ -176,10 +177,11 @@ class UpdateTourForm(FlaskForm):
         Optional()
         ])
     start_date = DateTimeField('Start date', validators=[
-        Optional()
+        Optional(),
         ])
     end_date = DateTimeField('End date', validators=[
-        Optional()
+        Optional(),
+        validate_date_range
         ])
     days = IntegerField('Days', validators=[
         Optional()
@@ -267,3 +269,25 @@ class TourSearchForm(FlaskForm):
         Optional(),
         NumberRange(min=0, message='Minimum cannot be less than 0!')
         ])
+
+
+class MerchandiseSearchForm(FlaskForm):
+    name = StringField('Name', validators=[
+        Optional()
+        ])
+    product_type = StringField('Product type', validators=[
+        Optional()
+        ])
+    size = StringField('Size', validators=[
+        Optional()
+        ])
+     maximum_price = FloatField('Maximum price', validators=[
+         Optional(),
+         NumberRange(min=0, message='Maximum price cannot be less than 0!'),
+         validate_price_range
+         ])
+     minimum_price = FloatField('Minimum price', validators=[
+         Optional(),
+         NumberRange(min=0, message='Minimum cannot be less than 0!')
+         ])
+                                 ])
