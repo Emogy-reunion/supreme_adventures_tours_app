@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
-
+from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range
 
 class RegistrationForm(FlaskForm):
     '''
@@ -73,16 +73,6 @@ class PasswordForm(FlaskForm):
         ])
 
 
-def custom_length_check(form, field):
-    length = len(field.data or '')
-
-    if length < 150:
-        raise ValidationError('Description is too short. Minimum 150 characters required.')
-
-    if length > 1500:
-        raise ValidationError('Description is too long. Maximum 1500 characters allowed.')
-
-
 class ToursUploadForm(FlaskForm):
     '''
     validates the tours upload details
@@ -107,7 +97,8 @@ class ToursUploadForm(FlaskForm):
         DataRequired()
         ])
     end_date = DateTimeField('End date', validators=[
-        DataRequired()
+        DataRequired(),
+        validate_date_range
         ])
     days = IntegerField('Days', validators=[
         DataRequired(),
@@ -186,10 +177,11 @@ class UpdateTourForm(FlaskForm):
         Optional()
         ])
     start_date = DateTimeField('Start date', validators=[
-        Optional()
+        Optional(),
         ])
     end_date = DateTimeField('End date', validators=[
-        Optional()
+        Optional(),
+        validate_date_range
         ])
     days = IntegerField('Days', validators=[
         Optional()
@@ -242,3 +234,60 @@ class UpdateMerchandiseForm(FlaskForm):
         Optional()])
     size = StringField('Size', validators=[
         Optional()])
+
+class TourSearchForm(FlaskForm):
+    '''
+    validates the tour search form fields
+    '''
+    name = StringField('Name', validators=[
+        Optional()
+        ])
+    destination =  StringField('Name', validators=[
+        Optional()
+        ])
+    start_date = DateTimeField('Start date', validators=[
+        Optional(),
+        validate_date_range
+        ])
+    end_date = DateTimeField('End date', validators=[
+        Optional()
+        ])
+    days = IntegerField('Days', validators=[
+        Optional(),
+        NumberRange(min=0, message='Days cannot be less than 0!')
+        ])
+    nights = IntegerField('Nights', validators=[
+        Optional(),
+        NumberRange(min=0, message='Nigths cannot be less than 0!')
+        ])
+    maximum_price = FloatField('Maximum price', validators=[
+        Optional(),
+        NumberRange(min=0, message='Maximum price cannot be less than 0!'),
+        validate_price_range
+        ])
+    minimum_price = FloatField('Minimum price', validators=[
+        Optional(),
+        NumberRange(min=0, message='Minimum cannot be less than 0!')
+        ])
+
+
+class MerchandiseSearchForm(FlaskForm):
+    name = StringField('Name', validators=[
+        Optional()
+        ])
+    product_type = StringField('Product type', validators=[
+        Optional()
+        ])
+    size = StringField('Size', validators=[
+        Optional()
+        ])
+     maximum_price = FloatField('Maximum price', validators=[
+         Optional(),
+         NumberRange(min=0, message='Maximum price cannot be less than 0!'),
+         validate_price_range
+         ])
+     minimum_price = FloatField('Minimum price', validators=[
+         Optional(),
+         NumberRange(min=0, message='Minimum cannot be less than 0!')
+         ])
+                                 ])
