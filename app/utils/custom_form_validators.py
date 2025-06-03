@@ -17,3 +17,14 @@ def validate_price_range(form, field):
     if minimum_price is not None and maximum_price is not None and maximum_price < minimum_price:
         raise ValidationError("Maximum price must be greater than or equal to minimum price.")
 
+def validate_date_range(form, field):
+    start_date = form.start_date.data
+    end_date = field.data
+
+    if end_date and start_date:
+        if end_date.date() < start_date.date():
+            raise ValidationError('End date must be the same or after the start date.')
+
+        if end_date.date() == start_date.date():
+            if end_date.time() < start_date.time():
+                raise ValidationError('End time must be after start time for same-day tours.')
