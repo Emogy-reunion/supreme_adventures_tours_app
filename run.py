@@ -32,6 +32,7 @@ with app.app_context():
 
 create_upload_folder()
 
+#register blueprints
 app.register_blueprint(auth)
 app.register_blueprint(verify)
 app.register_blueprint(reset)
@@ -40,7 +41,7 @@ app.register_blueprint(admin_edit_bp)
 app.register_blueprint(tours_bp)
 app.register_blueprint(merch_bp)
 app.register_blueprint(find)
-app.register_blueprint(admin_delete_bp)
+app.register_blueprint(admin_delete_bp) 
 
 
 if __name__ == "__main__":
