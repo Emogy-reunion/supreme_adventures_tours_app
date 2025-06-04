@@ -31,5 +31,5 @@ def send_password_reset_email(self, user_id):
         mail.send(msg)
         return {'success': 'Email sent successfully!'}
     except Exception as e:
-        self.retry(exc=e, countdown=10, max_retries=3)
+        self.retry(exc=e)
         return {'error': 'An unexpected error occured. Please try again!'}

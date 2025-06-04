@@ -32,5 +32,5 @@ def send_verification_email(self, user_id):
         mail.send(msg)
         return {'success': 'Email sent successfully!'}
     except Exception as e:
-        self.retry(exc=e, max_retries=3, countdown=10)
+        self.retry(exc=e)
         return {'error': 'An unexpected error occured. Please try again!'}
