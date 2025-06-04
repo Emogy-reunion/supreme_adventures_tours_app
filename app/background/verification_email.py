@@ -25,7 +25,7 @@ def send_verification_email(self, user_id):
         msg = Message(
                 subject='Verify your email',
                 recipients=[user.email],
-                sender='emogyreunion@gmail.com'
+                sender=app.config['DEFAULT_MAIL_SENDER']
                 )
         msg.body = f'Click the following link to verify your email address {verification_url}'
         msg.html = render_template('verification_email.html', user=user, verification_url=verification_url)
