@@ -6,16 +6,18 @@ from sqlalchemy.orm import selectinload
 from app.utils.check_file_extension import check_file_extension
 import os
 from werkzeug.utils import secure_filename
+from app.utils.role import role_required
 
 
-member_profile_bp = Blueprint('member_profile_bp', __name__)
+admin_profile_bp = Blueprint('admin_profile_bp', __name__)
 
 
-@member_profile_bp.route('/member_profile', methods=['GET'])
+@admin_profile_bp.route('/admin_profile', methods=['GET'])
 @jwt_required()
-def member_profile():
+@role_required('admin')
+def admin_profile():
     '''
-    retrieves a logged in users profile
+    retrieves an admins profile
     '''
     try:
         user_id = int(get_jwt_identity())
@@ -37,11 +39,13 @@ def member_profile():
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
-@member_profile_bp.route('/update_member_profile', methods=['PATCH'])
+
+@admin_profile_bp.route('/update_admin_profile', methods=['PATCH'])
 @jwt_required()
-def update_member_profile_picture():
+@role_required('admin')
+def update_admin_profile_picture():
     '''
-    updates the members profile picture
+    updates the admins profile picture
     '''
     file = request.files.get('image')
 
@@ -66,4 +70,3 @@ def update_member_profile_picture():
             return jsonify({'error': 'Invalid file type!'}), 400
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
-
