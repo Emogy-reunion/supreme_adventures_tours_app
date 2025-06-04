@@ -1,6 +1,7 @@
 from flask import render_template
 from app.celery import make_celery
 from app import create_app, mail
+from app.models import Users
 
 
 app = create_app()
@@ -13,6 +14,11 @@ def send_admin_promotion_email(self, email):
     sends an email to tell users they have been promoted to an admin
     '''
     try:
+        user = Users.query.filter_by(email=email).first()
+
+        if not user or user.role != 'admin':
+            return {'error': 'User no longer exists or is not an admin. Email not sent.'}
+
         msg = Message(
                 subject='Admin promotion',
                 sender=app.config['DEFAULT_MAIL_SENDER'],
