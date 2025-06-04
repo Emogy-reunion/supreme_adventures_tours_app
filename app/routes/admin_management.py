@@ -5,6 +5,8 @@ from flask_jwt_extended import jwt_required
 from app.utils.role import role_required
 from app.forms import EmailForm
 from app import db
+from app.utils.admin_promotion_email import send_admin_promotion_email
+from app.utils.revoke_admin_email import send_admin_revoke_email
 
 
 
@@ -51,7 +53,8 @@ def promote_user():
         if user and user.role == 'member':
             user.role = 'admin'
             db.session.commit()
-            return jsonify({'Success': 'User promoted to admin successfully!'}), 200
+            send_admin_promotion_email.delay(email)
+            return jsonify({'success': 'User promoted to admin successfully!'}), 200
         else:
             return jsonify({'error': "User doesn't exist or already has admin privileges"}), 404
     except Exception as e:
