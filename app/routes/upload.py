@@ -30,7 +30,7 @@ def upload_tour():
         return jsonify({'errors': form.errors}), 400
 
     name = form.name.data.lower()
-    start_location = form.start_location.data.lower()
+    start_location = form.start_location.data.strip().lower()
     destination = form.destination.data.stip().lower()
     description = form.description.data
     start_date = form.start_date.data
