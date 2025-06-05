@@ -17,8 +17,7 @@ post = Blueprint('post', __name__)
 @role_required('admin')
 def upload_tour():
     '''
-    allows admins to upload tours
-    it validates the input
+    allows admins to upload tours and other details    it validates the input
     saves the files in a folder
     saves the filenames in a database
     '''
@@ -31,8 +30,8 @@ def upload_tour():
         return jsonify({'errors': form.errors}), 400
 
     name = form.name.data.lower()
-    start_location = form.start_location.data.lower()
-    destination = form.destination.data.lower()
+    start_location = form.start_location.data.strip().lower()
+    destination = form.destination.data.stip().lower()
     description = form.description.data
     start_date = form.start_date.data
     end_date = form.end_date.data
