@@ -17,7 +17,7 @@ post = Blueprint('post', __name__)
 @role_required('admin')
 def upload_tour():
     '''
-    allows admins to upload tours
+    allows admins to upload tours and other details
     it validates the input
     saves the files in a folder
     saves the filenames in a database
