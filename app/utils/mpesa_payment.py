@@ -26,3 +26,29 @@ def generate_password():
     data_to_encode = shortcode + passkey + timestamp
     encoded_string = base64.b64encode(data.to_encode.encode())
     return encoded_string.decode('utf-8')
+
+def send_stk_push(amount, phone_number, booking_id):
+    token = get_access_token()
+    password = generate_password()
+
+    headers = {
+            'Authorization': "Bearer "+ token,
+            'Content-Type': 'application/json'
+            }
+
+    payload = {
+            'BusinessShortCode': app.config['SHORT_CODE'],
+            'Password': password,
+            'Timestamp': timestamp,
+            'TransactionType': 'CustomerBuyGoodsOnline',
+            'Amount': amount,
+            'PartyA': phone_number,
+            'PartyB': app.config['SHORT_CODE'],
+            'PhoneNumber': phone_number,
+            'CallBackUrl': app.config['MPESA_CALLBACK_URL'],
+            'AccountReference': f"Booking-{booking_id}",
+            'TransactionDesc': 'Payment for booking confirmation'
+            }
+    url = https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()
