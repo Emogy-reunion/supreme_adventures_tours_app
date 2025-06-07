@@ -3,9 +3,16 @@ import requests
 from requests.auth import HTTPBasicAuth
 import base64
 from datetime import datetime
+import random
 
 
 app = create_app()
+
+
+def generate_reference_code():
+    today = datetime.now().strftime('%Y%m%d')
+    rand_part = random.randint(1000, 9999)
+    return f"BK-{today}-{rand_part}"
 
 
 def get_access_token():
@@ -27,7 +34,7 @@ def generate_password():
     encoded_string = base64.b64encode(data.to_encode.encode())
     return encoded_string.decode('utf-8')
 
-def send_stk_push(amount, phone_number, booking_id):
+def send_stk_push(amount, phone_number, reference_code, tour_name):
     token = get_access_token()
     password = generate_password()
 
@@ -46,8 +53,8 @@ def send_stk_push(amount, phone_number, booking_id):
             'PartyB': app.config['SHORT_CODE'],
             'PhoneNumber': phone_number,
             'CallBackUrl': app.config['MPESA_CALLBACK_URL'],
-            'AccountReference': f"Booking-{booking_id}",
-            'TransactionDesc': 'Payment for booking confirmation'
+            'AccountReference': reference_code,
+            'TransactionDesc': f"Payment for {tour_name}"
             }
     url = https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
     response = requests.post(url, json=payload, headers=headers)
