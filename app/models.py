@@ -22,9 +22,10 @@ class Users(db.Model):
     role = db.Column(db.String(50), default='member', nullable=True)
     verified = db.Column(db.Boolean, default=False)
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
-    profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin')
-    tours = db.relationship('Tours', back_populates='user', lazy='selectin', cascade='all, delete')
-    products = db.relationship('Products', back_populates='user', lazy='selectin', cascade='all, delete')
+    profile = db.relationship('Profiles', uselist=False, backref='user', lazy='selectin', cascade='all, delete')
+    tours = db.relationship('Tours', back_populates='user', lazy='selectin')
+    products = db.relationship('Products', back_populates='user', lazy='selectin')
+    bookings = db.relationship('Bookings', back_populates='user', lazy='selectin')
 
     def __init__(self, email, username, phone_number, password):
         self.email = email
@@ -108,10 +109,12 @@ class Tours(db.Model):
     status = db.Column(db.String(50), nullable=False)
     included = db.Column(db.Text, nullable=False)
     excluded = db.Column(db.Text, nullable=False)
+    is_deleted = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
+    bookings = db.relationship('Bookings', back_populates='tour', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
                  status, original_price, discount_percent, final_price, included, excluded, days, nights):
@@ -188,3 +191,26 @@ class ProductImages(db.Model):
     def __init__(self, product_id, filename):
         self.product_id = product_id
         self.filename = filename
+
+
+class Booking(db.Model):
+    '''
+    stores information about tour booking
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
+    tour_name = db.Column(db.String(50), nullable=False)
+    amount_paid = db.Column(db.Float, nullabe=False)
+    start_date = db.Column(db.DateTime, nullable=False)
+    end_date = db.Column(db.DateTime, nullable=False)
+    start_location = db.Column(db.String(50), nullable=False)
+    destination = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(50), default='Pending', nullable=False)
+    phone_number = db.Column(db.String(20), nullable=False)
+    payment_status = db.Column(db.String(50), default='Pending', nullable=False)
+    transaction_id = db.Column(db.String(100))
+    reference_code = db.Column(db.String(100), unique=True, nullable=False)
+    booking_date = db.Column(db.DateTime, default=datetime.utcnow)
+    tour = db.relationship('Tour', back_populates='bookings')
+    user = db.relationship('Users', back_populates='bookings')
