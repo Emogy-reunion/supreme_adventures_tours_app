@@ -11,6 +11,10 @@ from app.routes.tours import tours_bp
 from app.routes.merchandise import merch_bp
 from app.routes.search import find
 from app.routes.admin_delete import admin_delete_bp
+from app.routes.book import book
+from app.routes.admin_profile import admin_profile_bp
+from app.routes.admin_management import admin_manage_bp
+from app.routes.member_profile import member_profile_bp
 import os
 from flask_cors import CORS
 from app.celery import make_celery
@@ -41,7 +45,11 @@ app.register_blueprint(admin_edit_bp)
 app.register_blueprint(tours_bp)
 app.register_blueprint(merch_bp)
 app.register_blueprint(find)
-app.register_blueprint(admin_delete_bp) 
+app.register_blueprint(admin_delete_bp)
+app.register_blueprint(book)
+app.register_blueprint(admin_profile_bp)
+app.register_blueprint(admin_manage_bp)
+app.register_blueprint(member_profile_bp)
 
 
 if __name__ == "__main__":
