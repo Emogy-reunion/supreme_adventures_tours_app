@@ -231,7 +231,6 @@ class UpdateMerchandiseForm(FlaskForm):
     name = StringField('Name', validators=[
         Optional(),
         Length(min=4, max=45, message='Product name must be betwwen 4 and 45 characters!')])
-        ])
     original_price = FloatField('Original price', validators=[
         Optional(),
         NumberRange(min=0)])
