@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app
-from flask_jwt_extended import jwt_required, get_jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import Users, Profiles
 from app import db
 from sqlalchemy.orm import selectinload
