@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
         Regexp(r'^\w+$', message="Username must contain only letters, numbers, or underscores!")])
     phone_number = StringField('Phone number', validators=[
         DataRequired(),
-        Regexp(r'^\+\d{1,3}\d{6,12}$', message="Phone number must start with '+' followed by country code and valid number of digits!")
+        Regexp(r'^254\d{9}$', message='Phone number must start with 254 followed by exactly 9 digits')
         ])
     password = PasswordField('Password', validators=[
         DataRequired(),
@@ -301,4 +301,10 @@ class MerchandiseSearchForm(FlaskForm):
     minimum_price = FloatField('Minimum price', validators=[
         Optional(),
         NumberRange(min=0, message='Minimum cannot be less than 0!')
+        ])
+
+class PhoneNumberForm(FlaskForm):
+    phone_number = StringField('Phone Number', validators=[
+        InputRequired(message='Phone number is required'),
+        Regexp(r'^254\d{9}$', message='Phone number must start with 254 and contain exactly 12 digits')
         ])
