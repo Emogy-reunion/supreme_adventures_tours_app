@@ -5,8 +5,8 @@ from flask_jwt_extended import jwt_required
 from app.utils.role import role_required
 from app.forms import EmailForm
 from app import db
-from app.utils.admin_promotion_email import send_admin_promotion_email
-from app.utils.revoke_admin_email import send_admin_revoke_email
+from app.background.admin_promotion_email import send_admin_promotion_email
+from app.background.revoke_admin_email import send_admin_revoke_email
 
 
 
