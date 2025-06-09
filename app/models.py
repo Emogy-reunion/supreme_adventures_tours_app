@@ -201,7 +201,7 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     tour_name = db.Column(db.String(50), nullable=False)
-    amount_paid = db.Column(db.Float, nullabe=False)
+    amount_paid = db.Column(db.Float, nullable=False)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     start_location = db.Column(db.String(50), nullable=False)
