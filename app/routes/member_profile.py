@@ -25,14 +25,14 @@ def member_profile():
         if not user or not user.profile:
             return jsonify({'error': 'User profile not found!'}), 404
 
-        profile = [{
+        profile = {
             'email': user.email,
             'username': user.username,
             'phone_number': user.phone_number,
             'first_name': user.profile.first_name,
             'last_name': user.profile.last_name,
             'profile_picture': user.profile.profile_picture
-            })
+            }
         return jsonify(profile), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
