@@ -1,4 +1,4 @@
-from app import create_app()
+from app import create_app
 import requests
 from requests.auth import HTTPBasicAuth
 import base64
