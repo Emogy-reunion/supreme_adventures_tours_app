@@ -5,9 +5,9 @@ from app.models import Tours, Bookings
 from app.utils.mpesa_payment import generate_reference_code, get_access_token, generate_password, send_stk_push
 
 
-book = Blueprint('book', __name__)
+book_bp = Blueprint('book_bp', __name__)
 
-@book.route('/book', methods=['POST'])
+@book_bp.route('/book', methods=['POST'])
 @jwt_required()
 def book():
     '''
