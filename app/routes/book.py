@@ -2,12 +2,12 @@ from flask import Blueprint, request, jsonify
 from app import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import Tours, Bookings
-from app.utils.mpesa_payment import get_reference_code, get_access_token, generate_password, send_stk_push
+from app.utils.mpesa_payment import generate_reference_code, get_access_token, generate_password, send_stk_push
 
 
-book = Blueprint('book', __name__)
+book_bp = Blueprint('book_bp', __name__)
 
-@book.route('/book', methods=['POST'])
+@book_bp.route('/book', methods=['POST'])
 @jwt_required()
 def book():
     '''
@@ -37,7 +37,7 @@ def book():
                     ):
                 return jsonify({'error': 'You have a conflicting tour booked during these dates.'}), 409
 
-        reference_code = get_reference_code()
+        reference_code = generate_reference_code()
 
         new_booking = Bookings(
                 user_id=user_id,

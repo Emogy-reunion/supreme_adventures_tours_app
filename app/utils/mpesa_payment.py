@@ -1,4 +1,4 @@
-from app import create_app()
+from app import create_app
 import requests
 from requests.auth import HTTPBasicAuth
 import base64
@@ -56,6 +56,6 @@ def send_stk_push(amount, phone_number, reference_code, tour_name):
             'AccountReference': reference_code,
             'TransactionDesc': f"Payment for {tour_name}"
             }
-    url = https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest
+    url = 'https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest'
     response = requests.post(url, json=payload, headers=headers)
     return response.json()

@@ -5,8 +5,8 @@ from flask_jwt_extended import jwt_required
 from app.utils.role import role_required
 from app.forms import EmailForm
 from app import db
-from app.utils.admin_promotion_email import send_admin_promotion_email
-from app.utils.revoke_admin_email import send_admin_revoke_email
+from app.background.admin_promotion_email import send_admin_promotion_email
+from app.background.revoke_admin_email import send_admin_revoke_email
 
 
 
@@ -77,7 +77,7 @@ def revoke_admin_privileges():
          user.role = 'member';
          db.session.commit()
          send_revoke_admin_email.delay(user.email)
-         return jsonify({'success': "User's admin privileges revoked!"]), 200
+         return jsonify({'success': "User's admin privileges revoked!"}), 200
      except Exception as e:
          db.session.rollback()
          return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
