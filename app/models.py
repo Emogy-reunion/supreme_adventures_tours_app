@@ -193,7 +193,7 @@ class ProductImages(db.Model):
         self.filename = filename
 
 
-class Booking(db.Model):
+class Bookings(db.Model):
     '''
     stores information about tour booking
     '''
