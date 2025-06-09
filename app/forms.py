@@ -293,13 +293,12 @@ class MerchandiseSearchForm(FlaskForm):
     size = StringField('Size', validators=[
         Optional()
         ])
-     maximum_price = FloatField('Maximum price', validators=[
-         Optional(),
-         NumberRange(min=0, message='Maximum price cannot be less than 0!'),
-         validate_price_range
-         ])
-     minimum_price = FloatField('Minimum price', validators=[
-         Optional(),
-         NumberRange(min=0, message='Minimum cannot be less than 0!')
-         ])
-                                 ])
+    maximum_price = FloatField('Maximum price', validators=[
+        Optional(),
+        NumberRange(min=0, message='Maximum price cannot be less than 0!'),
+        validate_price_range
+        ])
+    minimum_price = FloatField('Minimum price', validators=[
+        Optional(),
+        NumberRange(min=0, message='Minimum cannot be less than 0!')
+        ])
