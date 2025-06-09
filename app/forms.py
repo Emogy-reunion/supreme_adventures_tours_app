@@ -117,7 +117,7 @@ class ToursUploadForm(FlaskForm):
         NumberRange(min=0, max=100)
         ])
     status = StringField('Status', validators=[
-        DataRequired()
+        DataRequired(),
         Length(min=5, max=49, message='Status must be between 2 and 49 characters!')
         ])
     included = TextAreaField('Includes', validators=[
