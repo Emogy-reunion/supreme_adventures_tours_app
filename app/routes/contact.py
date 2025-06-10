@@ -11,6 +11,7 @@ app = create_app()
 
 contact_bp = Blueprint('contact_bp', __name__)
 
+
 @contact_bp.route('/guest_contact', methods=['POST'])
 def guest_contact():
     '''
@@ -31,18 +32,17 @@ def guest_contact():
                 sender=app.config['DEFAULT_MAIL_SENDER'],
                 recipients=[email]
                 )
-          msg.body = (
-                  "New inquiry from Tour App:\n\n"
-                  f"Name: {name}\n"
-                  f"Email: {email}\n"
-                  f"Message:\n{message}\n"
-                  )
+        msg.body = (
+                "New inquiry from Tour App:\n\n"
+                f"Name: {name}\n"
+                f"Email: {email}\n"
+                f"Message:\n{message}\n"
+                )
         msg.html = render_template('guest_contact.html', email=email, name=name, message=message)
         mail.send(msg)
         return jsonify({'success': "Thank you for your message. Our team will get back to you as soon as possible."}), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
-
 
 
 @contact_bp.route('/member_contact', methods=['POST'])
@@ -66,7 +66,7 @@ def member_contact():
                 sender=app.config['DEFAULT_MAIL_SENDER'],
                 recipients=[user.email]
                 )
-        msg.body =  (
+        msg.body = (
                 "New inquiry from Tour App:\n\n"
                 f"Name: {user.first_name}\n"
                 f"Email: {user.email}\n\n"
