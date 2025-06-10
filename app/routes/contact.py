@@ -72,7 +72,7 @@ def member_contact():
                 f"Email: {user.email}\n\n"
                 f"Message:\n{message}\n"
                 )
-        msg.html = render_template('member_contact.html', user=user)
+        msg.html = render_template('member_contact.html', user=user, message=message)
         mail.send(msg)
         return jsonify({'success': "Thank you for your message. Our team will get back to you as soon as possible."}), 200
     except Exception as e:
