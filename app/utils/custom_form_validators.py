@@ -28,3 +28,12 @@ def validate_date_range(form, field):
         if end_date.date() == start_date.date():
             if end_date.time() < start_date.time():
                 raise ValidationError('End time must be after start time for same-day tours.')
+
+def message_length_check(form, field):
+    length = len(field.data or '')
+
+    if length < 30:
+        raise ValidationError('Message is too short. Minimum 30 characters required.')
+
+    if length > 500:
+        raise ValidationError('Message is too long. Maximum 500 characters allowed.')
