@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Promotion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f8fa;
+      color: #2c3e50;
+      margin: 0; padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #0070f3; /* Primary app color */
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .highlight {
+      color: #0070f3;
+      font-weight: 600;
+    }
+    .footer {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    a.button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #0070f3;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+    a.button:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Congratulations, {{ user.first_name }}!</h1>
+    <p>We are excited to inform you that you have been <span class="highlight">promoted to an Admin</span> role on <strong>Our Tour App</strong>.</p>
+
+    <p>As an Admin, you now have access to advanced features including:</p>
+    <ul>
+      <li>Managing tours and bookings</li>
+      <li>Responding to user inquiries and messages</li>
+      <li>Monitoring and moderating content</li>
+      <li>Access to admin dashboard and analytics</li>
+    </ul>
+
+    <p>Please log in to your account to explore your new admin capabilities. If you have any questions or need assistance, don’t hesitate to contact our support team.</p>
+
+    <a href="{{ login_url }}" class="button">Go to Dashboard</a>
+
+    <p>Thank you for being a valued member of our community. We look forward to your contributions!</p>
+
+    <div class="footer">
+      &copy; {{ current_year }} Our Tour App. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
+
+
