@@ -317,10 +317,10 @@ class GuestContactForm(FlaskForm):
         DataRequired(),
         Email(),
         Length(min=4, max=45, message='Email must be between 4 and 45 characters!')])
-     message = TextAreaField('Message', validators=[
-         InputRequired(),
-         message_length_check
-         ])
+    message = TextAreaField('Message', validators=[
+        InputRequired(),
+        message_length_check
+        ])
 
 
 class MemberContactForm(FlaskForm):
