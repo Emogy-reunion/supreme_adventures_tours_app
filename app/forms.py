@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
-from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range
+from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range, message_length_check
 
 class RegistrationForm(FlaskForm):
     '''
@@ -321,3 +321,10 @@ class GuestContactForm(FlaskForm):
          InputRequired(),
          message_length_check
          ])
+
+
+class MemberContactForm(FlaskForm):
+    message = TextAreaField('Message', validators=[
+        InputRequired(),
+        message_length_check
+        ])
