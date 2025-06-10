@@ -2,6 +2,7 @@ from flask import render_template
 from app.celery import make_celery
 from app import create_app, mail
 from app.models import Users
+from datetime import datetime
 
 
 app = create_app()
@@ -14,6 +15,7 @@ def send_admin_promotion_email(self, email):
     sends an email to tell users they have been promoted to an admin
     '''
     try:
+        current_year =  datetime.now().year
         user = Users.query.filter_by(email=email).first()
 
         if not user or user.role != 'admin':
@@ -32,7 +34,7 @@ def send_admin_promotion_email(self, email):
                 "Thank you,\n"
                 "Supreme Adventures Team"
                                                                               )
-        msg.html = render_template('admin_promotion.html', user)
+        msg.html = render_template('admin_promotion.html', user=user, current_year=current_year)
         mail.send(msg)
         return {'success': 'Email sent successfully!'}
     except Exception as e:
