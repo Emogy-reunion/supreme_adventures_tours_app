@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Access Revoked</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f8fa;
+      color: #2c3e50;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #d9534f; /* Alert red */
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .highlight {
+      font-weight: 600;
+      color: #d9534f;
+    }
+    .footer {
+      font-size: 14px;
+      color: #888;
+      text-align: center;
+      margin-top: 30px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    a {
+      color: #0070f3;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Access Update</h1>
+    <p>Hi {{ user.first_name }},</p>
+
+    <p>This is to inform you that your <span class="highlight">admin access has been revoked</span> on <strong>Our Tour App</strong>. As a result, you will no longer have access to administrative tools or dashboards.</p>
+
+    <p>This decision may be based on recent role changes, inactivity, or restructuring of admin responsibilities. Please note that your account is still active and you may continue to use the app as a regular user.</p>
+
+    <p>If you have questions or believe this change was made in error, feel free to reach out to our support team at <a href="mailto:support@ourtourapp.com">support@ourtourapp.com</a>.</p>
+
+    <p>We appreciate your previous contributions and continued support.</p>
+
+    <div class="footer">
+      &copy; {{ current_year }} Our Tour App. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
+
+
