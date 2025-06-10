@@ -32,3 +32,4 @@ class Config():
     PREFERRED_URL_SCHEME = 'http'
     UPLOAD_FOLDER = os.path.join(basedir, 'app', 'static', 'uploads')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    DEFAULT_MAIL_SENDER = os.getenv('DEFAULT_MAIL_SENDER')
