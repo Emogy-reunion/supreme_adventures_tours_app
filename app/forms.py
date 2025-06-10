@@ -308,3 +308,16 @@ class PhoneNumberForm(FlaskForm):
         InputRequired(message='Phone number is required'),
         Regexp(r'^254\d{9}$', message='Phone number must start with 254 and contain exactly 12 digits')
         ])
+
+class GuestContactForm(FlaskForm):
+    name = StringField('Name', validators=[
+        DataRequired(),
+        Length(min=2, max=50, message='Name too long! It must be between 2 and 30 characters!')])
+    email = StringField('Email', validators=[
+        DataRequired(),
+        Email(),
+        Length(min=4, max=45, message='Email must be between 4 and 45 characters!')])
+     message = TextAreaField('Message', validators=[
+         InputRequired(),
+         message_length_check
+         ])
