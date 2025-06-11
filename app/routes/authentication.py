@@ -38,7 +38,11 @@ def register():
         db.session.add(profile)
         db.session.commit()
         send_verification_email.delay(user.id)
-        return jsonify({'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'}), 201
+        user_data = {
+                'role': user.role,
+                'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'
+                }
+        return jsonify(user_data), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
