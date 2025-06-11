@@ -212,5 +212,5 @@ class Bookings(db.Model):
     transaction_id = db.Column(db.String(100))
     reference_code = db.Column(db.String(100), unique=True, nullable=False)
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
-    tour = db.relationship('Tour', back_populates='bookings')
+    tour = db.relationship('Tours', back_populates='bookings')
     user = db.relationship('Users', back_populates='bookings')
