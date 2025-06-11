@@ -107,9 +107,13 @@ def refresh_token():
     create an access token after it expires
     '''
     try:
-        user_id = get_jwt_identity()
-        response = jsonify({"success": 'Access token refreshed successfully!'})
-        set_access_cookies(response, access_token)
-        return response, 200
+        user_id = int(get_jwt_identity())
+
+        if user_id:
+            access_token = create_access_token(identity=str(user_id))
+            response = jsonify({"success": 'Access token refreshed successfully!'})
+            set_access_cookies(response, access_token)
+            return response, 200
+        return jsonify({'error': 'User id not found!'}), 404
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
