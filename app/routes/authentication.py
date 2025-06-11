@@ -114,6 +114,27 @@ def refresh_token():
             response = jsonify({"success": 'Access token refreshed successfully!'})
             set_access_cookies(response, access_token)
             return response, 200
-        return jsonify({'error': 'User id not found!'}), 404
+        return jsonify({'error': 'Invalid token!'}), 404
+    except Exception as e:
+        return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
+
+@auth.route('/is_logged_in', methods=['GET'])
+@jwt_required()
+def is_logged_in():
+    try:
+        user_id = int(get_jwt_identity())
+
+        if not user_id:
+            return jsonify({'error': 'Invalid token!'}), 401
+
+        user = db.session.get(Users, user_id)
+        if not user:
+            return jsonify({'error': 'User not found!'}), 404
+
+        response = {
+                'role': user.role,
+                'success': 'User is authenticated!'
+                }
+        return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
