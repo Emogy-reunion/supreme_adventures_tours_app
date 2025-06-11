@@ -38,7 +38,11 @@ def register():
         db.session.add(profile)
         db.session.commit()
         send_verification_email.delay(user.id)
-        return jsonify({'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'}), 201
+        user_data = {
+                'role': user.role,
+                'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'
+                }
+        return jsonify(user_data), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
@@ -72,7 +76,9 @@ def login():
             access_token = create_access_token(identity=str(user.id))
             refresh_token = create_refresh_token(identity=str(user.id))
 
-            response = jsonify({'success': 'Logged in successfully'})
+            response = jsonify({
+                'role': user.role,
+                'success': 'Logged in successfully'})
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
             return response, 200
@@ -101,9 +107,13 @@ def refresh_token():
     create an access token after it expires
     '''
     try:
-        user_id = get_jwt_identity()
-        response = jsonify({"success": 'Access token refreshed successfully!'})
-        set_access_cookies(response, access_token)
-        return response, 200
+        user_id = int(get_jwt_identity())
+
+        if user_id:
+            access_token = create_access_token(identity=str(user_id))
+            response = jsonify({"success": 'Access token refreshed successfully!'})
+            set_access_cookies(response, access_token)
+            return response, 200
+        return jsonify({'error': 'User id not found!'}), 404
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
