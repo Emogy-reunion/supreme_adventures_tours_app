@@ -42,6 +42,7 @@ def guest_contact():
         mail.send(msg)
         return jsonify({'success': "Thank you for your message. Our team will get back to you as soon as possible."}), 200
     except Exception as e:
+        print(e)
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
 
