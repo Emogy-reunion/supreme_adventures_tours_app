@@ -38,7 +38,7 @@ with app.app_context():
 create_upload_folder()
 
 #register blueprints
-app.register_blueprint(auth)
+app.register_blueprint(auth, url_prefix='/api')
 app.register_blueprint(verify)
 app.register_blueprint(reset)
 app.register_blueprint(post)
