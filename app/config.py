@@ -33,3 +33,4 @@ class Config():
     UPLOAD_FOLDER = os.path.join(basedir, 'app', 'static', 'uploads')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     DEFAULT_MAIL_SENDER = os.getenv('DEFAULT_MAIL_SENDER')
+    app.config['WTF_CSRF_ENABLED'] = False
