@@ -28,8 +28,8 @@ from app.utils.create_upload_folder import create_upload_folder
 app = create_app()
 celery = make_celery(app)
 
-if app.config["ENV"] == "development":
-    CORS(app, supports_credentials=True, origins="http://localhost:3000")
+
+CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 with app.app_context():
     db.create_all()
