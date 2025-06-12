@@ -8,7 +8,7 @@ from sqlalchemy import or_
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/register', methods=['POST'])
+@auth.route('/api/register', methods=['POST'])
 def register():
     '''
     registers the user to the database
@@ -47,7 +47,7 @@ def register():
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
-@auth.route('/login', methods=['POST'])
+@auth.route('/api/login', methods=['POST'])
 def login():
     '''
     authenticates the user
@@ -87,7 +87,7 @@ def login():
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
 
-@auth.route('/logout', methods=['POST'])
+@auth.route('/api/logout', methods=['POST'])
 @jwt_required()
 def logout():
     '''
@@ -100,7 +100,7 @@ def logout():
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
-@auth.route('/refresh_token', methods=['POST'])
+@auth.route('/api/refresh_token', methods=['POST'])
 @jwt_required(refresh=True)
 def refresh_token():
     '''
@@ -118,7 +118,7 @@ def refresh_token():
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
-@auth.route('/is_logged_in', methods=['GET'])
+@auth.route('/api/is_logged_in', methods=['GET'])
 @jwt_required()
 def is_logged_in():
     try:
