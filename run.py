@@ -29,7 +29,7 @@ app = create_app()
 celery = make_celery(app)
 
 if app.config["ENV"] == "development":
-    CORS(app)
+    CORS(app, supports_credentials=True, origins="http://localhost:3000")
 
 with app.app_context():
     db.create_all()
