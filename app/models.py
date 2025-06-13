@@ -142,7 +142,7 @@ class TourImages(db.Model):
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     filename = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, product_id, filename):
+    def __init__(self, tour_id, filename):
         self.tour_id = tour_id
         self.filename = filename
 
