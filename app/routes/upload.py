@@ -24,7 +24,7 @@ def upload_tour():
     if not request.files:
         return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
 
-    form = TourUploadForm(request.form)
+    form = ToursUploadForm(data=request.form)
 
     if not form.validate():
         return jsonify({'errors': form.errors}), 400
@@ -90,7 +90,7 @@ def upload_product():
     if not request.files:
         return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
 
-    form = ProductsUploadForm(request.form)
+    form = ProductsUploadForm(data=request.form)
 
     if not form.validate():
         return jsonify({"errors": form.errors}), 400
