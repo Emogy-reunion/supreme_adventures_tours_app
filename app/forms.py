@@ -105,7 +105,7 @@ class ToursUploadForm(FlaskForm):
         NumberRange(min=1, max=28, message='Days cannot be less than 1 or more than 28')
         ])
     nights = IntegerField('Nights', validators=[
-        InpuptRequired(),
+        InputRequired(),
         NumberRange(min=0, max=28, message='Days cannot be less than 0 or more than 28')
         ])
     original_price = FloatField('Original price', validators=[
