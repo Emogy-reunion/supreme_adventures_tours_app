@@ -7,6 +7,7 @@ from app.models import Tours, TourImages, Products, ProductImages
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
+import os
 
 
 
@@ -24,15 +25,15 @@ def upload_tour():
     if not request.files:
         return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
 
-    form = TourUploadForm(request.form)
+    form = ToursUploadForm(data=request.form)
 
     if not form.validate():
         return jsonify({'errors': form.errors}), 400
 
     name = form.name.data.lower()
     start_location = form.start_location.data.strip().lower()
-    destination = form.destination.data.stip().lower()
-    description = form.description.data
+    destination = form.destination.data.strip().lower()
+    description = form.description.data.strip()
     start_date = form.start_date.data
     end_date = form.end_date.data
     days = form.days.data
@@ -40,8 +41,8 @@ def upload_tour():
     original_price = form.original_price.data
     discount_percent = form.discount_percent.data
     final_price = original_price
-    included = form.included.data
-    excluded = form.excluded.data
+    included = form.included.data.strip()
+    excluded = form.excluded.data.strip()
     status = form.status.data
     files = request.files.getlist('files')
 
@@ -90,7 +91,7 @@ def upload_product():
     if not request.files:
         return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
 
-    form = ProductsUploadForm(request.form)
+    form = ProductsUploadForm(data=request.form)
 
     if not form.validate():
         return jsonify({"errors": form.errors}), 400

@@ -121,7 +121,7 @@ class Tours(db.Model):
         self.user_id = user_id
         self.name = name
         self.start_location = start_location
-        self.location = location
+        self.destination = destination
         self.description = description
         self.start_date = start_date
         self.end_date = end_date
@@ -142,7 +142,7 @@ class TourImages(db.Model):
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
     filename = db.Column(db.String(100), nullable=False)
 
-    def __init__(self, product_id, filename):
+    def __init__(self, tour_id, filename):
         self.tour_id = tour_id
         self.filename = filename
 
@@ -172,7 +172,7 @@ class Products(db.Model):
         '''
         self.name = name
         self.user_id = user_id
-        self.product_type = jersey_type
+        self.product_type = product_type
         self.original_price = original_price
         self.discount_rate = discount_rate
         self.final_price = final_price
