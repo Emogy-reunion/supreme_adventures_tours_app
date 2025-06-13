@@ -172,7 +172,7 @@ class Products(db.Model):
         '''
         self.name = name
         self.user_id = user_id
-        self.product_type = jersey_type
+        self.product_type = product_type
         self.original_price = original_price
         self.discount_rate = discount_rate
         self.final_price = final_price
