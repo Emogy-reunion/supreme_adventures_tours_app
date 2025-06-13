@@ -102,7 +102,7 @@ class ToursUploadForm(FlaskForm):
         ])
     days = IntegerField('Days', validators=[
         InputRequired(),
-        NumberRange(min=0, max=28, message='Days cannot be less than 0 or more than 28')
+        NumberRange(min=1, max=28, message='Days cannot be less than 1 or more than 28')
         ])
     nights = IntegerField('Nights', validators=[
         InpuptRequired(),
@@ -146,7 +146,7 @@ class ProductsUploadForm(FlaskForm):
         ])
     discount_rate = FloatField('Discount rate', validators=[
         InputRequired(),
-        NumberRange(min=0, max=100)])
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')])
     description = TextAreaField('Description', validators=[
         DataRequired(),
         custom_length_check
