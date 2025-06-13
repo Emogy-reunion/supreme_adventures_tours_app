@@ -9,7 +9,7 @@ def create_upload_folder():
     if not it is created
     if it exists nothing happens
     '''
-    basedir = os.path.abspath(os.path.dirname(__file__))
-    upload_path = os.path.join(basedir, 'static', 'uploads')
-    if not os.path.exists(upload_path):
-        os.makedirs(upload_path)
+    def create_upload_folder():
+            upload_path = os.path.join(app.root_path, 'static', 'uploads')
+            if not os.path.exists(upload_path):
+                os.makedirs(upload_path)
