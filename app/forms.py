@@ -114,7 +114,7 @@ class ToursUploadForm(FlaskForm):
         ])
     discount_percent = FloatField('Discount', validators=[
         InputRequired(),
-        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100')
         ])
     status = StringField('Status', validators=[
         DataRequired(),
@@ -146,7 +146,7 @@ class ProductsUploadForm(FlaskForm):
         ])
     discount_rate = FloatField('Discount rate', validators=[
         InputRequired(),
-        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')])
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100')])
     description = TextAreaField('Description', validators=[
         DataRequired(),
         custom_length_check
@@ -198,7 +198,7 @@ class UpdateTourForm(FlaskForm):
         ])
     discount_percent = FloatField('Discount percent', validators=[
         Optional(),
-        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100')
         ])
     status = StringField('Status', validators=[
         Optional(),
