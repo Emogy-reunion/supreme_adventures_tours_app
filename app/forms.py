@@ -86,7 +86,7 @@ class ToursUploadForm(FlaskForm):
         Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
         ])
     destination = StringField('Destination', validators=[
-        InputRequired(),
+        DataRequired(),
         Length(min=5, max=49, message='Start location must be between 2 and 49 characters!')
         ])
     description = TextAreaField('Description', validators=[
@@ -101,20 +101,20 @@ class ToursUploadForm(FlaskForm):
         validate_date_range
         ])
     days = IntegerField('Days', validators=[
-        DataRequired(),
-        NumberRange(min=0, max=28)
+        InputRequired(),
+        NumberRange(min=1, max=28, message='Days cannot be less than 1 or more than 28')
         ])
     nights = IntegerField('Nights', validators=[
-        DataRequired(),
-        NumberRange(min=0, max=28)
+        InpuptRequired(),
+        NumberRange(min=0, max=28, message='Days cannot be less than 0 or more than 28')
         ])
     original_price = FloatField('Original price', validators=[
         DataRequired(),
         NumberRange(min=0, max=10000000)
         ])
     discount_percent = FloatField('Discount', validators=[
-        DataRequired(),
-        NumberRange(min=0, max=100)
+        InputRequired(),
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')
         ])
     status = StringField('Status', validators=[
         DataRequired(),
@@ -145,8 +145,8 @@ class ProductsUploadForm(FlaskForm):
         Length(min=5, max=49, message='Product type must be between 2 and 49 characters!')
         ])
     discount_rate = FloatField('Discount rate', validators=[
-        DataRequired(),
-        NumberRange(min=0, max=100)])
+        InputRequired(),
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')])
     description = TextAreaField('Description', validators=[
         DataRequired(),
         custom_length_check
@@ -158,9 +158,6 @@ class ProductsUploadForm(FlaskForm):
     size = StringField('Size', validators=[
         DataRequired(),
         Length(min=1, max=49, message='Size must be between 1 and 49 characters!')
-        ])
-    images = MultipleFileField('Images', validators=[
-        DataRequired()
         ])
 
 
@@ -180,20 +177,20 @@ class UpdateTourForm(FlaskForm):
         Optional(),
         custom_length_check
         ])
-    start_date = DateTimeField('Start date', validators=[
+    start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
         Optional()
         ])
-    end_date = DateTimeField('End date', validators=[
+    end_date = DateTimeField('End date', format='%Y-%m-%dT%H:%M', validators=[
         Optional(),
         validate_date_range
         ])
     days = IntegerField('Days', validators=[
         Optional(),
-        NumberRange(min=0)
+        NumberRange(min=1, max=28, message='Days cannot be less than 1 day or more than 28 nights')
         ])
     nights = IntegerField('Nights', validators=[
         Optional(),
-        NumberRange(min=0)
+        NumberRange(min=0, max=28, message='Nights cannot be less than 0 or more than 28 nights')
         ])
     original_price = FloatField('Original price', validators=[
         Optional(),
@@ -201,7 +198,7 @@ class UpdateTourForm(FlaskForm):
         ])
     discount_percent = FloatField('Discount percent', validators=[
         Optional(),
-        NumberRange(min=0, max=100)
+        NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100%')
         ])
     status = StringField('Status', validators=[
         Optional(),
@@ -254,12 +251,12 @@ class TourSearchForm(FlaskForm):
     destination =  StringField('Name', validators=[
         Optional()
         ])
-    start_date = DateTimeField('Start date', validators=[
+    start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
+        Optional(),
+        ])
+    end_date = DateTimeField('End date', format='%Y-%m-%dT%H:%M', validators=[
         Optional(),
         validate_date_range
-        ])
-    end_date = DateTimeField('End date', validators=[
-        Optional()
         ])
     days = IntegerField('Days', validators=[
         Optional(),
@@ -267,7 +264,7 @@ class TourSearchForm(FlaskForm):
         ])
     nights = IntegerField('Nights', validators=[
         Optional(),
-        NumberRange(min=0, message='Nigths cannot be less than 0!')
+        NumberRange(min=0, message='Nights cannot be less than 0!')
         ])
     maximum_price = FloatField('Maximum price', validators=[
         Optional(),
