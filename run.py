@@ -34,7 +34,7 @@ CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 with app.app_context():
     db.create_all()
     create_initial_admin()
-    create_upload_folder()
+    create_upload_folder(app)
 
 #register blueprints
 app.register_blueprint(auth, url_prefix='/api')
