@@ -121,7 +121,7 @@ class Tours(db.Model):
         self.user_id = user_id
         self.name = name
         self.start_location = start_location
-        self.location = location
+        self.destination = destination
         self.description = description
         self.start_date = start_date
         self.end_date = end_date
