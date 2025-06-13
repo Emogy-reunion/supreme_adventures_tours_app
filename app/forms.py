@@ -93,10 +93,10 @@ class ToursUploadForm(FlaskForm):
         InputRequired(),
         custom_length_check
         ])
-    start_date = DateTimeField('Start date', validators=[
+    start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M',validators=[
         DataRequired()
         ])
-    end_date = DateTimeField('End date', validators=[
+    end_date = DateTimeField('End date', format='%Y-%m-%dT%H:%M', validators=[
         DataRequired(),
         validate_date_range
         ])
@@ -127,9 +127,6 @@ class ToursUploadForm(FlaskForm):
     excluded = TextAreaField('Excludes', validators=[
         InputRequired(),
         custom_length_check
-        ])
-    files = MultipleFileField('Files', validators=[
-        InputRequired()
         ])
 
 
