@@ -31,8 +31,8 @@ def upload_tour():
 
     name = form.name.data.lower()
     start_location = form.start_location.data.strip().lower()
-    destination = form.destination.data.stip().lower()
-    description = form.description.data
+    destination = form.destination.data.strip().lower()
+    description = form.description.data.strip()
     start_date = form.start_date.data
     end_date = form.end_date.data
     days = form.days.data
@@ -40,8 +40,8 @@ def upload_tour():
     original_price = form.original_price.data
     discount_percent = form.discount_percent.data
     final_price = original_price
-    included = form.included.data
-    excluded = form.excluded.data
+    included = form.included.data.strip()
+    excluded = form.excluded.data.strip()
     status = form.status.data
     files = request.files.getlist('files')
 
