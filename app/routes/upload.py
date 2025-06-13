@@ -7,6 +7,7 @@ from app.models import Tours, TourImages, Products, ProductImages
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
+import os
 
 
 
