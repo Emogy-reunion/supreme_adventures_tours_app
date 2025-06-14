@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, current_app
+from flask import Blueprint, request, jsonify, current_app, send_from_directory
 from app import db
 from app.forms import ToursUploadForm, ProductsUploadForm
 from app.utils.discount import calculate_final_price
@@ -137,3 +137,8 @@ def upload_product():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
+
+
+@post.route('/send_image/<filename>', methods=['GET'])
+def send_image(filename):
+    return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
