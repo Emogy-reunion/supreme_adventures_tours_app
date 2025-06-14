@@ -74,6 +74,6 @@ def tour_details(tour_id):
                 'excluded': tour.excluded,
                 'images': [image.filename for image in tour.images] if tour.images else None
                 }
-        return jsonify(tour_details), 200
+        return jsonify({'tour_details': tour_details}), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
