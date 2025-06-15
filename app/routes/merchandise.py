@@ -26,6 +26,7 @@ def merchandise():
             'final_price': item.final_price,
             'status': item.status.capitalize(),
             'size': item.size,
+            'status': item.status,
             'image': item.images[0].filename if item.images else None
             } for item in paginated_results.items]
         response = {
@@ -55,6 +56,7 @@ def merchandise_details(product_id):
                 'name': product.name.title(),
                 'product_type': product.product_type,
                 'original_price': product.original_price,
+                'discount_rate': product.discount_rate,
                 'final_price': product.final_price,
                 'status': product.status,
                 'size': product.size,
@@ -63,4 +65,3 @@ def merchandise_details(product_id):
         return jsonify({'product_details': product_details}), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
-
