@@ -18,13 +18,19 @@ def tours():
         tours = [{
             'tour_id': tour.id,
             'name': tour.name.title(),
+            'start_location': tour.start_location.title(),
             'destination': tour.destination.title(),
+            'description': tour.description,
             'start_date': tour.start_date.strftime("%B %d, %Y, %I:%M %p"),
+            'end_date': tour.end_date.strftime("%B %d, %Y, %I:%M %p"),
             'days': tour.days,
             'nights': tour.nights,
-            'price': tour.final_price,
+            'original_price': tour.original_price,
+            'final_price': tour.final_price,
             'discount': tour.discount_percent,
             'status': tour.status.title(),
+            'included': tour.included,
+            'excluded': tour.excluded,
             'image': tour.images[0].filename if tour.images else None
             } for tour in paginated_results.items]
 
