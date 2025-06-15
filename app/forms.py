@@ -248,7 +248,7 @@ class TourSearchForm(FlaskForm):
         Optional(),
         Length(min=4, max=45, message='Tour name must be betwwen 4 and 45 characters!')])
     destination =  StringField('Name', validators=[
-        Optional()
+        Optional(),
         Length(min=2, max=45, message='Destination must be betwwen 2 and 45 characters!')])
     start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
         Optional(),
