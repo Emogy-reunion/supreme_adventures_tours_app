@@ -4,7 +4,7 @@ from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
 from app import models, db
 from app.models import Tours, TourImages, Products, ProductImages from
-app.forms import UpdateTourForm, UpdateMerchandiseForm
+from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 
 admin_edit_bp = Blueprint('admin_edit_bp', __name__)
