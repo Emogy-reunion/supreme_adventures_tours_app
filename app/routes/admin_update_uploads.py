@@ -18,27 +18,27 @@ def update_tour(tour_id):
     allows the admin to edit a specific tour
     it updates the entire resource so the put method is used
     '''
-    form = UpdateTourForm(request.form)
+    form = UpdateTourForm(data=request.form)
 
     if not form.validate():
         return jsonify({'errors': form.errors}), 400
 
-    name = form.name.data
-    start_location = form.start_location.data
-    destination = form.destination.data
-    description = form.description.data
+    name = form.name.data.strip().lower()
+    start_location = form.start_location.data.strip().lower()
+    destination = form.destination.data.strip().lower()
+    description = form.description.data.strip()
     start_date = form.start_date.data
     end_date = form.end_date.data
     days = form.days.data
     nights = form.nights.data
     original_price = form.original_price.data
     discount_percent = form.discount_percent.data
-    status = form.status.data
+    status = form.status.data.strip().lower()
     included = form.included.data
     excluded = form.excluded.data
 
     try:
-        tour = Tours.query.filter_by(id=product_id).first()
+        tour = Tours.query.filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found'}), 404
@@ -96,18 +96,18 @@ def update_merchandise(product_id):
     updates a specific merchandise
     updates the entire resource
     '''
-    form = UpdateMerchandiseForm(request.form)
+    form = UpdateMerchandiseForm(data=request.form)
 
     if not form.validate():
         return jsonify({'error': form.errors}), 400
 
-    name = form.name.data
-    product_type = form.product_type.data
+    name = form.name.data.strip().lower()
+    product_type = form.product_type.data.strip().lower()
     orginal_price = form.original_price.data
     discount_rate = form.discount_rate.data
-    status = form.status.data
-    size = form.size.data
-    description = form.description.data
+    status = form.status.data.strip().lower()
+    size = form.size.data.strip().lower()
+    description = form.description.data.strip()
 
     try:
         product = Products.query.filter_by(id=product_id).first()
