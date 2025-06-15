@@ -38,7 +38,7 @@ def update_tour(tour_id):
     excluded = form.excluded.data
 
     try:
-        tour = Tours.query.filter_by(id=tour_id).first()
+        tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found'}), 404
@@ -81,7 +81,29 @@ def update_tour(tour_id):
         if excluded and tour.excluded != excluded:
             tour.excluded = excluded
         db.session.commit()
-        return jsonify({'success': 'Tour updated successfully!'}), 200
+
+        updated_tour = {
+                'tour_id': tour.id,
+                'name': tour.name.title(),
+                'start_location': tour.start_location.title(),
+                'destination': tour.destination.title(),
+                'description': tour.description,
+                'start_date': tour.start_date.strftime("%B %d, %Y, %I:%M %p"),
+                'end_date': tour.end_date.strftime("%B %d, %Y, %I:%M %p"),
+                'days': tour.days,
+                'nights': tour.nights,
+                'original_price': tour.original_price,
+                'final_price': tour.final_price,
+                'discount': tour.discount_percent,
+                'status': tour.status.title(),
+                'included': tour.included,
+                'excluded': tour.excluded,
+                'image': tour.images[0].filename if tour.images else None
+                }
+        return jsonify({
+            'updated_tours': updated_tours,
+            'success': 'Tour updated successfully!'
+            }), 200
 
     except Exception as e:
         db.session.rollback()
