@@ -3,7 +3,7 @@ from app.utils.role import role_required
 from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
 from app import models, db
-from app.models import Tours, TourImages, Products, ProductImages from
+from app.models import Tours, TourImages, Products, ProductImages
 from app.forms import UpdateTourForm, UpdateMerchandiseForm
 
 
