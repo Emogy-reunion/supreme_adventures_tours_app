@@ -5,6 +5,7 @@ from flask_jwt_extended import jwt_required
 from app import models, db
 from app.models import Tours, TourImages, Products, ProductImages
 from app.forms import UpdateTourForm, UpdateMerchandiseForm
+from sqlalchemy.orm import selectinload
 
 
 admin_edit_bp = Blueprint('admin_edit_bp', __name__)
@@ -101,7 +102,7 @@ def update_tour(tour_id):
                 'image': tour.images[0].filename if tour.images else None
                 }
         return jsonify({
-            'updated_tours': updated_tours,
+            'updated_tour': updated_tour,
             'success': 'Tour updated successfully!'
             }), 200
 
@@ -132,7 +133,7 @@ def update_merchandise(product_id):
     description = form.description.data.strip()
 
     try:
-        product = Products.query.filter_by(id=product_id).first()
+        product = Products.query.options(selectinload(Products.images)).filter_by(id=product_id).first()
 
         if not product:
             return jsonify({'error': 'Product not found!'}), 404
@@ -161,7 +162,21 @@ def update_merchandise(product_id):
             product.description = description
 
         db.session.commit()
-        return jsonify({'success': 'Tour updated successfully!'}), 200
+
+        updated_product = {
+                'product_id': product.id,
+                'name': product.name.title(),
+                'original_price': product.original_price,
+                'discount_rate': product.discount_rate,
+                'final_price': product.final_price,
+                'status': product.status.capitalize(),
+                'size': product.size,
+                'status': product.status,
+                'image': product.images[0].filename if product.images else None
+                }
+        return jsonify({
+            'updated_product': updated_product,
+            'success': 'Tour updated successfully!'}), 200
 
     except Exception as e:
         db.session.rollback()
