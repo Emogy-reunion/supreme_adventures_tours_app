@@ -37,6 +37,7 @@ def update_tour(tour_id):
     status = form.status.data.strip().lower()
     included = form.included.data
     excluded = form.excluded.data
+    price_changed = False
 
     try:
         tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
@@ -67,11 +68,11 @@ def update_tour(tour_id):
 
         if original_price and tour.original_price != original_price:
             tour.original_price = original_price
-            tour.final_price = original_price
+            price_changed = True
 
         if discount_percent and tour.discount_percent != discount_percent:
             tour.discount_percent = discount_percent
-            tour.final_price = calculate_final_price(original_price=tour.original_price, discount_percent=tour.discount_percent)
+            price_changed = True
 
         if status and tour.status != status:
             tour.status = status
@@ -81,6 +82,12 @@ def update_tour(tour_id):
 
         if excluded and tour.excluded != excluded:
             tour.excluded = excluded
+
+        if price_changed:
+            tour.final_price = calculate_final_price(
+                    original_price=tour.original_price,
+                    discount_percent=tour.discount_percent
+                    )
         db.session.commit()
 
         updated_tour = {
@@ -147,9 +154,10 @@ def update_merchandise(product_id):
 
         if original_price and product.original_price != original_price:
             product.original_price = original_price
+            price_changed = True
 
         if discount_rate and product.discount_rate != discount_rate:
-            tour.discount_percent = discount_percent
+            product.discount_rate = discount_rate
             price_changed = True
 
         if status and product.status != status:
@@ -162,9 +170,9 @@ def update_merchandise(product_id):
             product.description = description
 
         if price_changed:
-            tour.final_price = calculate_final_price(
-                    original_price=tour.original_price,
-                    discount_percent=tour.discount_percent
+            product.final_price = calculate_final_price(
+                    original_price=product.original_price,
+                    discount_percent=product.discount.rate
                     )
 
         db.session.commit()
