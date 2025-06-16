@@ -126,7 +126,7 @@ def update_merchandise(product_id):
 
     name = form.name.data.strip().lower()
     product_type = form.product_type.data.strip().lower()
-    orginal_price = form.original_price.data
+    original_price = form.original_price.data
     discount_rate = form.discount_rate.data
     status = form.status.data.strip().lower()
     size = form.size.data.strip().lower()
