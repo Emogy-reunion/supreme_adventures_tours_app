@@ -148,9 +148,9 @@ def update_merchandise(product_id):
             product.original_price = original_price
             final_price = original_price
 
-        if discount_percent and product.discount_percent != discount_percent:
-            product.discount_percent = discount_percent
-            product.final_price = calculate_final_price(original_price=product.original_price, discount_percent=product.discount_percent)
+        if discount_rate and product.discount_rate != discount_rate:
+            product.discount_rate = discount_rate
+            product.final_price = calculate_final_price(original_price=product.original_price, discount_rate=product.discount_rate)
 
         if status and product.status != status:
             product.status = status
