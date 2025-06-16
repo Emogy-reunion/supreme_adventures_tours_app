@@ -133,7 +133,7 @@ def upload_product():
             else:
                 return jsonify({'error': 'Invalid image file extension or file missing. Please try again!'}), 400
         db.session.commit()
-        return jsonify({'success': 'Tour uploaded successfully!'}), 200
+        return jsonify({'success': 'Product uploaded successfully!'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
