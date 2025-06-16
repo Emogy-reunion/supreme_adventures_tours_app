@@ -15,6 +15,7 @@ def merchandise():
     try:
         paginated_results = Products.query.options(selectinload(Products.images)).paginate(page=page, per_page=per_page)
 
+
         if not paginated_results.items:
             return jsonify({'error': 'No available merchandise. Please check again later!'}), 404
 
@@ -27,6 +28,7 @@ def merchandise():
             'status': item.status.capitalize(),
             'size': item.size,
             'status': item.status,
+            'description': item.description,
             'image': item.images[0].filename if item.images else None
             } for item in paginated_results.items]
         response = {
@@ -60,6 +62,7 @@ def merchandise_details(product_id):
                 'final_price': product.final_price,
                 'status': product.status,
                 'size': product.size,
+                'description': product.description,
                 'images': [image.filename for image in product.images] if product.images else []
                 }
         return jsonify({'product_details': product_details}), 200
