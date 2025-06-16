@@ -150,7 +150,7 @@ def update_merchandise(product_id):
 
         if discount_rate and product.discount_rate != discount_rate:
             product.discount_rate = discount_rate
-            product.final_price = calculate_final_price(original_price=product.original_price, discount_rate=product.discount_rate)
+            product.final_price = calculate_final_price(original_price=product.original_price, discount_percent=product.discount_rate)
 
         if status and product.status != status:
             product.status = status
