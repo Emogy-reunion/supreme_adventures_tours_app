@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, current_app
 from app.models import Tours, TourImages, Products, ProductImages
 from app import db
 from flask_jwt_extended import jwt_required
@@ -23,7 +23,7 @@ def delete_tour(tour_id):
             return jsonify({'error': 'Tour not found!'}), 404
 
         for image in tour.images:
-            upload_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image.filename)
             
             if os.path.exists(upload_path):
                 os.remove(upload_path)
@@ -48,7 +48,7 @@ def delete_product(product_id):
             return jsonify({'error': 'Product not found!'}), 404
 
         for image in product.images:
-            upload_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
+            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image.filename)
 
             if os.path.exists(upload_path):
                 os.remove(upload_path)
