@@ -111,7 +111,7 @@ def update_tour(tour_id):
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
 
 
-@admin_edit_bp.route('/update_merchandise/<int:product_id>', methods=['PUT'])
+@admin_edit_bp.route('/update_merchandise/<int:product_id>', methods=['PATCH'])
 @jwt_required()
 @role_required('admin')
 def update_merchandise(product_id):
