@@ -47,7 +47,7 @@ def delete_product(product_id):
         if not product:
             return jsonify({'error': 'Product not found!'}), 404
 
-        for image in tour.images:
+        for image in product.images:
             upload_path = os.path.join(app.config['UPLOAD_FOLDER'], image.filename)
 
             if os.path.exists(upload_path):
