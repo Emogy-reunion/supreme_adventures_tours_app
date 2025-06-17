@@ -23,7 +23,7 @@ class RegistrationForm(FlaskForm):
         Regexp(r'^\w+$', message="Username must contain only letters, numbers, or underscores!")])
     phone_number = StringField('Phone number', validators=[
         DataRequired(),
-        Regexp(r'^254\d{9}$', message='Phone number must start with 254 followed by exactly 9 digits')
+        Regexp(r'^2547\d{8}$', message='Phone number must start with 2547 followed by exactly 8 digits')
         ])
     password = PasswordField('Password', validators=[
         DataRequired(),
