@@ -31,6 +31,9 @@ def member_profile():
             'phone_number': user.phone_number,
             'first_name': user.profile.first_name,
             'last_name': user.profile.last_name,
+            'role': user.role,
+            'verified': user.verified,
+            'registered_on': user.registered_on.strftime("%B %d, %Y, %I:%M %p"),
             'profile_picture': user.profile.profile_picture
             }
         return jsonify(profile), 200
