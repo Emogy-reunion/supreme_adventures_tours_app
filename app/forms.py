@@ -223,22 +223,29 @@ class UpdateMerchandiseForm(FlaskForm):
     '''
     name = StringField('Name', validators=[
         Optional(),
-        Length(min=4, max=45, message='Product name must be betwwen 4 and 45 characters!')])
+        Length(min=4, max=45, message='Product name must be betwwen 4 and 45 characters!')
+        ])
     original_price = FloatField('Original price', validators=[
         Optional(),
-        NumberRange(min=0)])
+        NumberRange(min=0)
+        ])
     product_type = StringField('Product type', validators=[
-        Optional()])
+        Optional()
+        ])
     discount_rate = FloatField('Discount rate', validators=[
         Optional(),
-        NumberRange(min=0, max=100)])
+        NumberRange(min=0, max=100)
+        ])
     description = TextAreaField('Description', validators=[
         Optional(),
-        custom_length_check])
+        custom_length_check
+        ])
     status = StringField('Status', validators=[
-        Optional()])
+        Optional()
+        ])
     size = StringField('Size', validators=[
-        Optional()])
+        Optional()
+        ])
 
 class TourSearchForm(FlaskForm):
     '''
@@ -248,7 +255,7 @@ class TourSearchForm(FlaskForm):
         Optional(),
         Length(min=4, max=45, message='Tour name must be betwwen 4 and 45 characters!')])
     destination =  StringField('Name', validators=[
-        Optional()
+        Optional(),
         Length(min=2, max=45, message='Destination must be betwwen 2 and 45 characters!')])
     start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
         Optional(),
