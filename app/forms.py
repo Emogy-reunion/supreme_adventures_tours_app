@@ -306,7 +306,7 @@ class MerchandiseSearchForm(FlaskForm):
 class PhoneNumberForm(FlaskForm):
     phone_number = StringField('Phone Number', validators=[
         InputRequired(message='Phone number is required'),
-        Regexp(r'^254\d{9}$', message='Phone number must start with 254 and contain exactly 12 digits')
+        Regexp(r'^2547\d{8}$', message='Phone number must start with 2547 followed by exactly 8 digits')
         ])
 
 class GuestContactForm(FlaskForm):
