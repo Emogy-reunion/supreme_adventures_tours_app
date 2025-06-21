@@ -63,3 +63,42 @@ def book():
         return jsonify({'success': 'Transaction initiated. Payment is being processed!'}), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
+
+@book_bp.route('/mpesa_callback', methods=['POST'])
+def mpesa_callback():
+    try:
+        data = request.get_json()
+
+        body = data.get("Body", {}).get("stkCallback", {})
+        result_code = body.get("ResultCode")
+        result_desc = body.get("ResultDesc")
+        reference_code = body.get("AccountReference")
+        metadata_items = body.get("CallbackMetadata", {}).get("Item", [])
+
+        booking = Bookings.query.filter_by(reference_code=reference_code).first()
+
+        if not booking:
+            return jsonify({"error": "Booking not found for this reference code"}), 404
+
+        if result_code != 0:
+            booking.payment_status = 'Failed'
+            db.session.commit()
+            return jsonify({"error": "Payment failed, please try again"}), 400
+
+        metadata = {item["Name"]: item.get("Value") for item in metadata_items}
+        mpesa_receipt = metadata.get("MpesaReceiptNumber")
+        phone_number = metadata.get("PhoneNumber")
+        amount = metadata.get("Amount")
+
+        booking.amount_paid = amount
+        booking.transaction_id = mpesa_receipt
+        booking.payment_status = "Success"
+        booking.status = "Confirmed"
+        db.session.commit()
+        return jsonify({"success": "Booking updated successfully"}), 200
+    except Exception as e:
+        db.session.rollback()
+        db.session.rollback()
+        return jsonify({"error": "Callback handling failed"}), 500
+
+

@@ -34,3 +34,8 @@ class Config():
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     DEFAULT_MAIL_SENDER = os.getenv('DEFAULT_MAIL_SENDER')
     WTF_CSRF_ENABLED = False
+    CONSUMER_KEY= os.getenv('CONSUMER_KEY')
+    CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
+    PASSKEY = os.getenv('PASSKEY')
+    SHORT_CODE = os.getenv('SHORT_CODE')
+    MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL')

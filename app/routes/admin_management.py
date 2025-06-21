@@ -32,7 +32,7 @@ def view_admins():
             'last_name': admin.profile.last_name,
             'profile_picture': admin.profile.profile_picture,
             } for admin in admins]
-        return jsonify(admin_details), 200
+        return jsonify({'admins': admin_details}), 200
     except Exception as e:
         return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
 
