@@ -5,6 +5,7 @@ from app.models import Tours, Bookings
 from app.utils.mpesa_payment import generate_reference_code, get_access_token, generate_password, send_stk_push
 from app.utils.role import role_required
 from app.forms import PhoneNumberForm
+from sqlalchemy.orm import selectinload
 
 
 book_bp = Blueprint('book_bp', __name__)
