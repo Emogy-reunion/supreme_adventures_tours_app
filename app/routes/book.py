@@ -101,4 +101,56 @@ def mpesa_callback():
         db.session.rollback()
         return jsonify({"error": "Callback handling failed"}), 500
 
+@book_bp.route('/member_bookings', methods=['GET'])
+@jwt_required()
+def member_bookings():
+    try:
+        user_id = get_jwt_identity()
+        
+        bookings = Bookings.query.options(selectinload(Bookings.user)).filter_by(user_id=user_id).all()
 
+        if not bookings:
+            return jsonify({'error': 'No available bookings at the moment'}), 404
+
+        booking_details =[{
+            'user_name': booking.user.firstname + ' '+ booking.user.last_name,
+            'tour_name': booking.tour_name,
+            'amount_paid': booking.amount_paid,
+            'status': booking.status,
+            'payment': booking.payment_status,
+            'start_date': booking.start_date.strftime("%B %d, %Y, %I:%M %p"),
+            'booking_date': booking.booking_date.strftime("%B %d, %Y, %I:%M %p"),
+            } for booking in bookings]
+        return jsonify({'booking_details': booking_details})
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
+
+
+@book_bp.route('/admin_bookings', methods=['GET'])
+@jwt_required()
+@role_required('admin')
+def admin_bookings():
+    try:
+        bookings = Bookings.query.options(selectinload(Bookings.user)).all()
+
+        if not bookings:
+            return jsonify({'error': 'No available bookings at the moment'}), 404
+
+        booking_details =[{
+            'user_name': f"{booking.user.firstname} {booking.user.last_name}",
+            'tour_name': booking.tour_name,
+            'amount_paid': booking.amount_paid,
+            'status': booking.status,
+            'payment': booking.payment_status,
+            'reference_code': booking.reference_code,
+            'transaction_id': booking.transaction_id,
+            'start_date': booking.start_date.strftime("%B %d, %Y, %I:%M %p"),
+            'end_date': booking.end_date.strftime("%B %d, %Y, %I:%M %p"),
+            'start_location': booking.start_location,
+            'destination': booking.destination,
+            'phone_number': booking.phone_number,
+            'booking_date': booking.booking_date.strftime("%B %d, %Y, %I:%M %p"),
+        } for booking in bookings]
+        return jsonify({'booking_details': booking_details})
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
