@@ -28,8 +28,8 @@ def view_admins():
 
         admin_details = [{
             'admin_id': admin.id,
-            'first_name': admin.profile.first_name,
-            'last_name': admin.profile.last_name,
+            'first_name': admin.profile.first_name.capitalize(),
+            'last_name': admin.profile.last_name.capitalize(),
             'profile_picture': admin.profile.profile_picture,
             } for admin in admins]
         return jsonify({'admins': admin_details}), 200
@@ -54,7 +54,16 @@ def promote_user():
             user.role = 'admin'
             db.session.commit()
             send_admin_promotion_email.delay(email)
-            return jsonify({'success': 'User promoted to admin successfully!'}), 200
+            admin_data = {
+                    "admin_id": user.id,
+                    "first_name": user.profile.first_name.capitalize(),
+                    "last_name": user.profile.last_name.capitalize(),
+                    "profile_picture": user.profile.profile_picture or "",
+                    }
+            return jsonify({
+                'success': 'User promoted to admin successfully!',
+                "admin": admin_data
+                }), 200
         else:
             return jsonify({'error': "User doesn't exist or already has admin privileges"}), 404
     except Exception as e:
@@ -76,7 +85,7 @@ def revoke_admin_privileges():
 
          user.role = 'member';
          db.session.commit()
-         send_revoke_admin_email.delay(user.email)
+         send_admin_revoke_email.delay(user.email)
          return jsonify({'success': "User's admin privileges revoked!"}), 200
      except Exception as e:
          db.session.rollback()
