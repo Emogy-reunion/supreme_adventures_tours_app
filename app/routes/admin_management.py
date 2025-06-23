@@ -85,7 +85,7 @@ def revoke_admin_privileges():
 
          user.role = 'member';
          db.session.commit()
-         send_revoke_admin_email.delay(user.email)
+         send_admin_revoke_email.delay(user.email)
          return jsonify({'success': "User's admin privileges revoked!"}), 200
      except Exception as e:
          db.session.rollback()
