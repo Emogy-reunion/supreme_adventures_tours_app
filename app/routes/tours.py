@@ -10,7 +10,10 @@ def tours():
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 12, type=int)
     try:
-        paginated_results = Tours.query.options(selectinload(Tours.images)).paginate(page=page, per_page=per_page, error_out=True)
+        paginated_results = Tours.query.options(
+                selectinload(Tours.images),
+                selectinload(Tours.poster)
+                ).paginate(page=page, per_page=per_page, error_out=True)
 
         if not paginated_results.items:
             return jsonify({'error': 'No upcoming tours available at the moment. Please check again later!'}), 404
@@ -31,7 +34,7 @@ def tours():
             'status': tour.status.title(),
             'included': tour.included,
             'excluded': tour.excluded,
-            'image': tour.images[0].filename if tour.images else None
+            'poster': tour.poster.filename if tour.poster else None
             } for tour in paginated_results.items]
 
         response = {
