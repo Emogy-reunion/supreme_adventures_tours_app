@@ -114,6 +114,7 @@ class Tours(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
+    poster = db.relationship('Posters', backref='tour', cascade='all, delete', lazy='selectin', uselist=False)
     bookings = db.relationship('Bookings', back_populates='tour', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
@@ -145,6 +146,14 @@ class TourImages(db.Model):
     def __init__(self, tour_id, filename):
         self.tour_id = tour_id
         self.filename = filename
+
+class Posters(db.Model):
+    '''
+    stores a poster related to a specific tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False, unique=True)
+    poster = db.Column(db.String(100), nullable=False)
 
 class Products(db.Model):
     '''

@@ -3,7 +3,7 @@ from app import db
 from app.forms import ToursUploadForm, ProductsUploadForm
 from app.utils.discount import calculate_final_price
 from app.utils.check_file_extension import check_file_extension
-from app.models import Tours, TourImages, Products, ProductImages
+from app.models import Tours, TourImages, Products, ProductImages, Posters
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
@@ -22,9 +22,6 @@ def upload_tour():
     saves the files in a folder
     saves the filenames in a database
     '''
-    if not request.files:
-        return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
-
     form = ToursUploadForm(data=request.form)
 
     if not form.validate():
@@ -45,9 +42,13 @@ def upload_tour():
     excluded = form.excluded.data.strip()
     status = form.status.data
     files = request.files.getlist('files')
+    poster = request.files('poster')
 
     if discount_percent > 0:
         final_price = calculate_final_price(discount_percent=discount_percent, original_price=original_price)
+
+    if not poster:
+        return jsonify({"error": 'You must upload exactly one poster'}), 400
 
     if not files or len(files) < 3:
         return jsonify({'error': 'You must upload at least three images.'}), 400
@@ -64,6 +65,16 @@ def upload_tour():
         db.session.add(tour)
         db.session.flush()
 
+        #upload the poster
+        if check_file_extension(poster.filename):
+            poster_filename = secure_filename(poster.filename)
+            poster.save(os.path.join(current_app.config['UPLOAD_FOLDER'], poster_filename))
+            poster_obj = Posters(tour.id, filename=poster_filename)
+            db.session.add(poster)
+        else:
+            return jsonify({"error": "Invalid file extension"}), 400
+
+        #upload images
         for file in files:
             if file and check_file_extension(file.filename):
                 filename = secure_filename(file.filename)
@@ -71,7 +82,7 @@ def upload_tour():
                 tour_image = TourImages(tour_id=tour.id, filename=filename)
                 db.session.add(tour_image)
             else:
-                return jsonify({'error': 'Invalid image file extension or file missing. Please try again!'}), 400
+                return jsonify({'error': 'Invalid file extension. Please try again!'}), 400
         db.session.commit()
         return jsonify({'success': 'Tour uploaded successfully!'}), 200
     except Exception as e:
@@ -88,9 +99,6 @@ def upload_product():
     saves the files in a folder
     saves the filenames in a database
     '''
-    if not request.files:
-        return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
-
     form = ProductsUploadForm(data=request.form)
 
     if not form.validate():
