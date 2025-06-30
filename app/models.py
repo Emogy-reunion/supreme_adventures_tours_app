@@ -146,6 +146,14 @@ class TourImages(db.Model):
         self.tour_id = tour_id
         self.filename = filename
 
+class Posters(db.Model):
+    '''
+    stores a poster related to a specific tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False, unique=True)
+    poster = db.Column(db.String(100), nullable=False)
+
 class Products(db.Model):
     '''
     stores merchandise sold via the app
