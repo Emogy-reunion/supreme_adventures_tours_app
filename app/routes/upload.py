@@ -99,9 +99,6 @@ def upload_product():
     saves the files in a folder
     saves the filenames in a database
     '''
-    if not request.files:
-        return jsonify({'error': 'No images selected. Select three or more images and try again!'}), 400
-
     form = ProductsUploadForm(data=request.form)
 
     if not form.validate():
