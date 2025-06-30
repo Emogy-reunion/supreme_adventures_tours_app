@@ -60,7 +60,10 @@ def tour_details(tour_id):
     '''
 
     try:
-        tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
+        tour = Tours.query.options(
+                selectinload(Tours.images),
+                selectinload(Tours.poster)
+                ).filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found!'}), 404
@@ -81,6 +84,7 @@ def tour_details(tour_id):
                 'status': tour.status.title(),
                 'included': tour.included,
                 'excluded': tour.excluded,
+                'poster': tour.poster.filename if tour.poster else None,
                 'images': [image.filename for image in tour.images] if tour.images else None
                 }
         return jsonify({'tour_details': tour_details}), 200
