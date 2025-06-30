@@ -114,6 +114,7 @@ class Tours(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
     images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
+    poster = db.relationship('Posters', backref='tour', cascade='all, delete', lazy='selectin', uselist=False)
     bookings = db.relationship('Bookings', back_populates='tour', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
