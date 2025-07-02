@@ -70,7 +70,7 @@ def upload_tour():
             poster_filename = secure_filename(poster.filename)
             poster.save(os.path.join(current_app.config['UPLOAD_FOLDER'], poster_filename))
             poster_obj = Posters(tour_id=tour.id, poster=poster_filename)
-            db.session.add(poster)
+            db.session.add(poster_obj)
         else:
             return jsonify({"error": "Invalid file extension"}), 400
 
