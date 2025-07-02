@@ -3,6 +3,7 @@ from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAr
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
 from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range, message_length_check
 
+
 class RegistrationForm(FlaskForm):
     '''
     validates data from the registration form
@@ -93,7 +94,7 @@ class ToursUploadForm(FlaskForm):
         InputRequired(),
         custom_length_check
         ])
-    start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M',validators=[
+    start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
         DataRequired()
         ])
     end_date = DateTimeField('End date', format='%Y-%m-%dT%H:%M', validators=[
@@ -247,6 +248,7 @@ class UpdateMerchandiseForm(FlaskForm):
         Optional()
         ])
 
+
 class TourSearchForm(FlaskForm):
     '''
     validates the tour search form fields
@@ -254,7 +256,7 @@ class TourSearchForm(FlaskForm):
     name = StringField('Name', validators=[
         Optional(),
         Length(min=4, max=45, message='Tour name must be betwwen 4 and 45 characters!')])
-    destination =  StringField('Name', validators=[
+    destination = StringField('Name', validators=[
         Optional(),
         Length(min=2, max=45, message='Destination must be betwwen 2 and 45 characters!')])
     start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
@@ -303,11 +305,13 @@ class MerchandiseSearchForm(FlaskForm):
         NumberRange(min=0, message='Minimum cannot be less than 0!')
         ])
 
+
 class PhoneNumberForm(FlaskForm):
     phone_number = StringField('Phone Number', validators=[
         InputRequired(message='Phone number is required'),
         Regexp(r'^2547\d{8}$', message='Phone number must start with 2547 followed by exactly 8 digits')
         ])
+
 
 class GuestContactForm(FlaskForm):
     name = StringField('Name', validators=[
