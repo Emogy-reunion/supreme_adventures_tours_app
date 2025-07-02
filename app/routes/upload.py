@@ -42,7 +42,7 @@ def upload_tour():
     excluded = form.excluded.data.strip()
     status = form.status.data
     files = request.files.getlist('files')
-    poster = request.files('poster')
+    poster = request.files['poster']
 
     if discount_percent > 0:
         final_price = calculate_final_price(discount_percent=discount_percent, original_price=original_price)
