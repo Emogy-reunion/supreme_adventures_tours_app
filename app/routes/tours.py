@@ -34,7 +34,7 @@ def tours():
             'status': tour.status.title(),
             'included': tour.included,
             'excluded': tour.excluded,
-            'poster': tour.poster.filename if tour.poster else None
+            'poster': tour.poster.poster if tour.poster else None
             } for tour in paginated_results.items]
 
         response = {
@@ -84,7 +84,7 @@ def tour_details(tour_id):
                 'status': tour.status.title(),
                 'included': tour.included,
                 'excluded': tour.excluded,
-                'poster': tour.poster.filename if tour.poster else None,
+                'poster': tour.poster.poster if tour.poster else None,
                 'images': [image.filename for image in tour.images] if tour.images else None
                 }
         return jsonify({'tour_details': tour_details}), 200
