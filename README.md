@@ -1,4 +1,4 @@
-# Supreme Adventures Tours App
+# Supreme Adventures Tour Booking App
 
 ## Table of Contents
 
