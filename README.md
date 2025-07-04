@@ -72,7 +72,7 @@
 * This application should now be running, and you can access it in your browser at  `http://127.0.0.1:5000`.
 
 ## Contributing
-* Contributions are welcome! Whether you're fixing a bug, improving the documentation, or adding new features, your help is appreciated.
+* Contributions are welcome! Whether you are fixing a bug, improving the documentation, or adding new features, your help is appreciated.
 * To contribute:
 1. **Fork** the repository
 2. **Clone** your fork
