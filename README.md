@@ -33,7 +33,7 @@
 * This app serves as both a portfolio piece and a meaningful contribution to a passionate team of adventurers.
 
 ## Repository Structure
-* **app.py**: The entry point of the application
+* **run.py**: The entry point of the application
 * **create_app.py**: Application factory
 * **config.py**: Configuration settings
 * **form.py**: Form classes and validation
