@@ -13,7 +13,7 @@ def tours():
         paginated_results = Tours.query.options(
                 selectinload(Tours.images),
                 selectinload(Tours.poster)
-                ).order_by(desc(Tours.id)).paginate(page=page, per_page=per_page, error_out=True)
+                ).order_by(desc(Tours.created_at)).paginate(page=page, per_page=per_page, error_out=True)
 
         if not paginated_results.items:
             return jsonify({'error': 'No upcoming tours available at the moment. Please check again later!'}), 404
