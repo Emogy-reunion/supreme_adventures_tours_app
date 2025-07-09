@@ -34,7 +34,7 @@ def tours():
             'status': tour.status.title(),
             'included': tour.included,
             'excluded': tour.excluded,
-            'image': tour.images.filename[0] if tour.images else None,
+            'image': tour.images[0].filename if tour.images else None,
             'poster': tour.poster.poster if tour.poster else None
             } for tour in paginated_results.items]
 
