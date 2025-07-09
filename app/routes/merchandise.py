@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import Products, ProductImages
 from sqlalchemy.orm import selectinload
+from sqlalchemy import desc
 
 merch_bp = Blueprint('merch_bp', __name__)
 

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import Users, Tours, TourImages
 from sqlalchemy.orm import selectinload
+from sqlalchemy import desc
 
 tours_bp = Blueprint('tours_bp', __name__)
 
