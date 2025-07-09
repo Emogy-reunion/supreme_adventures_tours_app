@@ -13,7 +13,7 @@ def merchandise():
     per_page = request.args.get('per_page', 12, type=int)
 
     try:
-        paginated_results = Products.query.options(selectinload(Products.images)).paginate(page=page, per_page=per_page)
+        paginated_results = Products.query.options(selectinload(Products.images)).order_by(desc(Products.created_at)).paginate(page=page, per_page=per_page)
 
 
         if not paginated_results.items:
