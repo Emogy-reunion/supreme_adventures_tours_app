@@ -80,8 +80,8 @@ def revoke_admin_privileges():
 
          user = db.session.get(Users, user_id)
 
-         if not user or user.role != 'admin' or user.email == current_app.config['DEFAULT_MAIL_SENDER']:
-             return jsonify({'error': "User not found or doesn't have admin privileges!"}), 404
+         if not user or user.role != 'admin' or user.is_superadmin:
+             return jsonify({'error': "Action not permitted."}), 404
 
          user.role = 'member';
          db.session.commit()

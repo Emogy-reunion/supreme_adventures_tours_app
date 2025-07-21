@@ -42,7 +42,7 @@ def upload_tour():
     excluded = form.excluded.data.strip()
     status = form.status.data
     files = request.files.getlist('files')
-    poster = request.files('poster')
+    poster = request.files['poster']
 
     if discount_percent > 0:
         final_price = calculate_final_price(discount_percent=discount_percent, original_price=original_price)
@@ -69,8 +69,8 @@ def upload_tour():
         if check_file_extension(poster.filename):
             poster_filename = secure_filename(poster.filename)
             poster.save(os.path.join(current_app.config['UPLOAD_FOLDER'], poster_filename))
-            poster_obj = Posters(tour.id, filename=poster_filename)
-            db.session.add(poster)
+            poster_obj = Posters(tour_id=tour.id, poster=poster_filename)
+            db.session.add(poster_obj)
         else:
             return jsonify({"error": "Invalid file extension"}), 400
 

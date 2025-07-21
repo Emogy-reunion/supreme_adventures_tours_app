@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app.models import Products, ProductImages
 from sqlalchemy.orm import selectinload
+from sqlalchemy import desc
 
 merch_bp = Blueprint('merch_bp', __name__)
 
@@ -13,7 +14,7 @@ def merchandise():
     per_page = request.args.get('per_page', 12, type=int)
 
     try:
-        paginated_results = Products.query.options(selectinload(Products.images)).paginate(page=page, per_page=per_page)
+        paginated_results = Products.query.options(selectinload(Products.images)).order_by(desc(Products.created_at)).paginate(page=page, per_page=per_page)
 
 
         if not paginated_results.items:

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from app.models import Users, Tours, TourImages
 from sqlalchemy.orm import selectinload
+from sqlalchemy import desc
 
 tours_bp = Blueprint('tours_bp', __name__)
 
@@ -13,7 +14,7 @@ def tours():
         paginated_results = Tours.query.options(
                 selectinload(Tours.images),
                 selectinload(Tours.poster)
-                ).paginate(page=page, per_page=per_page, error_out=True)
+                ).order_by(desc(Tours.created_at)).paginate(page=page, per_page=per_page, error_out=True)
 
         if not paginated_results.items:
             return jsonify({'error': 'No upcoming tours available at the moment. Please check again later!'}), 404
@@ -34,7 +35,8 @@ def tours():
             'status': tour.status.title(),
             'included': tour.included,
             'excluded': tour.excluded,
-            'poster': tour.poster.filename if tour.poster else None
+            'image': tour.images[0].filename if tour.images else None,
+            'poster': tour.poster.poster if tour.poster else None
             } for tour in paginated_results.items]
 
         response = {
@@ -84,7 +86,7 @@ def tour_details(tour_id):
                 'status': tour.status.title(),
                 'included': tour.included,
                 'excluded': tour.excluded,
-                'poster': tour.poster.filename if tour.poster else None,
+                'poster': tour.poster.poster if tour.poster else None,
                 'images': [image.filename for image in tour.images] if tour.images else None
                 }
         return jsonify({'tour_details': tour_details}), 200
