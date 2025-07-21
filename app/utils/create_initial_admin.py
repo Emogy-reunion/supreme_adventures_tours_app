@@ -31,6 +31,7 @@ def create_initial_admin():
                     password=admin['password']
                     )
 
+            initial_admin.is_superadmin = True
             initial_admin.role = 'admin';
             db.session.add(initial_admin)
             db.session.flush()
