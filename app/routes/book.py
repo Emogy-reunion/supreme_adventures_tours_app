@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from app import db
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.models import Tours, Bookings
+from app.models import Tours, Bookings, Users
 from app.utils.mpesa_payment import generate_reference_code, get_access_token, generate_password, send_stk_push
 from app.utils.role import role_required
 from app.forms import PhoneNumberForm
@@ -26,6 +26,11 @@ def book():
     phone_number = form.phone_number.data
 
     try:
+        user = db.session.get(Users, user_id)
+
+        if not user and not user.verified:
+            return jsonify({'error': 'You must verify your profile before booking a tour.'), 403
+
         tour = db.session.get(Tours, tour_id)
 
         if not tour:
