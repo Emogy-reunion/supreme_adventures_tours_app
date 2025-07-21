@@ -19,6 +19,7 @@ class Users(db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     phone_number = db.Column(db.String(50), nullable=False)
     password_hash = db.Column(db.String(100), nullable=False)
+    is_superadmin = db.Column(db.Boolen, default=False, nullable=False)
     role = db.Column(db.String(50), default='member', nullable=True)
     verified = db.Column(db.Boolean, default=False)
     registered_on = db.Column(db.DateTime, default=datetime.utcnow)
