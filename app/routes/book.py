@@ -123,7 +123,7 @@ def member_bookings():
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': booking.user.profile.first_name + ' '+ booking.profile.user.last_name,
+            'user_name': booking.user.profile.first_name + ' '+ booking.user.profile.last_name,
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
@@ -141,13 +141,15 @@ def member_bookings():
 @role_required('admin')
 def admin_bookings():
     try:
-        bookings = Bookings.query.options(selectinload(Bookings.user)).all()
+        bookings = Bookings.query.options(
+                selectinload(Bookings.user).selectinload(Users.profile)
+                ).all()
 
         if not bookings:
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': f"{booking.user.firstname} {booking.user.last_name}",
+            'user_name': f"{booking.user.profile.firstname} {booking.user.profile.last_name}",
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
