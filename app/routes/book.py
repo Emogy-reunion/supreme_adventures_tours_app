@@ -115,13 +115,15 @@ def member_bookings():
     try:
         user_id = get_jwt_identity()
         
-        bookings = Bookings.query.options(selectinload(Bookings.user)).filter_by(user_id=user_id).all()
+        bookings = Bookings.query.options(
+                selectinload(Bookings.user).selectinload(Users.profile)
+                ).filter_by(user_id=user_id).all()
 
         if not bookings:
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': booking.user.first_name + ' '+ booking.user.last_name,
+            'user_name': booking.user.profile.first_name + ' '+ booking.profile.user.last_name,
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
