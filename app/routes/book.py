@@ -121,7 +121,7 @@ def member_bookings():
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': booking.user.firstname + ' '+ booking.user.last_name,
+            'user_name': booking.user.first_name + ' '+ booking.user.last_name,
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
