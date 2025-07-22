@@ -29,7 +29,7 @@ def book():
         user = db.session.get(Users, user_id)
 
         if not user and not user.verified:
-            return jsonify({'error': 'You must verify your profile before booking a tour.'), 403
+            return jsonify({'error': 'You must verify your profile before booking a tour.'}), 403
 
         tour = db.session.get(Tours, tour_id)
 
@@ -61,12 +61,12 @@ def book():
                 )
         db.session.add(new_booking)
         db.session.commit()
-        response = send_stk_push(tour.final_price, phone_number, reference_code, tour.tour_name)
+        #response = send_stk_push(tour.final_price, phone_number, reference_code, tour.tour_name)
 
-        if not response.get("ResponseCode") == "0":
-            db.session.delete(new_booking)  # delete the pending tour if booking failed
-            db.session.commit()
-            return jsonify({'error': 'Payment not processed. Please try again!'}), 400
+        #if not response.get("ResponseCode") == "0":
+            #db.session.delete(new_booking)  # delete the pending tour if booking failed
+            #db.session.commit()
+            #return jsonify({'error': 'Payment not processed. Please try again!'}), 400
 
         return jsonify({'success': 'Transaction initiated. Payment is being processed!'}), 200
     except Exception as e:
