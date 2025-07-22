@@ -29,7 +29,7 @@ def book():
         user = db.session.get(Users, user_id)
 
         if not user and not user.verified:
-            return jsonify({'error': 'You must verify your profile before booking a tour.'), 403
+            return jsonify({'error': 'You must verify your profile before booking a tour.'}), 403
 
         tour = db.session.get(Tours, tour_id)
 
@@ -56,17 +56,17 @@ def book():
                 end_date=tour.end_date,
                 start_location=tour.start_location,
                 destination=tour.destination,
-                phone_number=tour.phone_number,
+                phone_number=phone_number,
                 reference_code=reference_code,
                 )
         db.session.add(new_booking)
         db.session.commit()
-        response = send_stk_push(tour.final_price, phone_number, reference_code, tour.tour_name)
+        #response = send_stk_push(tour.final_price, phone_number, reference_code, tour.tour_name)
 
-        if not response.get("ResponseCode") == "0":
-            db.session.delete(new_booking)  # delete the pending tour if booking failed
-            db.session.commit()
-            return jsonify({'error': 'Payment not processed. Please try again!'}), 400
+        #if not response.get("ResponseCode") == "0":
+            #db.session.delete(new_booking)  # delete the pending tour if booking failed
+            #db.session.commit()
+            #return jsonify({'error': 'Payment not processed. Please try again!'}), 400
 
         return jsonify({'success': 'Transaction initiated. Payment is being processed!'}), 200
     except Exception as e:
@@ -115,13 +115,15 @@ def member_bookings():
     try:
         user_id = get_jwt_identity()
         
-        bookings = Bookings.query.options(selectinload(Bookings.user)).filter_by(user_id=user_id).all()
+        bookings = Bookings.query.options(
+                selectinload(Bookings.user).selectinload(Users.profile)
+                ).filter_by(user_id=user_id).all()
 
         if not bookings:
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': booking.user.firstname + ' '+ booking.user.last_name,
+            'user_name': booking.user.profile.first_name + ' '+ booking.user.profile.last_name,
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
@@ -139,13 +141,15 @@ def member_bookings():
 @role_required('admin')
 def admin_bookings():
     try:
-        bookings = Bookings.query.options(selectinload(Bookings.user)).all()
+        bookings = Bookings.query.options(
+                selectinload(Bookings.user).selectinload(Users.profile)
+                ).all()
 
         if not bookings:
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': f"{booking.user.firstname} {booking.user.last_name}",
+            'user_name': f"{booking.user.profile.firstname} {booking.user.profile.last_name}",
             'tour_name': booking.tour_name,
             'amount_paid': booking.amount_paid,
             'status': booking.status,
