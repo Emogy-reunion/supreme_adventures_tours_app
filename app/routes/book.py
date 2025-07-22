@@ -56,7 +56,7 @@ def book():
                 end_date=tour.end_date,
                 start_location=tour.start_location,
                 destination=tour.destination,
-                phone_number=tour.phone_number,
+                phone_number=phone_number,
                 reference_code=reference_code,
                 )
         db.session.add(new_booking)
