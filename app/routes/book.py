@@ -123,8 +123,9 @@ def member_bookings():
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': booking.user.profile.first_name + ' '+ booking.user.profile.last_name,
-            'tour_name': booking.tour_name,
+            'user_name': booking.user.profile.first_name.title() + ' '+ booking.user.profile.last_name.title(),
+            'tour_id': booking.tour_id,
+            'tour_name': booking.tour_name.title(),
             'amount_paid': booking.amount_paid,
             'status': booking.status,
             'payment': booking.payment_status,
@@ -149,8 +150,8 @@ def admin_bookings():
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': f"{booking.user.profile.firstname} {booking.user.profile.last_name}",
-            'tour_name': booking.tour_name,
+            'user_name': f"{booking.user.profile.firstname.title()} {booking.user.profile.last_name.title()}",
+            'tour_name': booking.tour_name.title(),
             'amount_paid': booking.amount_paid,
             'status': booking.status,
             'payment': booking.payment_status,
@@ -158,8 +159,8 @@ def admin_bookings():
             'transaction_id': booking.transaction_id,
             'start_date': booking.start_date.strftime("%B %d, %Y, %I:%M %p"),
             'end_date': booking.end_date.strftime("%B %d, %Y, %I:%M %p"),
-            'start_location': booking.start_location,
-            'destination': booking.destination,
+            'start_location': booking.start_location.title(),
+            'destination': booking.destination.title(),
             'phone_number': booking.phone_number,
             'booking_date': booking.booking_date.strftime("%B %d, %Y, %I:%M %p"),
         } for booking in bookings]
