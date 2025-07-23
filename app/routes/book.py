@@ -150,7 +150,7 @@ def admin_bookings():
             return jsonify({'error': 'No available bookings at the moment'}), 404
 
         booking_details =[{
-            'user_name': f"{booking.user.profile.firstname.title()} {booking.user.profile.last_name.title()}",
+            'user_name': f"{booking.user.profile.first_name.title()} {booking.user.profile.last_name.title()}",
             'tour_name': booking.tour_name.title(),
             'amount_paid': booking.amount_paid,
             'status': booking.status,
