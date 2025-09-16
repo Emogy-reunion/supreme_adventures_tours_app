@@ -135,17 +135,6 @@ class Tours(db.Model):
         self.excluded = excluded
         self.status = status
 
-class TourImages(db.Model):
-    '''
-    store images related to a specific tour
-    '''
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
-    filename = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, tour_id, filename):
-        self.tour_id = tour_id
-        self.filename = filename
 
 class Posters(db.Model):
     '''
