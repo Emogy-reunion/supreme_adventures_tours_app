@@ -3,7 +3,7 @@ from app import db
 from app.forms import ToursUploadForm, ProductsUploadForm
 from app.utils.discount import calculate_final_price
 from app.utils.check_file_extension import check_file_extension
-from app.models import Tours, Products, ProductImages, Posters
+from app.models import Tours, Products, ProductImages, Posters, TourPreviewImage
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
 from werkzeug.utils import secure_filename
@@ -42,12 +42,16 @@ def upload_tour():
     excluded = form.excluded.data.strip()
     status = form.status.data
     poster = request.files['poster']
+    preview = request.files['preview']
 
     if discount_percent > 0:
         final_price = calculate_final_price(discount_percent=discount_percent, original_price=original_price)
 
     if not poster:
         return jsonify({"error": 'You must upload exactly one poster'}), 400
+
+    if not preview:
+        return jsonify({"error": 'You must upload exactly one preview image'}), 400
 
     try:
         user_id = int(get_jwt_identity())
@@ -66,6 +70,14 @@ def upload_tour():
             db.session.add(poster_obj)
         else:
             return jsonify({"error": "Invalid file extension"}), 400
+
+        #upload the preview
+        if check_file_extension(preview.filename):
+            preview_filename = secure_filename(preview.filename)
+            preview.save(os.path.join(current_app.config['UPLOAD_FOLDER'], preview_filename))
+            preview_obj = TourPreviewImage(tour_id=tour.id, filename=preview_filename)
+            db.session.add(preview_obj)
+
         db.session.commit()
         return jsonify({'success': 'Tour uploaded successfully!'}), 200
     except Exception as e:
