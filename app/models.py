@@ -224,3 +224,15 @@ class Bookings(db.Model):
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
     tour = db.relationship('Tours', back_populates='bookings')
     user = db.relationship('Users', back_populates='bookings')
+
+
+class Destinations(db.Model):
+    '''
+    stores the destinations packages offered
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    destination_type = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
