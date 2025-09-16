@@ -114,8 +114,8 @@ class Tours(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     user = db.relationship('Users', back_populates='tours')
-    images = db.relationship('TourImages', backref='tour', cascade='all, delete', lazy='selectin')
     poster = db.relationship('Posters', backref='tour', cascade='all, delete', lazy='selectin', uselist=False)
+    preview = db.relationship('TourPreviewImage', backref='tour', cascade='all, delete', lazy='selectin', uselist=False)
     bookings = db.relationship('Bookings', back_populates='tour', lazy='selectin')
 
     def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
@@ -136,17 +136,6 @@ class Tours(db.Model):
         self.excluded = excluded
         self.status = status
 
-class TourImages(db.Model):
-    '''
-    store images related to a specific tour
-    '''
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False)
-    filename = db.Column(db.String(100), nullable=False)
-
-    def __init__(self, tour_id, filename):
-        self.tour_id = tour_id
-        self.filename = filename
 
 class Posters(db.Model):
     '''
@@ -155,6 +144,14 @@ class Posters(db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False, unique=True)
     poster = db.Column(db.String(100), nullable=False)
+
+class TourPreviewImage(db.Model):
+    '''
+    stores an image that will be displayed as the preview for a specific tour
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    tour_id = db.Column(db.Integer, db.ForeignKey('tours.id'), nullable=False, unique=True)
+    filename = db.Column(db.String(100), nullable=False)
 
 class Products(db.Model):
     '''
@@ -224,3 +221,24 @@ class Bookings(db.Model):
     booking_date = db.Column(db.DateTime, default=datetime.utcnow)
     tour = db.relationship('Tours', back_populates='bookings')
     user = db.relationship('Users', back_populates='bookings')
+
+
+class Destinations(db.Model):
+    '''
+    stores the destinations packages offered
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    destination_type = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    images = db.relationship('DestinationImages', backref='destination', lazy='selectin', cascade='all, delete')
+
+class DestinationImages(db.Model):
+    '''
+    stores images related to a specific destination
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)

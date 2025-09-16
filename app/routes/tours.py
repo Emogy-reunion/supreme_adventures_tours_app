@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Users, Tours, TourImages
+from app.models import Users, Tours
 from sqlalchemy.orm import selectinload
 from sqlalchemy import desc
 
@@ -12,7 +12,6 @@ def tours():
     per_page = request.args.get('per_page', 12, type=int)
     try:
         paginated_results = Tours.query.options(
-                selectinload(Tours.images),
                 selectinload(Tours.poster)
                 ).order_by(desc(Tours.created_at)).paginate(page=page, per_page=per_page, error_out=True)
 
@@ -35,7 +34,6 @@ def tours():
             'status': tour.status.title(),
             'included': tour.included,
             'excluded': tour.excluded,
-            'image': tour.images[0].filename if tour.images else None,
             'poster': tour.poster.poster if tour.poster else None
             } for tour in paginated_results.items]
 
@@ -63,7 +61,6 @@ def tour_details(tour_id):
 
     try:
         tour = Tours.query.options(
-                selectinload(Tours.images),
                 selectinload(Tours.poster)
                 ).filter_by(id=tour_id).first()
 
@@ -87,7 +84,6 @@ def tour_details(tour_id):
                 'included': tour.included,
                 'excluded': tour.excluded,
                 'poster': tour.poster.poster if tour.poster else None,
-                'images': [image.filename for image in tour.images] if tour.images else None
                 }
         return jsonify({'tour_details': tour_details}), 200
     except Exception as e:
