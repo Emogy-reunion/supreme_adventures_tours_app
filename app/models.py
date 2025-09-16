@@ -236,3 +236,12 @@ class Destinations(db.Model):
     description = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    images = db.relationship('DestinationImages', backref='destination', lazy='selectin', cascade='all, delete')
+
+class DestinationImages(db.Model):
+    '''
+    stores images related to a specific destination
+    '''
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    destination_id = db.Column(db.Integer, db.ForeignKey('destinations.id'), nullable=False)
+    filename = db.Column(db.String(100), nullable=False)
