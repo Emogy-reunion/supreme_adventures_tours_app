@@ -12,6 +12,7 @@ def tours():
     per_page = request.args.get('per_page', 12, type=int)
     try:
         paginated_results = Tours.query.options(
+                selectinload(Tours.preview),
                 selectinload(Tours.poster)
                 ).order_by(desc(Tours.created_at)).paginate(page=page, per_page=per_page, error_out=True)
 
@@ -35,6 +36,7 @@ def tours():
             'included': tour.included,
             'excluded': tour.excluded,
             'poster': tour.poster.poster if tour.poster else None
+            'image': tour.preview.filename if tour.preview else None
             } for tour in paginated_results.items]
 
         response = {
