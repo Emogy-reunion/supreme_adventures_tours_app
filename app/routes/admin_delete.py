@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, current_app
-from app.models import Tours, TourImages, Products, ProductImages
+from app.models import Tours, Products, ProductImages
 from app import db
 from flask_jwt_extended import jwt_required
 from app.utils.role import role_required
@@ -18,15 +18,26 @@ def delete_tour(tour_id):
     deletes a specific tour
     '''
     try:
-        tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
+        tour = Tours.query.options(
+                selectinload(Tours.preview),
+                selectinload(Tours.poster)).filter_by(id=tour_id).first()
+
         if not tour:
             return jsonify({'error': 'Tour not found!'}), 404
 
-        for image in tour.images:
-            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], image.filename)
-            
+        # delete the tour preview image from the upload folder
+        if tour.preview:
+            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], tour.preview.filename)
+        
             if os.path.exists(upload_path):
                 os.remove(upload_path)
+        
+        if tour.poster:
+            upload_path = os.path.join(current_app.config['UPLOAD_FOLDER'], tour.poster.poster)
+
+            if os.path.exists(upload_path):
+                os.remove(upload_path)
+
         db.session.delete(tour)
         db.session.commit()
         return jsonify({'success': 'Tour successfully deleted!'}), 200
