@@ -20,8 +20,7 @@ def delete_tour(tour_id):
     try:
         tour = Tours.query.options(
                 selectinload(Tours.preview),
-                selectinload(Tours.poster))
-        .filter_by(id=tour_id).first()
+                selectinload(Tours.poster)).filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found!'}), 404
