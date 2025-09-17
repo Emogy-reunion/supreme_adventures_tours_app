@@ -40,7 +40,7 @@ def update_tour(tour_id):
     price_changed = False
 
     try:
-        tour = Tours.query.options(selectinload(Tours.image)).filter_by(id=tour_id).first()
+        tour = Tours.query.options(selectinload(Tours.preview)).filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found'}), 404
