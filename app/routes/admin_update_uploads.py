@@ -3,7 +3,7 @@ from app.utils.role import role_required
 from app.utils.discount import calculate_final_price
 from flask_jwt_extended import jwt_required
 from app import models, db
-from app.models import Tours, TourImages, Products, ProductImages
+from app.models import Tours, Products, ProductImages
 from app.forms import UpdateTourForm, UpdateMerchandiseForm
 from sqlalchemy.orm import selectinload
 
@@ -40,7 +40,7 @@ def update_tour(tour_id):
     price_changed = False
 
     try:
-        tour = Tours.query.options(selectinload(Tours.images)).filter_by(id=tour_id).first()
+        tour = Tours.query.options(selectinload(Tours.image)).filter_by(id=tour_id).first()
 
         if not tour:
             return jsonify({'error': 'Tour not found'}), 404
@@ -106,7 +106,7 @@ def update_tour(tour_id):
                 'status': tour.status.title(),
                 'included': tour.included,
                 'excluded': tour.excluded,
-                'image': tour.images[0].filename if tour.images else None
+                'image': tour.preview.filename if tour.preview else None
                 }
         return jsonify({
             'updated_tour': updated_tour,
