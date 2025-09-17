@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Tours, TourImages, Products, ProductImages
+from app.models import Tours, Products, ProductImages
 from app.forms import TourSearchForm, MerchandiseSearchForm
 from sqlalchemy.orm import selectinload
 
@@ -30,7 +30,7 @@ def search_tours():
     status = form.status.data.lower()
 
     try:
-        tours = Tours.query.options(selectinload(Tours.images))
+        tours = Tours.query.options(selectinload(Tours.preview))
 
         if name:
             tours = tours.filter(Tours.name.ilike(f"%{name}%"))
