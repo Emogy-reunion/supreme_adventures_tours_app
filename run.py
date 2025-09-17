@@ -2,7 +2,7 @@
 app entry point
 '''
 from app import create_app
-from app.models import db, bcrypt, Users, Profiles, Tours, TourImages, Products, ProductImages
+from app.models import db, bcrypt, Users, Profiles, Tours, TourPreviewImage, Products, ProductImages
 from app.routes.authentication import auth
 from app.routes.email_verification import verify
 from app.routes.reset_password import reset
