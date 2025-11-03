@@ -56,7 +56,7 @@ def member_contact():
     message = form.message.data
     try:
         user_id = get_jwt_identity()
-        user = db.session.get(Users, user_id)
+        user = Users.query.options(selectinload(Users.profile)).filter_by(id=user_id).first()
 
         if not user:
             return jsonify({'error': 'User not found!'}), 404
@@ -68,9 +68,9 @@ def member_contact():
                 )
         msg.body = (
                 "New inquiry from Tour App:\n\n"
-                f"Name: {user.first_name}\n"
+                f"Name: {user.profile.first_name}\n"
                 f"Email: {user.email}\n\n"
-                f"Message:\n{message}\n"
+                f"Message:\n{message}\:n"
                 )
         msg.html = render_template('member_contact.html', user=user, message=message)
         mail.send(msg)
