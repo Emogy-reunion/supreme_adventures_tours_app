@@ -4,6 +4,7 @@ from flask_mail import Message
 from app.forms import GuestContactForm, MemberContactForm
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models import Users
+from sqlalchemy.orm import selectinload
 
 
 app = create_app()
@@ -30,7 +31,7 @@ def guest_contact():
         msg = Message(
                 subject='Tour app inquiry',
                 sender=app.config['DEFAULT_MAIL_SENDER'],
-                recipients=[email]
+                recipients=[app.config['DEFAULT_MAIL_SENDER']]
                 )
         msg.body = (
                 "New inquiry from Tour App:\n\n"
@@ -64,7 +65,7 @@ def member_contact():
         msg = Message(
                 subject='Tour app inquiry',
                 sender=app.config['DEFAULT_MAIL_SENDER'],
-                recipients=[user.email]
+                recipients=[app.config['DEFAULT_MAIL_SENDER']]
                 )
         msg.body = (
                 "New inquiry from Tour App:\n\n"
