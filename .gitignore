@@ -132,3 +132,8 @@ dmypy.json
 
 # pyright type checker
 .pyright/
+
+
+# Ignore uploaded media files
+app/static/uploads/
+
