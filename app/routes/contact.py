@@ -71,7 +71,7 @@ def member_contact():
                 "New inquiry from Tour App:\n\n"
                 f"Name: {user.profile.first_name}\n"
                 f"Email: {user.email}\n\n"
-                f"Message:\n{message}\:n"
+                f"Message:\n{message}\n"
                 )
         msg.html = render_template('member_contact.html', user=user, message=message)
         mail.send(msg)

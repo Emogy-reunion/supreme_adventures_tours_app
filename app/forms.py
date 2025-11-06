@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, FloatField, IntegerField, TextAreaField, MultipleFileField, DateTimeField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo, InputRequired, NumberRange, ValidationError, Optional
-from app.utils.custom_form_validators import custom_length_check, validate_date_range, validate_price_range, message_length_check
+from app.utils.custom_form_validators import length_check, validate_date_range, validate_price_range, message_length_check
 
 
 class RegistrationForm(FlaskForm):
@@ -92,7 +92,7 @@ class ToursUploadForm(FlaskForm):
         ])
     description = TextAreaField('Description', validators=[
         InputRequired(),
-        custom_length_check
+        length_check(150, 1500, "Description")
         ])
     start_date = DateTimeField('Start date', format='%Y-%m-%dT%H:%M', validators=[
         DataRequired()
@@ -123,11 +123,11 @@ class ToursUploadForm(FlaskForm):
         ])
     included = TextAreaField('Includes', validators=[
         InputRequired(),
-        custom_length_check
+        length_check(30, 800, "Includes")
         ])
     excluded = TextAreaField('Excludes', validators=[
         InputRequired(),
-        custom_length_check
+        length_check(30, 800, "Excludes")
         ])
 
 
@@ -150,7 +150,7 @@ class ProductsUploadForm(FlaskForm):
         NumberRange(min=0, max=100, message='Discount cannot be less than 0 or more than 100')])
     description = TextAreaField('Description', validators=[
         DataRequired(),
-        custom_length_check
+        length_check(150, 1500, "Description")
         ])
     status = StringField('Status', validators=[
         DataRequired(),
@@ -206,15 +206,15 @@ class UpdateTourForm(FlaskForm):
         ])
     included = TextAreaField('Includes', validators=[
         Optional(),
-        custom_length_check
+        length_check(30, 800, "Includes")
         ])
     excluded = TextAreaField('Excludes', validators=[
         Optional(),
-        custom_length_check
+        length_check(30, 800, "Excludes")
         ])
     description = TextAreaField('Description', validators=[
         Optional(),
-        custom_length_check
+        length_check(150, 1500, "Description")
         ])
 
 
@@ -239,7 +239,7 @@ class UpdateMerchandiseForm(FlaskForm):
         ])
     description = TextAreaField('Description', validators=[
         Optional(),
-        custom_length_check
+        length_check(150, 1500, "Description")
         ])
     status = StringField('Status', validators=[
         Optional()
