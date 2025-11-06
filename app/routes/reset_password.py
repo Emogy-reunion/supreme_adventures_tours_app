@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
+from app import db
 from app.forms import EmailForm, PasswordForm
-from app.models import Users, db
+from app.models import Users
 from app.background.password_reset_email import send_password_reset_email
 
 reset = Blueprint('reset', __name__)
@@ -9,6 +10,8 @@ reset = Blueprint('reset', __name__)
 def reset_password():
     '''
     allows user to reset their password
+    fetches the user email
+    uses it to send a password reset link
     '''
     form = EmailForm(data=request.get_json())
 
@@ -32,14 +35,19 @@ def update_password():
     '''
     saves the new password to the database
     '''
-    form = PasswordForm(data=request.get_json())
-    user_id = request.json.get('user_id')
-
     try:
-        user = db.session.get(Users, user_id)
+        form = PasswordForm(data=request.get_json())
+        token = request.json.get('token')
+    
+        if not form.validate():
+            return jsonify({"errors": form.errors}), 400
+
+        password = form.password.data
+
+        user = Users.verify_token(token)
 
         if user:
-            user.password = user.generate_password_hash(password)
+            user.password_hash = user.generate_passwordhash(password)
             db.session.commit()
             return jsonify({"success": 'Password updated successfully!'}), 200
         else:

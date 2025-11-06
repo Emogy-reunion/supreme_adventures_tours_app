@@ -1,8 +1,10 @@
 from flask import Blueprint, request, jsonify
-from app.models import Users, Profiles, db
+from app import db
+from app.models import Users, Profiles
 from app.forms import RegistrationForm, LoginForm
 from app.background.verification_email import send_verification_email
-from flask_jwt_extended import refresh_token, access_token, set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies
+from flask_jwt_extended import set_refresh_cookies, set_access_cookies, get_jwt_identity, jwt_required, unset_jwt_cookies, create_access_token, create_refresh_token
+from sqlalchemy import or_
 
 auth = Blueprint('auth', __name__)
 
@@ -36,7 +38,11 @@ def register():
         db.session.add(profile)
         db.session.commit()
         send_verification_email.delay(user.id)
-        return jsonify({'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'}), 201
+        user_data = {
+                'role': user.role,
+                'success': 'Your account has been created. We’re sending you a verification email — it should arrive shortly!'
+                }
+        return jsonify(user_data), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
@@ -67,13 +73,15 @@ def login():
             checks if the passwords match
             logins in the user if both the above exist
             '''
-            access_token = create_access_token(identity=user.id)
-            refresh_token = create_refresh_token(identity=user.id)
+            access_token = create_access_token(identity=str(user.id))
+            refresh_token = create_refresh_token(identity=str(user.id))
 
-            response = jsonify({'success': 'Logged in successfully'}), 200
+            response = jsonify({
+                'role': user.role,
+                'success': 'Logged in successfully'})
             set_access_cookies(response, access_token)
             set_refresh_cookies(response, refresh_token)
-            return response
+            return response, 200
         else:
             return jsonify({"error": 'Invalid login credentials. Please try again!'}), 400
     except Exception as e:
@@ -86,9 +94,9 @@ def logout():
     logs the user out by destroying the jwt cookies
     '''
     try:
-        response = jsonify({"success": 'Successfully logged out!'}), 200
+        response = jsonify({"success": 'Successfully logged out!'})
         unset_jwt_cookies(response)
-        return response
+        return response, 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
@@ -99,9 +107,34 @@ def refresh_token():
     create an access token after it expires
     '''
     try:
-        user_id = get_jwt_identity()
-        response = jsonify({"success": 'Access token refreshed successfully!'}), 200
-        set_access_cookies(response, access_token)
-        return response
+        user_id = int(get_jwt_identity())
+
+        if user_id:
+            access_token = create_access_token(identity=str(user_id))
+            response = jsonify({"success": 'Access token refreshed successfully!'})
+            set_access_cookies(response, access_token)
+            return response, 200
+        return jsonify({'error': 'Invalid token!'}), 404
+    except Exception as e:
+        return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
+
+@auth.route('/is_logged_in', methods=['GET'])
+@jwt_required()
+def is_logged_in():
+    try:
+        user_id = int(get_jwt_identity())
+
+        if not user_id:
+            return jsonify({'error': 'Invalid token!'}), 401
+
+        user = db.session.get(Users, user_id)
+        if not user:
+            return jsonify({'error': 'User not found!'}), 404
+
+        response = {
+                'role': user.role,
+                'success': 'User is authenticated!'
+                }
+        return jsonify(response), 200
     except Exception as e:
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500

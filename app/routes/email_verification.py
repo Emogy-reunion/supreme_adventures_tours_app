@@ -1,12 +1,13 @@
 from flask import Blueprint, redirect, current_app, jsonify
-from app.models import Users, db
+from app.models import Users
+from app import db
 from app.forms import EmailForm
 from app.background.verification_email import send_verification_email
 
 
 verify = Blueprint('verify', __name__)
 
-@verify.route('/verify_email/<token>', methods=['POST'])
+@verify.route('/verify_email/<token>', methods=['GET'])
 def verify_email(token):
     '''
     verifies the email by verifying the token
@@ -18,12 +19,12 @@ def verify_email(token):
         try:
             user.verified = True
             db.session.commit()
-            return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/true")
+            return redirect(f"{current_app.config['FRONTEND_URL']}/verification-status/true")
         except Exception as e:
             db.session.rollback()
-            return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/false")
+            return redirect(f"{current_app.config['FRONTEND_URL']}/verification-status/false")
     else:
-        return redirect(f"{current_app.config['FRONTEND_URL']}/verification_status/false")
+        return redirect(f"{current_app.config['FRONTEND_URL']}/verification-status/false")
 
 
 @verify.route('/resend_verification_email', methods=['POST'])
@@ -48,18 +49,18 @@ def resend_verification_email():
         return jsonify({"error": 'An unexpected error occured. Please try again!'}), 500
 
 
-@verify.route('/verify_reset_password_token/<token>', methods=['POST'])
-def verify_reset_password_token(token):
-    '''
-    verifies the user by verifying the token sent via email
-    on success: the user is redirected to a page where they input their new passwords
-    on failure: the user is redirected to a failure page
-    '''
-    try:
-        user = Users.verify_token(token)
-        if user:
-            return redirect(f"{current_app.config['FRONTEND_URL']}/update_password")
-        else:
-            return redirect(f"{current_app.config['FRONTEND_URL']}/password_failure_page")
-    except Exception as e:
-        return redirect(f"{current_app.config['FRONTEND_URL']}/password_failure_page")
+@verify.route('/verify_password_reset_token/<token>', methods=['GET'])
+def verify_password_reset_token(token):
+        '''
+        verifies the user by verifying the token sent via email
+        on success: the user is redirected to a page where they input their new passwords
+        on failure: the user is redirected to a failure page
+        '''
+        try:
+            user = Users.verify_token(token)
+            if user:
+                return redirect(f"{current_app.config['FRONTEND_URL']}/update-password?token={token}")
+            else:
+                return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")
+        except Exception as e:
+            return redirect(f"{current_app.config['FRONTEND_URL']}/password-failure-page")

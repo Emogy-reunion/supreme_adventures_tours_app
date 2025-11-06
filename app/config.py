@@ -3,10 +3,13 @@ stores the application's configuration settings
 '''
 from dotenv import load_dotenv
 import os
+from datetime import timedelta
 
 load_dotenv()
 
 class Config():
+    ENV = 'development'
+    WTF_CSRF_ENABLED = False
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -15,12 +18,21 @@ class Config():
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     JWT_COOKIE_SECURE = True
+    JWT_COOKIE_CSRF_PROTECT = False
+    JWT_COOKIE_SAMESITE = 'None'
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_REFRESH_COOKIE_NAME = "refresh_token_cookie"
     CELERY_BROKER_URL = os.getenv("BROKER_URL")
     CELERY_BACKEND_URL = os.getenv('BACKEND_URL')
-    MAIL_SERVER = 'smtp@gmail.com'
-    MAIL_PORT = 465
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 587
     MAIL_USERNAME = os.getenv('MAIL_USERNAME')
     MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
-    FRONTEND_URL = os.getenv('FRONTED_URL')
+    FRONTEND_URL = os.getenv('FRONTEND_URL')
+    SERVER_NAME = 'www.supremeadventures.co.ke'  # Enables _external URLs in background tasks
+    PREFERRED_URL_SCHEME = 'https'
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024
+    DEFAULT_MAIL_SENDER = os.getenv('DEFAULT_MAIL_SENDER')
+    WTF_CSRF_ENABLED = False

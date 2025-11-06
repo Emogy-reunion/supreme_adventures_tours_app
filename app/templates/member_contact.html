@@ -1,0 +1,24 @@
+<DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>New User Inquiry</title>
+</head>
+<body style="font-family: Arial, sans-serif; color: #333;">
+  <h2 style="color: #2c3e50;">New Inquiry from a Registered User</h2>
+
+  <p>A logged-in user has sent a message via the contact form. Below are the details:</p>
+
+  <p><strong>Full Name:</strong><br>{{ user.first_name }} {{ user.last_name }}</p>
+  <p><strong>Email:</strong><br>{{ user.email }}</p>
+  {% if user.phone_number %}
+  <p><strong>Phone Number:</strong><br>{{ user.phone_number }}</p>
+  {% endif %}
+  <p><strong>Message:</strong><br>{{ message }}</p>
+
+  <hr>
+  <p style="font-size: 0.9em; color: #555;">
+    This message was submitted through the authenticated user portal.
+  </p>
+</body>
+</html>
