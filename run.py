@@ -29,10 +29,9 @@ app = create_app()
 celery = make_celery(app)
 
 
-CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
+CORS(app, supports_credentials=True, origins=["http://localhost:3000", "https://www.supremeadventures.co.ke"])
 
 with app.app_context():
-    db.create_all()
     create_initial_admin()
     create_upload_folder(app)
 

@@ -17,9 +17,11 @@ class Config():
     JWT_TOKEN_LOCATION = ['cookies']
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=15)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
-    JWT_COOKIE_SECURE = False
+    JWT_COOKIE_SECURE = True
     JWT_COOKIE_CSRF_PROTECT = False
-    JWT_COOKIE_SAMESITE = 'Lax'
+    JWT_COOKIE_SAMESITE = 'None'
+    JWT_ACCESS_COOKIE_NAME = "access_token_cookie"
+    JWT_REFRESH_COOKIE_NAME = "refresh_token_cookie"
     CELERY_BROKER_URL = os.getenv("BROKER_URL")
     CELERY_BACKEND_URL = os.getenv('BACKEND_URL')
     MAIL_SERVER = 'smtp.gmail.com'
@@ -29,13 +31,8 @@ class Config():
     MAIL_USE_TLS = True
     MAIL_USE_SSL = False
     FRONTEND_URL = os.getenv('FRONTEND_URL')
-    SERVER_NAME = 'localhost:5000'  # Enables _external URLs in background tasks
-    PREFERRED_URL_SCHEME = 'http'
+    SERVER_NAME = 'www.supremeadventures.co.ke'  # Enables _external URLs in background tasks
+    PREFERRED_URL_SCHEME = 'https'
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024
     DEFAULT_MAIL_SENDER = os.getenv('DEFAULT_MAIL_SENDER')
     WTF_CSRF_ENABLED = False
-    CONSUMER_KEY= os.getenv('CONSUMER_KEY')
-    CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
-    PASSKEY = os.getenv('PASSKEY')
-    SHORT_CODE = os.getenv('SHORT_CODE')
-    MPESA_CALLBACK_URL = os.getenv('MPESA_CALLBACK_URL')

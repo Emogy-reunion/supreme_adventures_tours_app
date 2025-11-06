@@ -5,11 +5,13 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_mail import Mail
 import os
+from flask_migrate import Migrate
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 jwt = JWTManager()
 mail = Mail()
+migrate = Migrate()
 
 def create_app():
     '''
@@ -24,4 +26,8 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
     mail.init_app(app)
+
+    migrate.init_app(app, db)
+
+    from . import models
     return app
