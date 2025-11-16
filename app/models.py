@@ -95,7 +95,7 @@ class Tours(db.Model):
     store information about a tour
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True, ondelete='SET NULL')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     name = db.Column(db.String(50), nullable=False)
     start_location = db.Column(db.String(50), nullable=False)
     destination = db.Column(db.String(50), nullable=False)
@@ -159,7 +159,7 @@ class Products(db.Model):
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(150), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True, ondelete='SET NULL')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     product_type = db.Column(db.String(150), nullable=False)
     original_price = db.Column(db.Float, nullable=False)
     discount_rate = db.Column(db.Integer, default=0)
@@ -228,7 +228,7 @@ class Destinations(db.Model):
     stores the destinations packages offered
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True, ondelete='SET NULL')
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
     country = db.Column(db.String(100), nullable=False)
     destination_type = db.Column(db.String(100), nullable=False)
