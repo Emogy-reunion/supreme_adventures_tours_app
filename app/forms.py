@@ -131,6 +131,30 @@ class ToursUploadForm(FlaskForm):
         ])
 
 
+class DestinationUploadForm(FlaskForm):
+    '''
+    validates the destination upload details for the form
+    '''
+    name = StringField('Name', validators=[
+        DataRequired(),
+        Length(min=4, max=60, message='Destination name must be betwwen 4 and 60 characters!')])
+    country = StringField('Country', validators=[
+        DataRequired(),
+        Length(min=2, max=60, message='Country name must be betwwen 2 and 60 characters!')])
+    destination_type = StringField('Destination type', validators=[
+        DataRequired(),
+        Length(min=2, max=60, message='Destination type must be betwwen 2 and 60 characters!')])
+    short_description = TextAreaField('Short Description', validators=[
+        DataRequired(),
+        length_check(100, 150, "Short description")])
+    long_descrtiption = TextAreaField('Long Description', validators=[
+        DataRequired(),
+        length_check(750, 1500, "Long description")])
+    main_activities = TextAreaField('Main activities', validators=[
+        DataRequired(),
+        length_check(30, 800, "Main activities")])
+
+
 class ProductsUploadForm(FlaskForm):
     '''
     validates the upload details for the form
