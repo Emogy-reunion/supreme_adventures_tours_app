@@ -158,10 +158,11 @@ def upload_destination():
     short_description = form.short_description.strip()
     long_description = form.long_description.strip()
     main_activities = form.main_activities.strip()
-    featured = request.form.get('featured')
+    featured_value = request.form.get('featured')
     slug = generate_unique_slug(name)
     files = request.files.getlist('images')
 
+    featured = bool(int(featured_value)) if featured_value is not None else False
     if not files or len(files) < 3:
         return jsonify({'error': 'You must upload at least three images.'}), 400
 
