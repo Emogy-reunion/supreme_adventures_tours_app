@@ -146,13 +146,13 @@ class DestinationUploadForm(FlaskForm):
         Length(min=2, max=60, message='Destination type must be betwwen 2 and 60 characters!')])
     short_description = TextAreaField('Short Description', validators=[
         DataRequired(),
-        length_check(100, 150, "Short description")])
-    long_descrtiption = TextAreaField('Long Description', validators=[
+        length_check(30, 80, "Short description")])
+    long_description = TextAreaField('Long Description', validators=[
         DataRequired(),
-        length_check(750, 1500, "Long description")])
+        length_check(750, 2000, "Long description")])
     main_activities = TextAreaField('Main activities', validators=[
         DataRequired(),
-        length_check(30, 800, "Main activities")])
+        length_check(30, 1500, "Main activities")])
 
 
 class ProductsUploadForm(FlaskForm):
