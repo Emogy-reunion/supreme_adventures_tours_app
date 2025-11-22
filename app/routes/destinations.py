@@ -25,9 +25,34 @@ def destinations():
             'destination_type': destination.destination_type,
             'short_description': destination.short_description,
             'slug': destination.slug,
-            'image': destination.images[0].filename if destination.images else None
+            'image': destination.images[0].filename if destination.images else []
             } for destination in destination_records]
 
         return jsonify(destinations), 200
     except Exception as e:
-        return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
+
+
+@dest_bp.route('/destination_details/<int:destination_id>', methods=['GET'])
+def destination_details(destination_id):
+    '''
+    retrieves details about a specific destinations
+    '''
+    try:
+        destination = Destinations.query.options(selectinload(Destinations.images)).filter_by(id=destination_id).first()
+
+        if not destination:
+            return jsonify({"error": 'Destination details are not available!'}), 404
+
+        destination_details = {
+            'id': destination.id,
+            'name': destination.name,
+            'country': destination.country,
+            'destination_type': destination.destination_type,
+            'long_description': destination.long_description,
+            'main_activities': destination.main_activities,
+            'images': [image.filename for image in destination.images] if destination.images else []
+            }
+        return jsonify(destination_details), 200
+    except Exception as e:
+        return jsonify({'error': 'An unexpected error occurred. Please try again!'}), 500
