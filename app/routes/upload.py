@@ -150,14 +150,15 @@ def upload_destination():
     form = DestinationUploadForm(data=request.form)
 
     if not form.validate():
+        print(form.errors)
         return jsonify({'errors': form.errors}), 400
 
     name = form.name.data.strip().lower()
     country = form.name.data.strip().lower()
     destination_type = form.destination_type.data.strip().lower()
-    short_description = form.short_description.strip()
-    long_description = form.long_description.strip()
-    main_activities = form.main_activities.strip()
+    short_description = form.short_description.data.strip()
+    long_description = form.long_description.data.strip()
+    main_activities = form.main_activities.data.strip()
     featured_value = request.form.get('featured')
     slug = generate_unique_slug(name)
     files = request.files.getlist('images')
@@ -178,7 +179,7 @@ def upload_destination():
         db.session.flush()
 
         for file in files:
-            if file and allowed_extension(file.filename):
+            if file and check_file_extension(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 
@@ -187,7 +188,7 @@ def upload_destination():
             else:
                 return jsonify({"error": 'Invalid image file extension or file missing. Please try again!'}), 400
         db.session.commit()
-        return jsonify({"success": 'Destination uploaded successfully!'}), 400
+        return jsonify({"success": 'Destination uploaded successfully!'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occurred. Please try again'}), 500
