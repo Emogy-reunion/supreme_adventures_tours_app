@@ -1,11 +1,12 @@
 from flask import Blueprint, request, jsonify, current_app, send_from_directory
 from app import db
-from app.forms import ToursUploadForm, ProductsUploadForm
+from app.forms import ToursUploadForm, ProductsUploadForm, DestinationUploadForm
 from app.utils.discount import calculate_final_price
 from app.utils.check_file_extension import check_file_extension
-from app.models import Tours, Products, ProductImages, Posters, TourPreviewImage
+from app.models import Tours, Products, ProductImages, Posters, TourPreviewImage, Destinations, DestinationImages
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.utils.role import role_required
+from app.utils.generate_slug import generate_unique_slug
 from werkzeug.utils import secure_filename
 import os
 
@@ -27,7 +28,7 @@ def upload_tour():
     if not form.validate():
         return jsonify({'errors': form.errors}), 400
 
-    name = form.name.data.lower()
+    name = form.name.data.strip().lower()
     start_location = form.start_location.data.strip().lower()
     destination = form.destination.data.strip().lower()
     description = form.description.data.strip()
@@ -140,6 +141,57 @@ def upload_product():
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': 'An unexpected error occured. Please try again!'}), 500
+
+@post.route("/upload_destination", methods=['POST'])
+@jwt_required()
+@role_required('admin')
+def upload_destination():
+
+    form = DestinationUploadForm(data=request.form)
+
+    if not form.validate():
+        print(form.errors)
+        return jsonify({'errors': form.errors}), 400
+
+    name = form.name.data.strip().lower()
+    country = form.name.data.strip().lower()
+    destination_type = form.destination_type.data.strip().lower()
+    short_description = form.short_description.data.strip()
+    long_description = form.long_description.data.strip()
+    main_activities = form.main_activities.data.strip()
+    featured_value = request.form.get('featured')
+    slug = generate_unique_slug(name)
+    files = request.files.getlist('images')
+
+    featured = bool(int(featured_value)) if featured_value is not None else False
+    if not files or len(files) < 3:
+        return jsonify({'error': 'You must upload at least three images.'}), 400
+
+    if len(files) > 6:
+        return jsonify({'error': 'You can upload a maximum of 7 images only.'}), 400
+
+    try:
+        user_id = int(get_jwt_identity())
+
+        destination = Destinations(user_id=user_id, name=name, country=country, destination_type=destination_type, short_description=short_description, long_description=long_description, main_activities=main_activities, featured=featured, slug=slug)
+
+        db.session.add(destination)
+        db.session.flush()
+
+        for file in files:
+            if file and check_file_extension(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+
+                destination_image = DestinationImages(destination_id=destination.id, filename=filename)
+                db.session.add(destination_image)
+            else:
+                return jsonify({"error": 'Invalid image file extension or file missing. Please try again!'}), 400
+        db.session.commit()
+        return jsonify({"success": 'Destination uploaded successfully!'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': 'An unexpected error occurred. Please try again'}), 500
 
 
 @post.route('/send_image/<filename>', methods=['GET'])

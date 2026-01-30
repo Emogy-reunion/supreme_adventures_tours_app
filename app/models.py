@@ -95,7 +95,7 @@ class Tours(db.Model):
     store information about a tour
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     name = db.Column(db.String(50), nullable=False)
     start_location = db.Column(db.String(50), nullable=False)
     destination = db.Column(db.String(50), nullable=False)
@@ -159,7 +159,7 @@ class Products(db.Model):
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(150), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     product_type = db.Column(db.String(150), nullable=False)
     original_price = db.Column(db.Float, nullable=False)
     discount_rate = db.Column(db.Integer, default=0)
@@ -228,11 +228,18 @@ class Destinations(db.Model):
     stores the destinations packages offered
     '''
     id = db.Column(db.Integer, primary_key=True, nullable=False)
-    destination_type = db.Column(db.String(100), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), nullable=True)
     name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text, nullable=False)
+    country = db.Column(db.String(100), nullable=False)
+    destination_type = db.Column(db.String(100), nullable=False)
+    short_description = db.Column(db.Text, nullable=False)
+    long_description = db.Column(db.Text, nullable=False)
+    main_activities = db.Column(db.Text, nullable=False)
+    featured = db.Column(db.Boolean, default=False)
+    slug = db.Column(db.String(200), nullable=False, unique=True       )
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    user = db.relationship('Users', backref='destinations', lazy='selectin')
     images = db.relationship('DestinationImages', backref='destination', lazy='selectin', cascade='all, delete')
 
 class DestinationImages(db.Model):

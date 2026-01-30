@@ -21,6 +21,7 @@ from flask_cors import CORS
 from app.celery import make_celery
 from app.utils.create_initial_admin import create_initial_admin
 from app.routes.upload import post
+from app.routes.destinations import dest_bp
 from app.utils.create_upload_folder import create_upload_folder
 
 
@@ -50,6 +51,7 @@ app.register_blueprint(admin_profile_bp, url_prefix='/api')
 app.register_blueprint(admin_manage_bp, url_prefix='/api')
 app.register_blueprint(member_profile_bp, url_prefix='/api')
 app.register_blueprint(contact_bp, url_prefix='/api')
+app.register_blueprint(dest_bp, url_prefix='/api')
 
 
 if __name__ == "__main__":

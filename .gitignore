@@ -1,6 +1,8 @@
  Ignore the virtual environment directory
 myenv/
 
+migrations/
+
 .env
 
 static/uploads/
