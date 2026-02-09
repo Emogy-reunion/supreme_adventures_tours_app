@@ -36,17 +36,14 @@ def upload_tour():
     end_date = form.end_date.data
     days = form.days.data
     nights = form.nights.data
-    original_price = form.original_price.data
+    price = form.original_price.data
     discount_percent = form.discount_percent.data
-    final_price = original_price
     included = form.included.data.strip()
     excluded = form.excluded.data.strip()
     status = form.status.data
     poster = request.files['poster']
     preview = request.files['preview']
 
-    if discount_percent > 0:
-        final_price = calculate_final_price(discount_percent=discount_percent, original_price=original_price)
 
     if not poster:
         return jsonify({"error": 'You must upload exactly one poster'}), 400
@@ -58,8 +55,7 @@ def upload_tour():
         user_id = int(get_jwt_identity())
 
         tour = Tours(name=name, user_id=user_id, start_location=start_location, destination=destination, description=description, start_date=start_date,
-                     end_date=end_date, days=days, nights=nights, original_price=original_price, discount_percent=discount_percent, status=status,
-                     final_price=final_price, included=included, excluded=excluded)
+                     end_date=end_date, days=days, nights=nights, price=price, discount_percent=discount_percent, status=status, included=included, excluded=excluded)
         db.session.add(tour)
         db.session.flush()
 
