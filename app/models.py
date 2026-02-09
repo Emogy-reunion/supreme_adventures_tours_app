@@ -118,24 +118,6 @@ class Tours(db.Model):
     preview = db.relationship('TourPreviewImage', backref='tour', cascade='all, delete', lazy='selectin', uselist=False)
     bookings = db.relationship('Bookings', back_populates='tour', lazy='selectin')
 
-    def __init__(self, user_id, name, start_location, destination, description, start_date, end_date,
-                 status, original_price, discount_percent, final_price, included, excluded, days, nights):
-        self.user_id = user_id
-        self.name = name
-        self.start_location = start_location
-        self.destination = destination
-        self.description = description
-        self.start_date = start_date
-        self.end_date = end_date
-        self.days = days
-        self.nights = nights
-        self.original_price = original_price
-        self.discount_percent = discount_percent
-        self.final_price = final_price
-        self.included = included
-        self.excluded = excluded
-        self.status = status
-
 
 class Posters(db.Model):
     '''
